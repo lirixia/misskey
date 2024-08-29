@@ -16,6 +16,7 @@ import { InstanceActorService } from '@/core/InstanceActorService.js';
 import type { Config } from '@/config.js';
 import { DI } from '@/di-symbols.js';
 import { DEFAULT_POLICIES } from '@/core/RoleService.js';
+import { NodeinfoServerService } from '@/server/NodeinfoServerService.js';
 
 @Injectable()
 export class MetaEntityService {
@@ -73,6 +74,7 @@ export class MetaEntityService {
 
 			version: this.config.version,
 			basedMisskeyVersion: this.config.basedMisskeyVersion,
+			reversiVersion: NodeinfoServerService.reversiVersion,
 			providesTarball: this.config.publishTarballInsteadOfProvideRepositoryUrl,
 
 			name: instance.name,

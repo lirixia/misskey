@@ -5084,6 +5084,7 @@ export type components = {
       /** Format: date-time */
       latestRequestReceivedAt: string | null;
       moderationNote?: string | null;
+      reversiVersion?: string | null;
     };
     GalleryPost: {
       /**
@@ -5438,6 +5439,7 @@ export type components = {
       disableRegistrationWhenInactive: boolean;
       disablePublicNoteWhenInactive: boolean;
       moderatorInactivityLimitDays: number;
+      reversiVersion: string;
     };
     MetaDetailedOnly: {
       features?: {
