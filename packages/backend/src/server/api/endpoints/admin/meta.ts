@@ -636,6 +636,20 @@ export const meta = {
 					type: 'string',
 				},
 			},
+			defaultFollowedUsers: {
+				type: 'array',
+				optional: false, nullable: false,
+				items: {
+					type: 'string',
+				},
+			},
+			forciblyFollowedUsers: {
+				type: 'array',
+				optional: false, nullable: false,
+				items: {
+					type: 'string',
+				},
+			},
 			allowedAvatarDecorationHosts: {
 				type: 'array',
 				optional: false, nullable: false,
@@ -819,6 +833,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				moderatorInactivityLimitDays: instance.moderatorInactivityLimitDays,
 				bubbleInstances: instance.bubbleInstances,
 				allowedAvatarDecorationHosts: instance.allowedAvatarDecorationHosts,
+				defaultFollowedUsers: instance.defaultFollowedUsers,
+				forciblyFollowedUsers: instance.forciblyFollowedUsers,
 			};
 		});
 	}

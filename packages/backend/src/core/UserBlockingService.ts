@@ -8,6 +8,8 @@ import { ModuleRef } from '@nestjs/core';
 import { IdService } from '@/core/IdService.js';
 import type { MiUser } from '@/models/User.js';
 import type { MiBlocking } from '@/models/Blocking.js';
+import type { MiMeta } from '@/models/Meta.js';
+import { IdentifiableError } from '@/misc/identifiable-error.js';
 import { QueueService } from '@/core/QueueService.js';
 import { GlobalEventService } from '@/core/GlobalEventService.js';
 import { DI } from '@/di-symbols.js';
@@ -30,6 +32,9 @@ export class UserBlockingService implements OnModuleInit {
 
 	constructor(
 		private moduleRef: ModuleRef,
+
+		@Inject(DI.meta)
+		private serverSettings: MiMeta,
 
 		@Inject(DI.followRequestsRepository)
 		private followRequestsRepository: FollowRequestsRepository,
@@ -66,6 +71,15 @@ export class UserBlockingService implements OnModuleInit {
 
 	@bindThis
 	public async block(blocker: MiUser, blockee: MiUser, silent = false) {
+		// フォロー解除できない（＝ブロックもできない）ユーザーの場合
+		if (
+			blocker.host == null &&
+			this.serverSettings.forciblyFollowedUsers.includes(blockee.id) &&
+			!await this.roleService.isModerator(blocker)
+		) {
+			throw new IdentifiableError('e2f04d25-0d94-4ac3-a4d8-ba401062741b', 'You cannot block that user due to server policy.');
+		}
+
 		await Promise.all([
 			this.cancelRequest(blocker, blockee, silent),
 			this.cancelRequest(blockee, blocker, silent),

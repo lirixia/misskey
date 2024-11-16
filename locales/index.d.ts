@@ -5886,6 +5886,42 @@ export interface Locale extends ILocale {
      * 開く
      */
     "open": string;
+    /**
+     * デフォルトでフォローするユーザー (ID)
+     */
+    "defaultFollowedUsers": string;
+    /**
+     * 今後アカウントが作成された際に自動でフォローされるユーザー（解除可能）のユーザーIDを改行区切りで指定します。
+     */
+    "defaultFollowedUsersDescription": string;
+    /**
+     * 交流を断てないユーザー (ID)
+     */
+    "forciblyFollowedUsers": string;
+    /**
+     * 今後アカウントが作成された際には自動でフォローされ、フォローの解除やミュート・ブロックができないユーザーのユーザーIDを改行区切りで指定します。
+     */
+    "forciblyFollowedUsersDescription": string;
+    /**
+     * 「デフォルトでフォローするユーザー」と「交流を絶てないユーザー」が重複しています。
+     */
+    "defaultFollowedUsersDuplicated": string;
+    /**
+     * サーバー管理者はこのユーザーをフォロー解除することを禁止しています。
+     */
+    "unfollowThisUserIsProhibited": string;
+    /**
+     * サーバー管理者はこのユーザーをブロックすることを禁止しています。
+     */
+    "blockThisUserIsProhibited": string;
+    /**
+     * サーバー管理者はこのユーザーをミュートすることを禁止しています。
+     */
+    "muteThisUserIsProhibited": string;
+    /**
+     * このユーザーのフォロー解除は禁止されています。
+     */
+    "unfollowThisUserProhibited": string;
     "_nsfwOpenBehavior": {
         /**
          * タップして開く

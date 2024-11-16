@@ -5680,6 +5680,8 @@ export type operations = {
             disablePublicNoteWhenInactive: boolean;
             moderatorInactivityLimitDays: number;
             bubbleInstances: string[];
+            defaultFollowedUsers: string[];
+            forciblyFollowedUsers: string[];
             allowedAvatarDecorationHosts: string[];
           };
         };
@@ -10504,6 +10506,8 @@ export type operations = {
           skipCherryPickVersion?: string | null;
           trustedLinkUrlPatterns?: string[] | null;
           customSplashText?: string[] | null;
+          defaultFollowedUsers?: string[] | null;
+          forciblyFollowedUsers?: string[] | null;
           disableRegistrationWhenInactive?: boolean | null;
           disablePublicNoteWhenInactive?: boolean | null;
           moderatorInactivityLimitDays?: number;
