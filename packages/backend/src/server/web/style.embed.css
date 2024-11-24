@@ -65,13 +65,13 @@ html.embed.noborder #splash {
 	left: 0;
 	margin: auto;
 	display: inline-block;
-	width: 28px;
+	width: 60px;
 	height: 28px;
 	transform: translateY(70px);
 	color: var(--MI_THEME-accent);
 }
 
-#splashSpinner > .spinner {
+#splashSpinner>.spinner {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -79,16 +79,40 @@ html.embed.noborder #splash {
 	height: 28px;
 	animation: splashSpinner 2s linear infinite;
 }
-#splashSpinner > .spinner > .path {
+
+#splashSpinner>.spinner>.path {
 	stroke: var(--MI_THEME-accent);
 	stroke-linecap: round;
 	animation: dash 1.2s ease-in-out infinite;
+	stroke-linejoin: round;
+	stroke-miterlimit: 1.5;
+}
+
+#splashSpinner>.spinner.bg circle {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 24px;
+}
+
+#splashSpinner>.spinner.fg path {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 24px;
+}
+
+#splashSpinner>.spinner.bg {
+	opacity: 0.275;
+}
+
+#splashSpinner>.spinner.fg {
+	animation: splashSpinner 0.5s linear infinite;
 }
 
 @keyframes splashSpinner {
 	0% {
 		transform: rotate(0deg);
 	}
+
 	100% {
 		transform: rotate(360deg);
 	}
@@ -99,10 +123,12 @@ html.embed.noborder #splash {
 		stroke-dasharray: 1, 150;
 		stroke-dashoffset: 0;
 	}
+
 	50% {
 		stroke-dasharray: 90, 150;
 		stroke-dashoffset: -35;
 	}
+
 	100% {
 		stroke-dasharray: 90, 150;
 		stroke-dashoffset: -124;
