@@ -11,7 +11,7 @@ import type { MiBlocking } from '@/models/Blocking.js';
 import { QueueService } from '@/core/QueueService.js';
 import { GlobalEventService } from '@/core/GlobalEventService.js';
 import { DI } from '@/di-symbols.js';
-import type { FollowRequestsRepository, BlockingsRepository, UserListsRepository, UserListMembershipsRepository } from '@/models/_.js';
+import type { FollowRequestsRepository, FollowRequestHistoryRepository, BlockingsRepository, UserListsRepository, UserListMembershipsRepository } from '@/models/_.js';
 import Logger from '@/logger.js';
 import { UserEntityService } from '@/core/entities/UserEntityService.js';
 import { ApRendererService } from '@/core/activitypub/ApRendererService.js';
@@ -20,6 +20,8 @@ import { UserWebhookService } from '@/core/UserWebhookService.js';
 import { bindThis } from '@/decorators.js';
 import { CacheService } from '@/core/CacheService.js';
 import { UserFollowingService } from '@/core/UserFollowingService.js';
+import { NotificationService } from '@/core/NotificationService.js';
+
 
 @Injectable()
 export class UserBlockingService implements OnModuleInit {
@@ -32,6 +34,9 @@ export class UserBlockingService implements OnModuleInit {
 		@Inject(DI.followRequestsRepository)
 		private followRequestsRepository: FollowRequestsRepository,
 
+		@Inject(DI.followRequestHistoryRepository)
+		private followRequestHistoryRepository: FollowRequestHistoryRepository,
+
 		@Inject(DI.blockingsRepository)
 		private blockingsRepository: BlockingsRepository,
 
@@ -41,6 +46,7 @@ export class UserBlockingService implements OnModuleInit {
 		@Inject(DI.userListMembershipsRepository)
 		private userListMembershipsRepository: UserListMembershipsRepository,
 
+		private notificationService: NotificationService,
 		private cacheService: CacheService,
 		private userEntityService: UserEntityService,
 		private idService: IdService,
@@ -88,6 +94,23 @@ export class UserBlockingService implements OnModuleInit {
 		if (this.userEntityService.isLocalUser(blocker) && this.userEntityService.isRemoteUser(blockee)) {
 			const content = this.apRendererService.addContext(this.apRendererService.renderBlock(blocking));
 			this.queueService.deliver(blocker, content, blockee.inbox, false);
+		}
+
+		// 通知を作成（ブロックされた側に通知）
+		if (this.userEntityService.isLocalUser(blockee)) {
+			this.notificationService.createNotification(blockee.id, 'blocked', {
+			}, blocker.id);
+		}
+
+		// フォローリクエスト履歴に「wasBlocked」を保存
+		if (this.userEntityService.isLocalUser(blocker)) {
+			await this.followRequestHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'wasBlocked',
+				fromUserId: blockee.id,
+				toUserId: blocker.id,
+				timestamp: new Date(),
+			});
 		}
 	}
 
@@ -186,6 +209,23 @@ export class UserBlockingService implements OnModuleInit {
 		if (this.userEntityService.isLocalUser(blocker) && this.userEntityService.isRemoteUser(blockee)) {
 			const content = this.apRendererService.addContext(this.apRendererService.renderUndo(this.apRendererService.renderBlock(blocking), blocker));
 			this.queueService.deliver(blocker, content, blockee.inbox, false);
+		}
+
+		// 通知を作成（ブロック解除された側に通知）
+		if (this.userEntityService.isLocalUser(blockee)) {
+			this.notificationService.createNotification(blockee.id, 'unblocked', {
+			}, blocker.id);
+		}
+
+		// フォローリクエスト履歴に「wasUnBlocked」を保存
+		if (this.userEntityService.isLocalUser(blocker)) {
+			await this.followRequestHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'wasUnBlocked',
+				fromUserId: blockee.id,
+				toUserId: blocker.id,
+				timestamp: new Date(),
+			});
 		}
 	}
 

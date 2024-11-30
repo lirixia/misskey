@@ -12335,6 +12335,90 @@ export interface Locale extends ILocale {
          */
         "allowedAvatarDecorationHostsDescription": string;
     };
+    "_followRequestHistory": {
+        /**
+         * フォロリク+ブロックの履歴
+         */
+        "title": string;
+        /**
+         * {user} へフォローリクエストを送信
+         */
+        "sent": ParameterizedString<"user">;
+        /**
+         * {user} からフォローリクエストを受信
+         */
+        "received": ParameterizedString<"user">;
+        /**
+         * {user} のフォローリクエストを許可
+         */
+        "approved": ParameterizedString<"user">;
+        /**
+         * {user} のフォローリクエストを拒否
+         */
+        "rejected": ParameterizedString<"user">;
+        /**
+         * {user} にフォローリクエストが許可された
+         */
+        "wasApproved": ParameterizedString<"user">;
+        /**
+         * {user} にフォローリクエストが拒否された
+         */
+        "wasRejected": ParameterizedString<"user">;
+        /**
+         * {user} にブロックされた
+         */
+        "wasBlocked": ParameterizedString<"user">;
+        /**
+         * {user} にブロックが解除された
+         */
+        "wasUnBlocked": ParameterizedString<"user">;
+        /**
+         * 履歴はありません
+         */
+        "empty": string;
+        /**
+         * フィルター
+         */
+        "filter": string;
+        "types": {
+            /**
+             * すべて
+             */
+            "all": string;
+            /**
+             * 送信済み
+             */
+            "sent": string;
+            /**
+             * 受信済み
+             */
+            "received": string;
+            /**
+             * 許可済み
+             */
+            "approved": string;
+            /**
+             * 拒否済み
+             */
+            "rejected": string;
+            /**
+             * 許可された
+             */
+            "wasApproved": string;
+            /**
+             * 拒否された
+             */
+            "wasRejected": string;
+            /**
+             * ブロックされた
+             */
+            "wasBlocked": string;
+            /**
+             * ブロックが解除された
+             */
+            "wasUnBlocked": string;
+        };
+    };
 }
 declare const locales: {
     [lang: string]: Locale;
