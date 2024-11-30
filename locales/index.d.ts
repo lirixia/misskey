@@ -12380,6 +12380,14 @@ export interface Locale extends ILocale {
          * フィルター
          */
         "filter": string;
+        /**
+         * 履歴をすべて削除
+         */
+        "deleteAll": string;
+        /**
+         * すべてのフォローリクエスト履歴を削除してもよろしいですか？ この操作は元に戻せません。
+         */
+        "deleteConfirm": string;
         "types": {
             /**
              * すべて

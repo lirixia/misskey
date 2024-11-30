@@ -54,6 +54,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 import * as Misskey from 'cherrypick-js';
 import { shallowRef, computed, ref } from 'vue';
 import MkPagination, { type Paging } from '@/components/MkPagination.vue';
+import MkButton from '@/components/MkButton.vue';
 import { userPage } from '@/filters/user.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
@@ -117,7 +118,26 @@ function getActionText(type: string, history: any) {
 	}
 }
 
-const headerActions = computed(() => []);
+const deleteHistory = () => {
+	os.confirm({
+		type: 'warning',
+		text: i18n.ts._followRequestHistory.deleteConfirm,
+	}).then(({ canceled }) => {
+		if (canceled) return;
+
+		os.apiWithDialog('following/requests/history', {
+			delete: true,
+		}).then(() => {
+			paginationComponent.value?.reload();
+		});
+	});
+};
+
+const headerActions = computed(() => [{
+	icon: 'ti ti-trash',
+	text: i18n.ts._followRequestHistory.deleteAll,
+	handler: deleteHistory,
+}]);
 
 const headerTabs = computed(() => [
 	{
