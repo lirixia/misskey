@@ -103,7 +103,7 @@ export class UserBlockingService implements OnModuleInit {
 		}
 
 		// フォローリクエスト履歴に「wasBlocked」を保存
-		if (this.userEntityService.isLocalUser(blocker)) {
+		if (this.userEntityService.isLocalUser(blockee)) {
 			await this.followRequestHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'wasBlocked',
@@ -218,7 +218,7 @@ export class UserBlockingService implements OnModuleInit {
 		}
 
 		// フォローリクエスト履歴に「wasUnBlocked」を保存
-		if (this.userEntityService.isLocalUser(blocker)) {
+		if (this.userEntityService.isLocalUser(blockee)) {
 			await this.followRequestHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'wasUnBlocked',
