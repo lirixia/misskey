@@ -1579,6 +1579,8 @@ declare namespace entities {
         FollowingRequestsRejectRequest,
         FollowingRequestsHistoryRequest,
         FollowingRequestsHistoryResponse,
+        FollowingHistoryRequest,
+        FollowingHistoryResponse,
         GalleryFeaturedRequest,
         GalleryFeaturedResponse,
         GalleryPopularResponse,
@@ -2118,6 +2120,12 @@ type FollowingDeleteRequest = operations['following___delete']['requestBody']['c
 
 // @public (undocumented)
 type FollowingDeleteResponse = operations['following___delete']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
+type FollowingHistoryRequest = operations['following___history']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type FollowingHistoryResponse = operations['following___history']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
 type FollowingInvalidateRequest = operations['following___invalidate']['requestBody']['content']['application/json'];

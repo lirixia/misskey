@@ -33,6 +33,7 @@ import { MiEvent } from '@/models/Event.js';
 import { MiFollowing } from '@/models/Following.js';
 import { MiFollowRequest } from '@/models/FollowRequest.js';
 import { MiFollowRequestHistory } from '@/models/FollowRequestHistory.js';
+import { MiFollowHistory } from '@/models/FollowHistory.js';
 import { MiGalleryLike } from '@/models/GalleryLike.js';
 import { MiGalleryPost } from '@/models/GalleryPost.js';
 import { MiHashtag } from '@/models/Hashtag.js';
@@ -162,6 +163,7 @@ export const entities = [
 	MiFollowing,
 	MiFollowRequest,
 	MiFollowRequestHistory,
+	MiFollowHistory,
 	MiMuting,
 	MiRenoteMuting,
 	MiBlocking,

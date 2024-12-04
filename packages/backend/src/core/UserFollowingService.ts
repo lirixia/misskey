@@ -18,7 +18,7 @@ import { FederatedInstanceService } from '@/core/FederatedInstanceService.js';
 import { UserWebhookService } from '@/core/UserWebhookService.js';
 import { NotificationService } from '@/core/NotificationService.js';
 import { DI } from '@/di-symbols.js';
-import type { FollowingsRepository, FollowRequestsRepository, FollowRequestHistoryRepository, InstancesRepository, MiMeta, UserProfilesRepository, UsersRepository } from '@/models/_.js';
+import type { FollowingsRepository, FollowRequestsRepository, FollowRequestHistoryRepository, FollowHistoryRepository, InstancesRepository, MiMeta, UserProfilesRepository, UsersRepository } from '@/models/_.js';
 import { UserEntityService } from '@/core/entities/UserEntityService.js';
 import { ApRendererService } from '@/core/activitypub/ApRendererService.js';
 import { bindThis } from '@/decorators.js';
@@ -72,6 +72,9 @@ export class UserFollowingService implements OnModuleInit {
 
 		@Inject(DI.followRequestHistoryRepository)
 		private followRequestHistoryRepository: FollowRequestHistoryRepository,
+
+		@Inject(DI.followHistoryRepository)
+		private followHistoryRepository: FollowHistoryRepository,
 
 		@Inject(DI.instancesRepository)
 		private instancesRepository: InstancesRepository,
@@ -224,6 +227,28 @@ export class UserFollowingService implements OnModuleInit {
 
 		if (this.userEntityService.isRemoteUser(follower) && this.userEntityService.isLocalUser(followee)) {
 			this.deliverAccept(follower, followee, requestId);
+		}
+
+		// 送信者にはfollowタイプの履歴のみ保存
+		if (this.userEntityService.isLocalUser(follower)) {
+			await this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'follow',
+				fromUserId: follower.id,
+				toUserId: followee.id,
+				timestamp: new Date(),
+			});
+		}
+
+		// 受信者にはwasFollowタイプの履歴のみ保存
+		if (this.userEntityService.isLocalUser(followee)) {
+			await this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'wasFollow',
+				fromUserId: follower.id,
+				toUserId: followee.id,
+				timestamp: new Date(),
+			});
 		}
 	}
 
@@ -422,6 +447,48 @@ export class UserFollowingService implements OnModuleInit {
 			// local user has null host
 			const content = this.apRendererService.addContext(this.apRendererService.renderReject(this.apRendererService.renderFollow(follower as MiPartialRemoteUser, followee as MiPartialLocalUser), followee));
 			this.queueService.deliver(followee, content, follower.inbox, false);
+		}
+
+		// UnFollow
+		if (this.userEntityService.isLocalUser(followee)) {
+			this.userEntityService.pack(followee.id, follower, {
+				schema: 'UserDetailedNotMe',
+			}).then(async packed => {
+				this.globalEventService.publishMainStream(followee.id, 'unfollow', packed);
+
+				const webhooks = (await this.webhookService.getActiveWebhooks()).filter(x => x.userId === followee.id && x.on.includes('unfollow'));
+				for (const webhook of webhooks) {
+					this.queueService.userWebhookDeliver(webhook, 'unfollow', {
+						user: packed,
+					});
+				}
+			});
+
+			// 通知を作成
+			this.notificationService.createNotification(followee.id, 'unfollow', {
+			}, follower.id);
+		}
+
+		// 送信者にはunFollowタイプの履歴のみ保存
+		if (this.userEntityService.isLocalUser(follower)) {
+			await this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'unFollow',
+				fromUserId: follower.id,
+				toUserId: followee.id,
+				timestamp: new Date(),
+			});
+		}
+
+		// 受信者にはwasUnFollowタイプの履歴のみ保存
+		if (this.userEntityService.isLocalUser(followee)) {
+			await this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'wasUnFollow',
+				fromUserId: follower.id,
+				toUserId: followee.id,
+				timestamp: new Date(),
+			});
 		}
 	}
 

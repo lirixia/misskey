@@ -23,6 +23,11 @@ export type MiNotification = {
 	createdAt: string;
 	notifierId: MiUser['id'];
 } | {
+	type: 'unfollow';
+	id: string;
+	createdAt: string;
+	notifierId: MiUser['id'];
+} | {
 	type: 'mention';
 	id: string;
 	createdAt: string;
