@@ -21,6 +21,7 @@ import type { CustomEmojiService } from '../CustomEmojiService.js';
 import type { ReactionService } from '../ReactionService.js';
 import type { UserEntityService } from './UserEntityService.js';
 import type { DriveFileEntityService } from './DriveFileEntityService.js';
+import { RoleService } from '@/core/RoleService.js';
 
 // is-renote.tsとよしなにリンク
 function isPureRenote(note: MiNote): note is MiNote & { renoteId: MiNote['id']; renote: MiNote } {
@@ -54,6 +55,7 @@ export class NoteEntityService implements OnModuleInit {
 	private reactionService: ReactionService;
 	private reactionsBufferingService: ReactionsBufferingService;
 	private idService: IdService;
+	private roleService: RoleService;
 	private noteLoader = new DebounceLoader(this.findNoteOrFail);
 
 	constructor(
@@ -102,10 +104,13 @@ export class NoteEntityService implements OnModuleInit {
 		this.reactionService = this.moduleRef.get('ReactionService');
 		this.reactionsBufferingService = this.moduleRef.get('ReactionsBufferingService');
 		this.idService = this.moduleRef.get('IdService');
+		this.roleService = this.moduleRef.get('RoleService');
 	}
 
 	@bindThis
-	private async hideNote(packedNote: Packed<'Note'>, meId: MiUser['id'] | null): Promise<void> {
+	private async hideNote(packedNote: Packed<'Note'>, meId: MiUser['id'] | null, isModerator = false): Promise<void> {
+		// If the user is a moderator, skip all hiding logic
+		if (isModerator) return;
 		// FIXME: このvisibility変更処理が当関数にあるのは若干不自然かもしれない(関数名を treatVisibility とかに変える手もある)
 		if (packedNote.visibility === 'public' || packedNote.visibility === 'home') {
 			const followersOnlyBefore = packedNote.user.makeNotesFollowersOnlyBefore;
@@ -286,7 +291,9 @@ export class NoteEntityService implements OnModuleInit {
 	}
 
 	@bindThis
-	public async isVisibleForMe(note: MiNote, meId: MiUser['id'] | null): Promise<boolean> {
+	public async isVisibleForMe(note: MiNote, meId: MiUser['id'] | null, isModerator = false): Promise<boolean> {
+		// If the user is a moderator, always return true
+		if (isModerator) return true;
 		// This code must always be synchronized with the checks in generateVisibilityQuery.
 		// visibility が specified かつ自分が指定されていなかったら非表示
 		if (note.visibility === 'specified') {
@@ -357,7 +364,7 @@ export class NoteEntityService implements OnModuleInit {
 	@bindThis
 	public async pack(
 		src: MiNote['id'] | MiNote,
-		me?: { id: MiUser['id'] } | null | undefined,
+		me?: { id: MiUser['id'], isRoot?: boolean } | null | undefined,
 		options?: {
 			detail?: boolean;
 			skipHide?: boolean;
@@ -377,6 +384,7 @@ export class NoteEntityService implements OnModuleInit {
 		}, options);
 
 		const meId = me ? me.id : null;
+		const isModerator = me ? await this.roleService.isModerator({ id: me.id, isRoot: me.isRoot ?? false }) : false;
 		const note = typeof src === 'object' ? src : await this.noteLoader.load(src);
 		const host = note.userHost;
 
@@ -480,7 +488,7 @@ export class NoteEntityService implements OnModuleInit {
 		});
 
 		if (!opts.skipHide) {
-			await this.hideNote(packed, meId);
+			await this.hideNote(packed, meId, isModerator);
 		}
 
 		return packed;
@@ -489,7 +497,7 @@ export class NoteEntityService implements OnModuleInit {
 	@bindThis
 	public async packMany(
 		notes: MiNote[],
-		me?: { id: MiUser['id'] } | null | undefined,
+		me?: { id: MiUser['id'], isRoot?: boolean } | null | undefined,
 		options?: {
 			detail?: boolean;
 			skipHide?: boolean;
@@ -500,6 +508,7 @@ export class NoteEntityService implements OnModuleInit {
 		const bufferedReactions = this.meta.enableReactionsBuffering ? await this.reactionsBufferingService.getMany([...getAppearNoteIds(notes)]) : null;
 
 		const meId = me ? me.id : null;
+		const isModerator = me ? await this.roleService.isModerator({ id: me.id, isRoot: me.isRoot ?? false }) : false;
 		const myReactionsMap = new Map<MiNote['id'], string | null>();
 		if (meId) {
 			const idsNeedFetchMyReaction = new Set<MiNote['id']>();
@@ -567,7 +576,7 @@ export class NoteEntityService implements OnModuleInit {
 		const packedUsers = await this.userEntityService.packMany(users, me)
 			.then(users => new Map(users.map(u => [u.id, u])));
 
-		return await Promise.all(notes.map(n => this.pack(n, me, {
+		return await Promise.all(notes.map(n => this.pack(n, meId ? { id: meId, isRoot: isModerator } : null, {
 			...options,
 			_hint_: {
 				bufferedReactions,
