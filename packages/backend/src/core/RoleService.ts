@@ -73,6 +73,9 @@ export type RolePolicies = {
 	noteDraftLimit: number;
 	canSetFederationAvatarShape: boolean;
 	canAutoFollowBack: boolean;
+	canUseUnFollowNotification: boolean;
+	canUseBlockedNotification: boolean;
+	canUseUnBlockedNotification: boolean;
 };
 
 export const DEFAULT_POLICIES: RolePolicies = {
@@ -117,6 +120,9 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	noteDraftLimit: 10,
 	canSetFederationAvatarShape: true,
 	canAutoFollowBack: false,
+	canUseUnFollowNotification: true,
+	canUseBlockedNotification: true,
+	canUseUnBlockedNotification: true,
 };
 
 @Injectable()
@@ -432,6 +438,9 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			noteDraftLimit: calc('noteDraftLimit', vs => Math.max(...vs)),
 			canSetFederationAvatarShape: calc('canSetFederationAvatarShape', vs => vs.some(v => v === true)),
 			canAutoFollowBack: calc('canAutoFollowBack', vs => vs.some(v => v === true)),
+			canUseUnFollowNotification: calc('canUseUnFollowNotification', vs => vs.some(v => v === true)),
+			canUseBlockedNotification: calc('canUseBlockedNotification', vs => vs.some(v => v === true)),
+			canUseUnBlockedNotification: calc('canUseUnBlockedNotification', vs => vs.some(v => v === true)),
 		};
 	}
 

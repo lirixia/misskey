@@ -8542,6 +8542,18 @@ export interface Locale extends ILocale {
              * 自動フォローバックを許可
              */
             "canAutoFollowBack": string;
+             /**
+             * フォロー解除通知を許可
+             */
+             "canUseUnFollowNotification": string;
+             /**
+              * ブロック通知を許可
+              */
+             "canUseBlockedNotification": string;
+             /**
+              * ブロック解除通知を許可
+              */
+             "canUseUnBlockedNotification": string;
         };
         "_condition": {
             /**

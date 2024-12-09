@@ -57,6 +57,7 @@ https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
 export const notificationTypes = [
 	'note',
 	'follow',
+	'unfollow',
 	'mention',
 	'reply',
 	'renote',
@@ -74,6 +75,8 @@ export const notificationTypes = [
 	'scheduleNote',
 	'test',
 	'app',
+	'blocked',
+	'unblocked',
 ] as const;
 export const obsoleteNotificationTypes = ['pollVote'/*, 'groupInvited'*/] as const;
 
@@ -119,6 +122,9 @@ export const ROLE_POLICIES = [
 	'noteDraftLimit',
 	'canSetFederationAvatarShape',
 	'canAutoFollowBack',
+	'canUseUnFollowNotification',
+	'canUseBlockedNotification',
+	'canUseUnBlockedNotification',
 ] as const;
 
 export const DEFAULT_SERVER_ERROR_IMAGE_URL = 'https://xn--931a.moe/assets/error.jpg';

@@ -332,12 +332,36 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</MkFolder>
 
 						<MkFolder v-if="matchQuery([i18n.ts._role._options.canAutoFollowBack, 'canAutoFollowBack'])">
-						<template #label>{{ i18n.ts._role._options.canAutoFollowBack }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
-						<template #suffix>{{ policies.canAutoFollowBack ? i18n.ts.yes : i18n.ts.no }}</template>
-						<MkSwitch v-model="policies.canAutoFollowBack">
-							<template #label>{{ i18n.ts.enable }}</template>
-						</MkSwitch>
-					</MkFolder>
+							<template #label>{{ i18n.ts._role._options.canAutoFollowBack }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
+							<template #suffix>{{ policies.canAutoFollowBack ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canAutoFollowBack">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseUnFollowNotification, 'canUseUnFollowNotification'])">
+							<template #label>{{ i18n.ts._role._options.canUseUnFollowNotification }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
+							<template #suffix>{{ policies.canUseUnFollowNotification ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canUseUnFollowNotification">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseBlockedNotification, 'canUseBlockedNotification'])">
+							<template #label>{{ i18n.ts._role._options.canUseBlockedNotification }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
+							<template #suffix>{{ policies.canUseBlockedNotification ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canUseBlockedNotification">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseUnBlockedNotification, 'canUseUnBlockedNotification'])">
+							<template #label>{{ i18n.ts._role._options.canUseUnBlockedNotification }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
+							<template #suffix>{{ policies.canUseUnBlockedNotification ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canUseUnBlockedNotification">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
 					</div>
 				</MkFolder>
 				<div class="_gaps_s">

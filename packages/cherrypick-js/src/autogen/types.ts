@@ -5518,6 +5518,9 @@ export type components = {
       canReadFollowHistory: boolean;
       canSetFederationAvatarShape: boolean;
       canAutoFollowBack: boolean;
+      canUseUnFollowNotification: boolean;
+      canUseBlockedNotification: boolean;
+      canUseUnBlockedNotification: boolean;
     };
     ReversiGameLite: {
       /** Format: id */

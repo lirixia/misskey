@@ -2211,6 +2211,9 @@ _role:
     noteDraftLimit: "サーバーサイドのノートの下書きの作成可能数"
     canSetFederationAvatarShape: "アイコンの形設定の連合を許可"
     canAutoFollowBack: "自動フォローバックを許可"
+    canUseUnFollowNotification: "フォロー解除通知を許可"
+    canUseBlockedNotification: "ブロック通知を許可"
+    canUseUnBlockedNotification: "ブロック解除通知を許可"
   _condition:
     roleAssignedTo: "マニュアルロールにアサイン済み"
     isLocal: "ローカルユーザー"
