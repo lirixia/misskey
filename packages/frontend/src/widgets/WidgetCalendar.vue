@@ -4,37 +4,39 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<div :class="[$style.root, { _panel: !widgetProps.transparent }]" data-cy-mkw-calendar>
-	<div :class="[$style.calendar, { [$style.isHoliday]: isHoliday }]">
-		<p :class="$style.monthAndYear">
-			<span :class="$style.year">{{ i18n.tsx.yearX({ year }) }}</span>
-			<span :class="$style.month">{{ i18n.tsx.monthX({ month }) }}</span>
-		</p>
-		<p v-if="month === 1 && day === 1" class="day">🎉{{ i18n.tsx.dayX({ day }) }}<span style="display: inline-block; transform: scaleX(-1);">🎉</span></p>
-		<p v-else :class="$style.day">{{ i18n.tsx.dayX({ day }) }}</p>
-		<p :class="$style.weekDay">{{ weekDay }}</p>
+	<div :class="[$style.root, { _panel: !widgetProps.transparent }]" data-cy-mkw-calendar>
+		<div :class="[$style.calendar, { [$style.isHoliday]: isHoliday }]">
+			<p :class="$style.monthAndYear">
+				<span :class="$style.year">{{ i18n.tsx.yearX({ year }) }}</span>
+				<span :class="$style.month">{{ i18n.tsx.monthX({ month }) }}</span>
+			</p>
+			<p v-if="month === 1 && day === 1" class="day">🎉{{ i18n.tsx.dayX({ day }) }}<span
+					style="display: inline-block; transform: scaleX(-1);">🎉</span></p>
+			<p v-else :class="$style.day">{{ i18n.tsx.dayX({ day }) }}</p>
+			<p :class="$style.weekDay">{{ weekDay }}</p>
+		</div>
+		<div :class="$style.info">
+			<div :class="$style.infoSection">
+				<p :class="$style.infoText">{{ i18n.ts.today }}<b :class="$style.percentage">{{ dayP.toFixed(1) }}%</b></p>
+				<div :class="$style.meter">
+					<div :class="$style.meterVal" :style="{ width: `${dayP}%` }"></div>
+				</div>
+			</div>
+			<div :class="$style.infoSection">
+				<p :class="$style.infoText">{{ i18n.ts.thisMonth }}<b :class="$style.percentage">{{ monthP.toFixed(1) }}%</b>
+				</p>
+				<div :class="$style.meter">
+					<div :class="$style.meterVal" :style="{ width: `${monthP}%` }"></div>
+				</div>
+			</div>
+			<div :class="$style.infoSection">
+				<p :class="$style.infoText">{{ i18n.ts.thisYear }}<b :class="$style.percentage">{{ yearP.toFixed(1) }}%</b></p>
+				<div :class="$style.meter">
+					<div :class="$style.meterVal" :style="{ width: `${yearP}%` }"></div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div :class="$style.info">
-		<div :class="$style.infoSection">
-			<p :class="$style.infoText">{{ i18n.ts.today }}<b :class="$style.percentage">{{ dayP.toFixed(1) }}%</b></p>
-			<div :class="$style.meter">
-				<div :class="$style.meterVal" :style="{ width: `${dayP}%` }"></div>
-			</div>
-		</div>
-		<div :class="$style.infoSection">
-			<p :class="$style.infoText">{{ i18n.ts.thisMonth }}<b :class="$style.percentage">{{ monthP.toFixed(1) }}%</b></p>
-			<div :class="$style.meter">
-				<div :class="$style.meterVal" :style="{ width: `${monthP}%` }"></div>
-			</div>
-		</div>
-		<div :class="$style.infoSection">
-			<p :class="$style.infoText">{{ i18n.ts.thisYear }}<b :class="$style.percentage">{{ yearP.toFixed(1) }}%</b></p>
-			<div :class="$style.meter">
-				<div :class="$style.meterVal" :style="{ width: `${yearP}%` }"></div>
-			</div>
-		</div>
-	</div>
-</div>
 </template>
 
 <script lang="ts" setup>
@@ -134,7 +136,7 @@ defineExpose<WidgetComponentExpose>({
 	text-align: center;
 
 	&.isHoliday {
-		> .day {
+		>.day {
 			color: #ef95a0;
 		}
 	}
@@ -174,19 +176,19 @@ defineExpose<WidgetComponentExpose>({
 	}
 
 	&:nth-child(1) {
-		> .meter > .meterVal {
+		>.meter>.meterVal {
 			background: #f7796c;
 		}
 	}
 
 	&:nth-child(2) {
-		> .meter > .meterVal {
+		>.meter>.meterVal {
 			background: #a1de41;
 		}
 	}
 
 	&:nth-child(3) {
-		> .meter > .meterVal {
+		>.meter>.meterVal {
 			background: #41ddde;
 		}
 	}
