@@ -1,11 +1,12 @@
 {
-	"name": "cherrypick",
-	"version": "4.14.0",
+	"name": "misskey",
+	"version": "2024.11.0-miry.1",
 	"basedMisskeyVersion": "2024.11.0",
+	"basedCherryPickVersion": "4.14.0",
 	"codename": "nasubi",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/kokonect-link/cherrypick.git"
+		"url": "https://github.com/catsmiry/misskey.git"
 	},
 	"packageManager": "pnpm@9.6.0",
 	"workspaces": [

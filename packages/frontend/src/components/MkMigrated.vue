@@ -4,24 +4,24 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<MkModal v-if="!showChangelog" ref="modal" :zPriority="'middle'">
-	<div :class="$style.root">
-		<div style="display: grid;">
-			<Mfm text="$[tada 🎉]"/>
-			<MkSparkle>
-				<div :class="$style.title">{{ i18n.ts.welcome }}</div>
-				<small style="opacity: 0.7;">{{ i18n.ts.cherrypickMigrated }}</small>
-			</MkSparkle>
+	<MkModal v-if="!showChangelog" ref="modal" :zPriority="'middle'">
+		<div :class="$style.root">
+			<div style="display: grid;">
+				<Mfm text="$[tada 🎉]" />
+				<MkSparkle>
+					<div :class="$style.title">{{ i18n.ts.welcome }}</div>
+					<small style="opacity: 0.7;">{{ i18n.ts.cherrypickMigrated }}</small>
+				</MkSparkle>
+			</div>
+			<div :class="$style.version">
+				<div>✨{{ version }}🚀</div>
+				<div style="font-size: 0.8em;">{{ basedMisskeyVersion }}</div>
+			</div>
+			<MkButton rounded full @click="whatIsNewCherryPick">{{ i18n.ts.whatIsNew }}</MkButton>
+			<MkButton :class="$style.gotIt" primary rounded full @click="close">{{ i18n.ts.gotIt }}</MkButton>
 		</div>
-		<div :class="$style.version">
-			<div>✨{{ version }}🚀</div>
-			<div style="font-size: 0.8em;">{{ basedMisskeyVersion }}</div>
-		</div>
-		<MkButton rounded full @click="whatIsNewCherryPick">{{ i18n.ts.whatIsNew }}</MkButton>
-		<MkButton :class="$style.gotIt" primary rounded full @click="close">{{ i18n.ts.gotIt }}</MkButton>
-	</div>
-</MkModal>
-<!--
+	</MkModal>
+	<!--
 <MkModal v-else-if="showChangelog" ref="modal" :zPriority="'middle'">
 	<div :class="$style.root">
 		<div :class="$style.title" style="margin: 0 0 1.5em; font-weight: normal;">{{ i18n.ts.whatIsNew }}</div>
@@ -54,7 +54,7 @@ const whatIsNewMisskey = () => {
 };
 
 const whatIsNewCherryPick = () => {
-	window.open(`https://github.com/kokonect-link/cherrypick/blob/develop/CHANGELOG_CHERRYPICK.md#${version.replace(/\./g, '')}`, '_blank');
+	window.open(`https://github.com/catsmiry/misskey/blob/develop/CHANGELOG_CHERRYPICK.md#${version.replace(/\./g, '')}`, '_blank');
 };
 
 const close = async () => {

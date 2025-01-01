@@ -5369,9 +5369,9 @@ export type components = {
       description: string | null;
       langs: string[];
       tosUrl: string | null;
-      /** @default https://github.com/kokonect-link/cherrypick */
+      /** @default https://github.com/catsmiry/misskey */
       repositoryUrl: string | null;
-      /** @default https://github.com/kokonect-link/cherrypick/issues/new */
+      /** @default https://github.com/catsmiry/misskey/issues/new */
       feedbackUrl: string | null;
       defaultDarkTheme: string | null;
       defaultLightTheme: string | null;
