@@ -17,20 +17,20 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</div>
 		<div :class="$style.info">
 			<div :class="$style.infoSection">
-				<p :class="$style.infoText">{{ i18n.ts.today }}<b :class="$style.percentage">{{ dayP.toFixed(1) }}%</b></p>
+				<p :class="$style.infoText">{{ i18n.ts.today }}<b :class="$style.percentage">{{ dayP.toFixed(6) }}%</b></p>
 				<div :class="$style.meter">
 					<div :class="$style.meterVal" :style="{ width: `${dayP}%` }"></div>
 				</div>
 			</div>
 			<div :class="$style.infoSection">
-				<p :class="$style.infoText">{{ i18n.ts.thisMonth }}<b :class="$style.percentage">{{ monthP.toFixed(1) }}%</b>
+				<p :class="$style.infoText">{{ i18n.ts.thisMonth }}<b :class="$style.percentage">{{ monthP.toFixed(6) }}%</b>
 				</p>
 				<div :class="$style.meter">
 					<div :class="$style.meterVal" :style="{ width: `${monthP}%` }"></div>
 				</div>
 			</div>
 			<div :class="$style.infoSection">
-				<p :class="$style.infoText">{{ i18n.ts.thisYear }}<b :class="$style.percentage">{{ yearP.toFixed(1) }}%</b></p>
+				<p :class="$style.infoText">{{ i18n.ts.thisYear }}<b :class="$style.percentage">{{ yearP.toFixed(6) }}%</b></p>
 				<div :class="$style.meter">
 					<div :class="$style.meterVal" :style="{ width: `${yearP}%` }"></div>
 				</div>
