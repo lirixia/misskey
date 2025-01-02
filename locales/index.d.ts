@@ -8078,6 +8078,10 @@ export interface Locale extends ILocale {
              * リストのインポートを許可
              */
             "canImportUserLists": string;
+            /**
+             * フォロー/フォロリク履歴の閲覧
+             */
+            "canReadFollowHistory": string;
         };
         "_condition": {
             /**

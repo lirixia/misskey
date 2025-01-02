@@ -14,6 +14,7 @@ import { DI } from '@/di-symbols.js';
 export const meta = {
 	tags: ['following', 'account'],
 	requireCredential: true,
+	requireRolePolicy: 'canReadFollowHistory',
 	kind: 'read:following',
 
 	res: {

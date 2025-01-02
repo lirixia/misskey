@@ -4,7 +4,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<MkStickyContainer>
+<MkStickyContainer v-if="$i.policies.canReadFollowHistory">
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="800">
 		<MkHorizontalSwipe v-model:tab="tab" :tabs="headerTabs">
@@ -48,6 +48,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</MkHorizontalSwipe>
 	</MkSpacer>
 </MkStickyContainer>
+<div v-else>
+	<XNotFound/>
+</div>
 </template>
 
 <script lang="ts" setup>
@@ -63,6 +66,7 @@ import { infoImageUrl } from '@/instance.js';
 import { $i } from '@/account.js';
 import MkHorizontalSwipe from '@/components/MkHorizontalSwipe.vue';
 import { dateString } from '@/filters/date.js';
+import XNotFound from '@/pages/not-found.vue';
 
 const ACTION_CONFIG = {
 	follow: {

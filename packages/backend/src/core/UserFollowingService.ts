@@ -29,6 +29,7 @@ import { AccountMoveService } from '@/core/AccountMoveService.js';
 import { UtilityService } from '@/core/UtilityService.js';
 import type { ThinUser } from '@/queue/types.js';
 import Logger from '../logger.js';
+import { RoleService } from './RoleService.js';
 
 const logger = new Logger('following/create');
 
@@ -79,6 +80,7 @@ export class UserFollowingService implements OnModuleInit {
 		@Inject(DI.instancesRepository)
 		private instancesRepository: InstancesRepository,
 
+		private roleService: RoleService,
 		private cacheService: CacheService,
 		private utilityService: UtilityService,
 		private userEntityService: UserEntityService,
@@ -200,7 +202,56 @@ export class UserFollowingService implements OnModuleInit {
 					},
 				});
 
-				if (isFollowed) autoAccept = true;
+				if (isFollowed) {
+					autoAccept = true;
+
+					const followerPolicies = await this.roleService.getUserPolicies(follower.id);
+					const followeePolicies = await this.roleService.getUserPolicies(followee.id);
+
+					// フォローリクエストを送った側（送信者）の履歴
+					if (this.userEntityService.isLocalUser(follower) && followerPolicies.canReadFollowHistory) {
+						await this.followRequestHistoryRepository.insert({
+							id: this.idService.gen(),
+							type: 'sent',
+							fromUserId: follower.id,
+							toUserId: followee.id,
+							timestamp: new Date(),
+						});
+					}
+
+					// フォローリクエストを受け取った側（受信者）の履歴
+					if (this.userEntityService.isLocalUser(followee) && followeePolicies.canReadFollowHistory) {
+						await this.followRequestHistoryRepository.insert({
+							id: this.idService.gen(),
+							type: 'received',
+							fromUserId: follower.id,
+							toUserId: followee.id,
+							timestamp: new Date(),
+						});
+					}
+
+					// フォローリクエストを承認された側（送信者）の履歴
+					if (this.userEntityService.isLocalUser(follower) && followerPolicies.canReadFollowHistory) {
+						await this.followRequestHistoryRepository.insert({
+							id: this.idService.gen(),
+							type: 'wasApproved',
+							fromUserId: follower.id,
+							toUserId: followee.id,
+							timestamp: new Date(),
+						});
+					}
+
+					// フォローリクエストを承認した側（受信者）の履歴
+					if (this.userEntityService.isLocalUser(followee) && followeePolicies.canReadFollowHistory) {
+						await this.followRequestHistoryRepository.insert({
+							id: this.idService.gen(),
+							type: 'approved',
+							fromUserId: follower.id,
+							toUserId: followee.id,
+							timestamp: new Date(),
+						});
+					}
+				}
 			}
 
 			// Automatically accept if the follower is an account who has moved and the locked followee had accepted the old account.
@@ -388,6 +439,31 @@ export class UserFollowingService implements OnModuleInit {
 			this.notificationService.createNotification(followee.id, 'follow', {
 			}, follower.id);
 		}
+
+		const followerPolicies = await this.roleService.getUserPolicies(follower.id);
+		const followeePolicies = await this.roleService.getUserPolicies(followee.id);
+
+		// 送信者にはfollowタイプの履歴のみ保存
+		if (this.userEntityService.isLocalUser(follower) && followerPolicies.canReadFollowHistory) {
+			await this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'follow',
+				fromUserId: follower.id,
+				toUserId: followee.id,
+				timestamp: new Date(),
+			});
+		}
+
+		// 受信者にはwasFollowタイプの履歴のみ保存
+		if (this.userEntityService.isLocalUser(followee) && followeePolicies.canReadFollowHistory) {
+			await this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'wasFollow',
+				fromUserId: follower.id,
+				toUserId: followee.id,
+				timestamp: new Date(),
+			});
+		}
 	}
 
 	@bindThis
@@ -564,6 +640,31 @@ export class UserFollowingService implements OnModuleInit {
 
 			// TODO: adjust charts
 		}
+
+		const followerPolicies = await this.roleService.getUserPolicies(follower.id);
+		const followeePolicies = await this.roleService.getUserPolicies(followee.id);
+
+		// 送信者にはunFollowタイプの履歴のみ保存
+		if (this.userEntityService.isLocalUser(follower) && followerPolicies.canReadFollowHistory) {
+			await this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'unFollow',
+				fromUserId: follower.id,
+				toUserId: followee.id,
+				timestamp: new Date(),
+			});
+		}
+
+		// 受信者にはwasUnFollowタイプの履歴のみ保存
+		if (this.userEntityService.isLocalUser(followee) && followeePolicies.canReadFollowHistory) {
+			await this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'wasUnFollow',
+				fromUserId: follower.id,
+				toUserId: followee.id,
+				timestamp: new Date(),
+			});
+		}
 	}
 
 	@bindThis
@@ -628,8 +729,11 @@ export class UserFollowingService implements OnModuleInit {
 			this.queueService.deliver(follower, content, followee.inbox, false);
 		}
 
+		const followerPolicies = await this.roleService.getUserPolicies(follower.id);
+		const followeePolicies = await this.roleService.getUserPolicies(followee.id);
+
 		// 送信者にはsentタイプの履歴のみ保存
-		if (this.userEntityService.isLocalUser(follower)) {
+		if (this.userEntityService.isLocalUser(follower) && followerPolicies.canReadFollowHistory) {
 			await this.followRequestHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'sent',
@@ -640,7 +744,7 @@ export class UserFollowingService implements OnModuleInit {
 		}
 
 		// 受信者にはreceivedタイプの履歴のみ保存
-		if (this.userEntityService.isLocalUser(followee)) {
+		if (this.userEntityService.isLocalUser(followee) && followeePolicies.canReadFollowHistory) {
 			await this.followRequestHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'received',
@@ -715,8 +819,11 @@ export class UserFollowingService implements OnModuleInit {
 			schema: 'MeDetailed',
 		}).then(packed => this.globalEventService.publishMainStream(followee.id, 'meUpdated', packed));
 
+		const followerPolicies = await this.roleService.getUserPolicies(follower.id);
+		const followeePolicies = await this.roleService.getUserPolicies(followee.id);
+
 		// フォローリクエストを承認された側（送信者）の履歴
-		if (this.userEntityService.isLocalUser(follower)) {
+		if (this.userEntityService.isLocalUser(follower) && followerPolicies.canReadFollowHistory) {
 			await this.followRequestHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'wasApproved',
@@ -727,7 +834,7 @@ export class UserFollowingService implements OnModuleInit {
 		}
 
 		// フォローリクエストを承認した側（受信者）の履歴
-		if (this.userEntityService.isLocalUser(followee)) {
+		if (this.userEntityService.isLocalUser(followee) && followeePolicies.canReadFollowHistory) {
 			await this.followRequestHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'approved',
@@ -779,9 +886,11 @@ export class UserFollowingService implements OnModuleInit {
 				timestamp: new Date(),
 			});
 		}
+		
+		const policies = await this.roleService.getUserPolicies(user.id);
 
 		// フォローリクエストを拒否した側（受信者）の履歴
-		if (this.userEntityService.isLocalUser(user)) {
+		if (this.userEntityService.isLocalUser(user) && policies.canReadFollowHistory) {
 			await this.followRequestHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'rejected',
@@ -849,6 +958,19 @@ export class UserFollowingService implements OnModuleInit {
 		this.notificationService.createNotification(follower.id, 'followRequestRejected', {
 			message: profile.followedMessage,
 		}, followee.id);
+
+		const followerPolicies = await this.roleService.getUserPolicies(follower.id);
+
+		// リモートユーザーから拒否された履歴を保存
+		if (this.userEntityService.isLocalUser(follower) && followerPolicies.canReadFollowHistory) {
+			await this.followRequestHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'wasRejected',
+				fromUserId: follower.id,
+				toUserId: followee.id,
+				timestamp: new Date(),
+			});
+		}
 
 		await this.followRequestsRepository.delete(request.id);
 	}
