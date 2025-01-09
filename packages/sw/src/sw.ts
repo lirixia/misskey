@@ -29,7 +29,7 @@ globalThis.addEventListener('activate', ev => {
 });
 
 async function offlineContentHTML() {
-	const i18n = await (swLang.i18n ?? swLang.fetchLocale()) as Partial<I18n<Locale>>;
+	const i18n = (swLang.i18n || await swLang.fetchLocale()) as Partial<I18n<Locale>>;
 	const messages = {
 		title: i18n.ts?._offlineScreen.title ?? 'Offline - Could not connect to server',
 		header: i18n.ts?._offlineScreen.header ?? 'Could not connect to server',
@@ -108,6 +108,13 @@ globalThis.addEventListener('push', ev => {
 	}));
 });
 
+function extractInvitationId(body: any): string | undefined {
+	if (!body?.invitation) return;
+	return typeof body.invitation === 'string'
+		? body.invitation
+		: body.invitation.id;
+}
+
 globalThis.addEventListener('notificationclick', (ev: ServiceWorkerGlobalScopeEventMap['notificationclick']) => {
 	ev.waitUntil((async (): Promise<void> => {
 		if (_DEV_) {
@@ -139,9 +146,12 @@ globalThis.addEventListener('notificationclick', (ev: ServiceWorkerGlobalScopeEv
 							case 'receiveFollowRequest':
 								await swos.api('following/requests/accept', loginId, { userId: data.body.userId });
 								break;
-							case 'groupInvited':
-								await swos.api('users/groups/invitations/accept', loginId, { invitationId: data.body.invitation.id });
+							case 'groupInvited': {
+								const invitationId = extractInvitationId(data.body);
+								if (!invitationId) break;
+								await swos.api('users/groups/invitations/accept', loginId, { invitationId });
 								break;
+							}
 						}
 						break;
 					case 'reject':
@@ -149,9 +159,12 @@ globalThis.addEventListener('notificationclick', (ev: ServiceWorkerGlobalScopeEv
 							case 'receiveFollowRequest':
 								await swos.api('following/requests/reject', loginId, { userId: data.body.userId });
 								break;
-							case 'groupInvited':
-								await swos.api('users/groups/invitations/reject', loginId, { invitationId: data.body.invitation.id });
+							case 'groupInvited': {
+								const invitationId = extractInvitationId(data.body);
+								if (!invitationId) break;
+								await swos.api('users/groups/invitations/reject', loginId, { invitationId });
 								break;
+							}
 						}
 						break;
 					case 'showFollowRequests':
