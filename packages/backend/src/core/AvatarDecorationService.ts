@@ -125,10 +125,13 @@ export class AvatarDecorationService implements OnApplicationShutdown {
 	public async remoteUserUpdate(user: MiUser) {
 		const userHost = user.host ?? '';
 		const instance = await this.instancesRepository.findOneBy({ host: userHost });
+		if (!instance) return;
+
+		const instanceHost = instance.host;
 		const userHostUrl = `https://${user.host}`;
 		const showUserApiUrl = `${userHostUrl}/api/users/show`;
 
-		if (!['misskey', 'cherrypick', 'sharkey'].includes(<string>instance?.softwareName)) return;
+		if (!['misskey', 'cherrypick', 'sharkey', 'yojo-art'].includes(<string>instance.softwareName)) return;
 
 		const res = await this.httpRequestService.send(showUserApiUrl, {
 			method: 'POST',
@@ -146,7 +149,6 @@ export class AvatarDecorationService implements OnApplicationShutdown {
 			return;
 		}
 
-		const instanceHost = instance.host;
 		const decorationApiUrl = `https://${instanceHost}/api/get-avatar-decorations`;
 		const allRes = await this.httpRequestService.send(decorationApiUrl, {
 			method: 'POST',
@@ -154,9 +156,18 @@ export class AvatarDecorationService implements OnApplicationShutdown {
 			body: JSON.stringify({}),
 		});
 
+		if (!allRes.ok) {
+			return; // 処理を中止
+		}
+
 		const allDecorations: any = await allRes.json();
 		const updates = {} as Partial<MiUser>;
 		updates.avatarDecorations = [];
+
+		const existingDecorations = await this.avatarDecorationsRepository.findBy({ host: userHost });
+		const existingMap = new Map(
+			existingDecorations.map(d => [d.remoteId, d])
+		);
 
 		for (const avatarDecoration of userAvatarDecorations) {
 			let name;
@@ -172,10 +183,7 @@ export class AvatarDecorationService implements OnApplicationShutdown {
 				}
 			}
 
-			const existingDecoration = await this.avatarDecorationsRepository.findOneBy({
-				host: userHost,
-				remoteId: avatarDecorationId,
-			});
+			const existingDecoration = existingMap.get(avatarDecorationId);
 
 			const decorationData = {
 				name: name,
