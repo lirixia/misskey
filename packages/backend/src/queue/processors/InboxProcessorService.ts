@@ -236,6 +236,12 @@ export class InboxProcessorService implements OnApplicationShutdown {
 					return e.message;
 				}
 			}
+			if (e instanceof StatusError) {
+				if (e.statusCode === 404) {
+					this.logger.error(`Discarding job due to 404 error: ${e}`);
+					throw new Bull.UnrecoverableError('discard: 404 Not Found');
+				}
+			}
 			throw e;
 		}
 		return 'ok';
