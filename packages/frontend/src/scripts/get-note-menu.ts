@@ -153,11 +153,12 @@ export function getAbuseNoteMenu(note: Misskey.entities.Note, text: string): Men
 }
 
 export function getCopyNoteLinkMenu(note: Misskey.entities.Note, text: string): MenuItem {
+	const appearNote = getAppearNote(note);
 	return {
 		icon: 'ti ti-link',
 		text,
 		action: (): void => {
-			copyToClipboard(`${url}/notes/${note.id}`);
+			copyToClipboard(appearNote.url ?? appearNote.uri ?? `${url}/notes/${appearNote.id}`);
 			os.toast(i18n.ts.copiedLink, 'copied');
 		},
 	};
