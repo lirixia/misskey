@@ -4,115 +4,118 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<div class="_gaps_m">
-	<div class="_panel">
-		<div :class="$style.banner" :style="{ backgroundImage: $i.bannerUrl ? `url(${ $i.bannerUrl })` : null }">
-			<MkButton primary rounded :class="$style.bannerEdit" @click="changeBanner">{{ i18n.ts._profile.changeBanner }}</MkButton>
-		</div>
-		<div :class="$style.avatarContainer">
-			<MkAvatar :class="$style.avatar" :user="$i" forceShowDecoration @click="changeAvatar"/>
-			<div class="_buttonsCenter">
-				<MkButton primary rounded @click="changeAvatar">{{ i18n.ts._profile.changeAvatar }}</MkButton>
-				<MkButton primary rounded link to="/settings/avatar-decoration">{{ i18n.ts.decorate }} <i class="ti ti-sparkles"></i></MkButton>
+	<div class="_gaps_m">
+		<div class="_panel">
+			<div :class="$style.banner" :style="{ backgroundImage: $i.bannerUrl ? `url(${$i.bannerUrl})` : null }">
+				<MkButton primary rounded :class="$style.bannerEdit" @click="changeBanner">{{ i18n.ts._profile.changeBanner }}
+				</MkButton>
+			</div>
+			<div :class="$style.avatarContainer">
+				<MkAvatar :class="$style.avatar" :user="$i" forceShowDecoration @click="changeAvatar" />
+				<div class="_buttonsCenter">
+					<MkButton primary rounded @click="changeAvatar">{{ i18n.ts._profile.changeAvatar }}</MkButton>
+					<MkButton primary rounded link to="/settings/avatar-decoration">{{ i18n.ts.decorate }} <i
+							class="ti ti-sparkles"></i></MkButton>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<MkInput v-model="profile.name" :max="30" manualSave :mfmAutocomplete="['emoji']">
-		<template #label>{{ i18n.ts._profile.name }}</template>
-	</MkInput>
+		<MkInput v-model="profile.name" :max="30" manualSave :mfmAutocomplete="['emoji']">
+			<template #label>{{ i18n.ts._profile.name }}</template>
+		</MkInput>
 
-	<MkTextarea v-model="profile.description" :max="500" tall manualSave mfmAutocomplete :mfmPreview="true">
-		<template #label>{{ i18n.ts._profile.description }}</template>
-		<template #caption>{{ i18n.ts._profile.youCanIncludeHashtags }}</template>
-	</MkTextarea>
+		<MkTextarea v-model="profile.description" :max="500" tall manualSave mfmAutocomplete :mfmPreview="true">
+			<template #label>{{ i18n.ts._profile.description }}</template>
+			<template #caption>{{ i18n.ts._profile.youCanIncludeHashtags }}</template>
+		</MkTextarea>
 
-	<MkInput v-model="profile.location" manualSave>
-		<template #label>{{ i18n.ts.location }}</template>
-		<template #prefix><i class="ti ti-map-pin"></i></template>
-	</MkInput>
+		<MkInput v-model="profile.location" manualSave>
+			<template #label>{{ i18n.ts.location }}</template>
+			<template #prefix><i class="ti ti-map-pin"></i></template>
+		</MkInput>
 
-	<MkInput v-model="profile.birthday" type="date" manualSave>
-		<template #label>{{ i18n.ts.birthday }}</template>
-		<template #prefix><i class="ti ti-cake"></i></template>
-	</MkInput>
+		<MkInput v-model="profile.birthday" type="date" manualSave>
+			<template #label>{{ i18n.ts.birthday }}</template>
+			<template #prefix><i class="ti ti-cake"></i></template>
+		</MkInput>
 
-	<MkSelect v-model="profile.lang">
-		<template #label>{{ i18n.ts.language }}</template>
-		<option v-for="x in Object.keys(langmap)" :key="x" :value="x">{{ langmap[x].nativeName }}</option>
-	</MkSelect>
+		<MkSelect v-model="profile.lang">
+			<template #label>{{ i18n.ts.language }}</template>
+			<option v-for="x in Object.keys(langmap)" :key="x" :value="x">{{ langmap[x].nativeName }}</option>
+		</MkSelect>
 
-	<FormSlot>
-		<MkFolder>
-			<template #icon><i class="ti ti-list"></i></template>
-			<template #label>{{ i18n.ts._profile.metadataEdit }}</template>
-			<template #footer>
-				<div class="_buttons">
-					<MkButton primary @click="saveFields"><i class="ti ti-check"></i> {{ i18n.ts.save }}</MkButton>
-					<MkButton :disabled="fields.length >= 16" @click="addField"><i class="ti ti-plus"></i> {{ i18n.ts.add }}</MkButton>
-					<MkButton v-if="!fieldEditMode" :disabled="fields.length <= 1" danger @click="fieldEditMode = !fieldEditMode"><i class="ti ti-trash"></i> {{ i18n.ts.delete }}</MkButton>
-					<MkButton v-else @click="fieldEditMode = !fieldEditMode"><i class="ti ti-arrows-sort"></i> {{ i18n.ts.rearrange }}</MkButton>
-				</div>
-			</template>
+		<FormSlot>
+			<MkFolder>
+				<template #icon><i class="ti ti-list"></i></template>
+				<template #label>{{ i18n.ts._profile.metadataEdit }}</template>
+				<template #footer>
+					<div class="_buttons">
+						<MkButton primary @click="saveFields"><i class="ti ti-check"></i> {{ i18n.ts.save }}</MkButton>
+						<MkButton :disabled="fields.length >= 16" @click="addField"><i class="ti ti-plus"></i> {{ i18n.ts.add }}
+						</MkButton>
+						<MkButton v-if="!fieldEditMode" :disabled="fields.length <= 1" danger
+							@click="fieldEditMode = !fieldEditMode"><i class="ti ti-trash"></i> {{ i18n.ts.delete }}</MkButton>
+						<MkButton v-else @click="fieldEditMode = !fieldEditMode"><i class="ti ti-arrows-sort"></i> {{
+							i18n.ts.rearrange }}</MkButton>
+					</div>
+				</template>
 
-			<div :class="$style.metadataRoot" class="_gaps_s">
-				<MkInfo>{{ i18n.ts._profile.verifiedLinkDescription }}</MkInfo>
+				<div :class="$style.metadataRoot" class="_gaps_s">
+					<MkInfo>{{ i18n.ts._profile.verifiedLinkDescription }}</MkInfo>
 
-				<Sortable
-					v-model="fields"
-					class="_gaps_s"
-					itemKey="id"
-					:animation="150"
-					:handle="'.' + $style.dragItemHandle"
-					@start="e => e.item.classList.add('active')"
-					@end="e => e.item.classList.remove('active')"
-				>
-					<template #item="{element, index}">
-						<div v-panel :class="$style.fieldDragItem">
-							<button v-if="!fieldEditMode" class="_button" :class="$style.dragItemHandle" tabindex="-1"><i class="ti ti-menu"></i></button>
-							<button v-if="fieldEditMode" :disabled="fields.length <= 1" class="_button" :class="$style.dragItemRemove" @click="deleteField(index)"><i class="ti ti-x"></i></button>
-							<div :class="$style.dragItemForm">
-								<FormSplit :minWidth="200">
-									<MkInput v-model="element.name" small :placeholder="i18n.ts._profile.metadataLabel">
-									</MkInput>
-									<MkInput v-model="element.value" small :placeholder="i18n.ts._profile.metadataContent">
-									</MkInput>
-								</FormSplit>
+					<Sortable v-model="fields" class="_gaps_s" itemKey="id" :animation="150" :handle="'.' + $style.dragItemHandle"
+						@start="e => e.item.classList.add('active')" @end="e => e.item.classList.remove('active')">
+						<template #item="{ element, index }">
+							<div v-panel :class="$style.fieldDragItem">
+								<button v-if="!fieldEditMode" class="_button" :class="$style.dragItemHandle" tabindex="-1"><i
+										class="ti ti-menu"></i></button>
+								<button v-if="fieldEditMode" :disabled="fields.length <= 1" class="_button"
+									:class="$style.dragItemRemove" @click="deleteField(index)"><i class="ti ti-x"></i></button>
+								<div :class="$style.dragItemForm">
+									<FormSplit :minWidth="200">
+										<MkInput v-model="element.name" small :placeholder="i18n.ts._profile.metadataLabel">
+										</MkInput>
+										<MkInput v-model="element.value" small :placeholder="i18n.ts._profile.metadataContent">
+										</MkInput>
+									</FormSplit>
+								</div>
 							</div>
-						</div>
-					</template>
-				</Sortable>
+						</template>
+					</Sortable>
+				</div>
+			</MkFolder>
+			<template #caption>{{ i18n.ts._profile.metadataDescription }}</template>
+		</FormSlot>
+
+		<MkInput v-model="profile.followedMessage" :max="200" manualSave :mfmPreview="false">
+			<template #label>{{ i18n.ts._profile.followedMessage }}<span class="_beta">{{ i18n.ts.beta }}</span></template>
+			<template #caption>
+				<div>{{ i18n.ts._profile.followedMessageDescription }}</div>
+				<div>{{ i18n.ts._profile.followedMessageDescriptionForLockedAccount }}</div>
+			</template>
+		</MkInput>
+
+		<MkSelect v-model="reactionAcceptance">
+			<template #label>{{ i18n.ts.reactionAcceptance }}</template>
+			<option :value="null">{{ i18n.ts.all }}</option>
+			<option value="likeOnlyForRemote">{{ i18n.ts.likeOnlyForRemote }}</option>
+			<option value="nonSensitiveOnly">{{ i18n.ts.nonSensitiveOnly }}</option>
+			<option value="nonSensitiveOnlyForLocalLikeOnlyForRemote">{{ i18n.ts.nonSensitiveOnlyForLocalLikeOnlyForRemote }}
+			</option>
+			<option value="likeOnly">{{ i18n.ts.likeOnly }}</option>
+		</MkSelect>
+
+		<MkFolder>
+			<template #label>{{ i18n.ts.advancedSettings }}</template>
+
+			<div class="_gaps_m">
+				<MkSwitch v-model="profile.isCat">{{ i18n.ts.flagAsCat }}<template #caption>{{ i18n.ts.flagAsCatDescription
+						}}</template></MkSwitch>
+				<MkSwitch v-model="profile.isBot">{{ i18n.ts.flagAsBot }}<template #caption>{{ i18n.ts.flagAsBotDescription
+						}}</template></MkSwitch>
 			</div>
 		</MkFolder>
-		<template #caption>{{ i18n.ts._profile.metadataDescription }}</template>
-	</FormSlot>
-
-	<MkInput v-model="profile.followedMessage" :max="200" manualSave :mfmPreview="false">
-		<template #label>{{ i18n.ts._profile.followedMessage }}<span class="_beta">{{ i18n.ts.beta }}</span></template>
-		<template #caption>
-			<div>{{ i18n.ts._profile.followedMessageDescription }}</div>
-			<div>{{ i18n.ts._profile.followedMessageDescriptionForLockedAccount }}</div>
-		</template>
-	</MkInput>
-
-	<MkSelect v-model="reactionAcceptance">
-		<template #label>{{ i18n.ts.reactionAcceptance }}</template>
-		<option :value="null">{{ i18n.ts.all }}</option>
-		<option value="likeOnlyForRemote">{{ i18n.ts.likeOnlyForRemote }}</option>
-		<option value="nonSensitiveOnly">{{ i18n.ts.nonSensitiveOnly }}</option>
-		<option value="nonSensitiveOnlyForLocalLikeOnlyForRemote">{{ i18n.ts.nonSensitiveOnlyForLocalLikeOnlyForRemote }}</option>
-		<option value="likeOnly">{{ i18n.ts.likeOnly }}</option>
-	</MkSelect>
-
-	<MkFolder>
-		<template #label>{{ i18n.ts.advancedSettings }}</template>
-
-		<div class="_gaps_m">
-			<MkSwitch v-model="profile.isCat">{{ i18n.ts.flagAsCat }}<template #caption>{{ i18n.ts.flagAsCatDescription }}</template></MkSwitch>
-			<MkSwitch v-model="profile.isBot">{{ i18n.ts.flagAsBot }}<template #caption>{{ i18n.ts.flagAsBotDescription }}</template></MkSwitch>
-		</div>
-	</MkFolder>
-</div>
+	</div>
 </template>
 
 <script lang="ts" setup>
@@ -362,7 +365,8 @@ definePageMetadata(() => ({
 	opacity: 1;
 	cursor: pointer;
 
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		opacity: .7;
 	}
 
