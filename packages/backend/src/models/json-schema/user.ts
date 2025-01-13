@@ -123,6 +123,10 @@ export const packedUserLiteSchema = {
 			type: 'boolean',
 			nullable: false, optional: true,
 		},
+		speakAsCat: {
+			type: 'boolean',
+			nullable: false, optional: true,
+		},
 		requireSigninToViewContents: {
 			type: 'boolean',
 			nullable: false, optional: true,

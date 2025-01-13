@@ -1198,6 +1198,14 @@ export interface Locale extends ILocale {
      */
     "flagAsCat": string;
     /**
+     * ねこ語で話す
+     */
+    "flagSpeakAsCat": string;
+     /**
+     * 有効にすると、あなたの投稿の 「な」を「にゃ」にします。
+     */
+     "flagSpeakAsCatDescription": string;
+    /**
      * にゃにゃにゃ？？
      */
     "flagAsCatDescription": string;

@@ -560,6 +560,9 @@ const extension_context_definition = {
 	'_misskey_makeNotesHiddenBefore': 'misskey:_misskey_makeNotesHiddenBefore',
 	'_misskey_talk': 'misskey:_misskey_talk',
 	'isCat': 'misskey:isCat',
+	// Firefish
+	firefish: "https://joinfirefish.org/ns#",
+	speakAsCat: "firefish:speakAsCat",
 	// vcard
 	vcard: 'http://www.w3.org/2006/vcard/ns#',
 } satisfies Context;

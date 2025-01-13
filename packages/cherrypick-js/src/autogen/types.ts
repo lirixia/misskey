@@ -4076,6 +4076,7 @@ export type components = {
         }[];
       isBot?: boolean;
       isCat?: boolean;
+      speakAsCat?: boolean;
       requireSigninToViewContents?: boolean;
       makeNotesFollowersOnlyBefore?: number | null;
       makeNotesHiddenBefore?: number | null;
