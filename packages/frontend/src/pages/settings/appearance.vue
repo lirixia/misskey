@@ -75,6 +75,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 			<MkInfo v-if="fontSize != fontSizeBefore" style="margin-top: 10px;">{{ i18n.ts.reloadToApplySetting2 }}</MkInfo>
 			<MkSwitch v-model="useBoldFont" style="margin-top: .75em;">{{ i18n.ts.useBoldFont }}</MkSwitch>
+			<MkSelect v-model="customFont">
+				<template #label>{{ i18n.ts.customFont }}</template>
+				<option :value="null">{{ i18n.ts.default }}</option>
+				<option v-for="[name, font] of Object.entries(fontList)" :value="name">{{ font.name }}</option>
+			</MkSelect>
 		</div>
 
 		<div class="_gaps_m">
@@ -288,6 +293,8 @@ import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { globalEvents } from '@/events.js';
 import { claimAchievement } from '@/scripts/achievements.js';
+import { fontList } from '@/scripts/font.js'; 
+import { applyFont } from '@/scripts/font.js';
 
 // const fontSize = ref(miLocalStorage.getItem('fontSize'));
 const useSystemFont = ref(miLocalStorage.getItem('useSystemFont') != null);
@@ -337,6 +344,7 @@ const useNativeUIForVideoAudioPlayer = computed(defaultStore.makeGetterSetter('u
 const showUnreadNotificationsCount = computed(defaultStore.makeGetterSetter('showUnreadNotificationsCount'));
 const filesGridLayoutInUserPage = computed(defaultStore.makeGetterSetter('filesGridLayoutInUserPage'));
 const fontSize = computed(defaultStore.makeGetterSetter('fontSize'));
+const customFont = computed(defaultStore.makeGetterSetter('customFont')); 
 const collapseLongNoteContent = computed(defaultStore.makeGetterSetter('collapseLongNoteContent'));
 const collapseDefault = computed(defaultStore.makeGetterSetter('collapseDefault'));
 const hideAvatarsInNote = computed(defaultStore.makeGetterSetter('hideAvatarsInNote'));
@@ -370,6 +378,7 @@ watch(fontSize, () => {
 	} else {
 		miLocalStorage.setItem('fontSize', fontSize.value as number);
 	}
+	applyFont(customFont.value);
 });
 
 watch(useBoldFont, () => {

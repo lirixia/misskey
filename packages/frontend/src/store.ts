@@ -596,6 +596,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: 8,
 	},
+	customFont: {
+		where: 'device',
+		default: null as null | string,
+	},
 	collapseLongNoteContent: {
 		where: 'account',
 		default: true,

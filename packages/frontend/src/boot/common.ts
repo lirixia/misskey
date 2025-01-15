@@ -25,6 +25,7 @@ import { fetchCustomEmojis } from '@/custom-emojis.js';
 import { setupRouter } from '@/router/main.js';
 import { createMainRouter } from '@/router/definition.js';
 import { popup } from '@/os.js';
+import { applyFont } from '@/scripts/font.js';
 
 export async function common(createVue: () => App<Element>) {
 	console.info(`CherryPick v${version}`);
@@ -69,7 +70,7 @@ export async function common(createVue: () => App<Element>) {
 	if (miLocalStorage.getItem('ui') === null) miLocalStorage.setItem('ui', 'friendly');
 
 	if (instance.swPublickey && ('PushManager' in window) && $i && $i.token && showPushNotificationDialog == null) {
-		popup(defineAsyncComponent(() => import('@/components/MkPushNotification.vue')), {}, {}, 'closed');
+		popup(defineAsyncComponent(() => import('@/components/MkPushNotification.vue')), {}, {});
 	}
 
 	//#region クライアントが更新されたかチェック
@@ -155,6 +156,15 @@ export async function common(createVue: () => App<Element>) {
 		history.replaceState({ cherrypick: 'loginId' }, '', target);
 	}
 	//#endregion
+
+	//# Custom font
+	if (defaultStore.state.customFont) {
+		applyFont(defaultStore.state.customFont);
+	}
+
+	watch(defaultStore.reactiveState.customFont, (font) => {
+		applyFont(font);
+	});
 
 	// NOTE: この処理は必ずクライアント更新チェック処理より後に来ること(テーマ再構築のため)
 	watch(defaultStore.reactiveState.darkMode, (darkMode) => {
