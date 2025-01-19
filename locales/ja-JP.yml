@@ -2654,6 +2654,10 @@ _widgets:
   birthdayFollowings: "今日誕生日のユーザー"
   search: "検索"
   dice: "サイコロ"
+  addNewTodo: "新しいToDoを追加"
+  addTodo: "ToDoを追加"
+  todo: "ToDoリスト"
+  complete: "完了"
 
 _cw:
   hide: "隠す"

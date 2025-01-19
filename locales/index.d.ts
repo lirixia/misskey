@@ -1198,17 +1198,17 @@ export interface Locale extends ILocale {
      */
     "flagAsCat": string;
     /**
-     * ねこ語で話す
-     */
-    "flagSpeakAsCat": string;
-     /**
-     * 有効にすると、あなたの投稿の 「な」を「にゃ」にします。
-     */
-     "flagSpeakAsCatDescription": string;
-    /**
      * にゃにゃにゃ？？
      */
     "flagAsCatDescription": string;
+    /**
+     * 猫語で話す
+     */
+    "flagSpeakAsCat": string;
+    /**
+     * 有効にすると、あなたの投稿の 「な」を「にゃ」にします。
+     */
+    "flagSpeakAsCatDescription": string;
     /**
      * タイムラインにノートへの返信を表示する
      */
@@ -10119,6 +10119,22 @@ export interface Locale extends ILocale {
          * サイコロ
          */
         "dice": string;
+        /**
+         * 新しいToDoを追加
+         */
+        "addNewTodo": string;
+        /**
+         * ToDoを追加
+         */
+        "addTodo": string;
+        /**
+         * ToDoリスト
+         */
+        "todo": string;
+        /**
+         * 完了
+         */
+        "complete": string;
     };
     "_cw": {
         /**

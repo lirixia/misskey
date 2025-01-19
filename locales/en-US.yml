@@ -2594,6 +2594,10 @@ _widgets:
   birthdayFollowings: "Today's Birthdays"
   search: "Search"
   dice: "Dice"
+  addNewTodo: "Add a new ToDo"
+  addTodo: "Add ToDo"
+  todo: "ToDo List"
+  complete: "Complete"
 _cw:
   hide: "Hide"
   show: "Show content"
