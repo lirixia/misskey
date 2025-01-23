@@ -114,17 +114,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</div>
 							<MkInstanceTicker v-if="showTicker" :instance="appearNote.user.instance" @click="showOnRemote" />
 						</div>
-						<div :class="$style.noteHeaderUsernameAndBadgeRoles">
-							<!--
-							<div :class="$style.noteHeaderUsername">
-								<MkAcct :user="appearNote.user"/>
-							</div>
-							-->
-							<div v-if="appearNote.user.badgeRoles" :class="$style.noteHeaderBadgeRoles">
-								<img v-for="(role, i) in appearNote.user.badgeRoles" :key="i" v-tooltip="role.name"
-									:class="$style.noteHeaderBadgeRole" :src="role.iconUrl!" />
-							</div>
-						</div>
 					</div>
 				</div>
 			</header>
@@ -193,6 +182,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkA v-if="appearNote.channel && !inChannel" :class="$style.channel" :to="`/channels/${appearNote.channel.id}`">
 					<i class="ti ti-device-tv"></i> {{ appearNote.channel.name }}
 				</MkA>
+				<span style="margin-left: 0.5em;">
+					<span style="border: 1px solid var(--MI_THEME-divider); margin-right: 0.5em;"/>
+					<i v-if="appearNote.visibility === 'public'" class="ti ti-world"></i>
+					<i v-else-if="appearNote.visibility === 'home'" class="ti ti-home"></i>
+					<i v-else-if="appearNote.visibility === 'followers'" class="ti ti-lock"></i>
+					<i v-else-if="appearNote.visibility === 'specified'" ref="specified" class="ti ti-mail"></i>
+					<span style="margin-left: 0.3em;">{{ i18n.ts._visibility[appearNote.visibility] }}</span>
+				</span>
 			</div>
 			<footer>
 				<div :class="$style.noteFooterInfo">
@@ -972,6 +969,7 @@ function showOnRemote() {
 }
 
 .noteHeaderName {
+	display: flex;
 	font-weight: bold;
 	line-height: 1.3;
 	margin: 0 .5em 0 0;
