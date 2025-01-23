@@ -12,10 +12,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 		<div v-if="$i.avatarDecorations.length > 0" v-panel :class="$style.current" class="_gaps_s">
 			<div>{{ i18n.ts.inUse }}</div>
-
 			<div :class="$style.decorations">
 				<XDecoration
 					v-for="(avatarDecoration, i) in $i.avatarDecorations"
+					:key="avatarDecoration.id"
 					:decoration="avatarDecorations.find(d => d.id === avatarDecoration.id)"
 					:angle="avatarDecoration.angle"
 					:flipH="avatarDecoration.flipH"
@@ -31,14 +31,35 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<MkButton danger @click="detachAllDecorations">{{ i18n.ts.detachAll }}</MkButton>
 		</div>
 
-		<div :class="$style.decorations">
-			<XDecoration
-				v-for="avatarDecoration in avatarDecorations"
-				:key="avatarDecoration.id"
-				:decoration="avatarDecoration"
-				@click="openDecoration(avatarDecoration)"
-			/>
-		</div>
+		<MkFolder>
+			<template #label>{{ i18n.ts.local }}</template>
+			<div :class="$style.decorations">
+				<XDecoration
+					v-for="localAvatarDecoration in visibleLocalDecorations"
+					:key="localAvatarDecoration.id"
+					:decoration="localAvatarDecoration"
+					@click="openLocalDecoration(localAvatarDecoration)"
+				/>
+			</div>
+			<MkButton v-if="hasMoreLocalDecorations" class="mt-4" @click="loadMoreLocalDecorations">
+				{{ i18n.ts.loadMore }}
+			</MkButton>
+		</MkFolder>
+
+		<MkFolder v-if="$i.policies.canUseRemoteAvatarDecorations">
+			<template #label>{{ i18n.ts.remote }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
+			<div :class="$style.decorations">
+				<XDecoration
+					v-for="remoteAvatarDecoration in visibleRemoteDecorations"
+					:key="remoteAvatarDecoration.id"
+					:decoration="remoteAvatarDecoration"
+					@click="openRemoteDecoration(remoteAvatarDecoration)"
+				/>
+			</div>
+			<MkButton v-if="hasMoreRemoteDecorations" class="mt-4" @click="loadMoreRemoteDecorations">
+				{{ i18n.ts.loadMore }}
+			</MkButton>
+		</MkFolder>
 	</div>
 	<div v-else>
 		<MkLoading/>
@@ -57,19 +78,59 @@ import { i18n } from '@/i18n.js';
 import { signinRequired } from '@/account.js';
 import MkInfo from '@/components/MkInfo.vue';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
+import MkFolder from '@/components/MkFolder.vue';
 
 const $i = signinRequired();
 
+const ITEMS_PER_PAGE = 25;
+
 const loading = ref(true);
 const avatarDecorations = ref<Misskey.entities.GetAvatarDecorationsResponse>([]);
+const localAvatarDecorations = ref<Misskey.entities.GetAvatarDecorationsResponse>([]);
+const remoteAvatarDecorations = ref<Misskey.entities.GetAvatarDecorationsResponse>([]);
 
+const localPage = ref(1);
+const remotePage = ref(1);
+
+const visibleLocalDecorations = computed(() => {
+	return localAvatarDecorations.value.slice(0, localPage.value * ITEMS_PER_PAGE);
+});
+
+const visibleRemoteDecorations = computed(() => {
+	return remoteAvatarDecorations.value.slice(0, remotePage.value * ITEMS_PER_PAGE);
+});
+
+const hasMoreLocalDecorations = computed(() => {
+	return localAvatarDecorations.value.length > visibleLocalDecorations.value.length;
+});
+
+const hasMoreRemoteDecorations = computed(() => {
+	return remoteAvatarDecorations.value.length > visibleRemoteDecorations.value.length;
+});
+
+// Initial data loading
 misskeyApi('get-avatar-decorations').then(_avatarDecorations => {
 	avatarDecorations.value = _avatarDecorations;
+	_avatarDecorations.forEach(item => {
+		if (item.name.includes('import_')) {
+			remoteAvatarDecorations.value.push(item);
+		} else {
+			localAvatarDecorations.value.push(item);
+		}
+	});
 	loading.value = false;
 });
 
-function openDecoration(avatarDecoration, index?: number) {
-	const { dispose } = os.popup(defineAsyncComponent(() => import('./avatar-decoration.dialog.vue')), {
+function loadMoreLocalDecorations() {
+	localPage.value++;
+}
+
+function loadMoreRemoteDecorations() {
+	remotePage.value++;
+}
+
+function openLocalDecoration(avatarDecoration, index?: number) {
+	os.popup(defineAsyncComponent(() => import('./avatar-decoration.dialog.vue')), {
 		decoration: avatarDecoration,
 		usingIndex: index,
 	}, {
@@ -114,6 +175,96 @@ function openDecoration(avatarDecoration, index?: number) {
 			});
 			$i.avatarDecorations = update;
 		},
+	}, 'closed');
+}
+
+function openRemoteDecoration(avatarDecoration, index?: number) {
+	os.popup(defineAsyncComponent(() => import('./avatar-decoration.dialog.vue')), {
+		decoration: avatarDecoration,
+		usingIndex: index,
+	}, {
+		'attach': async (payload) => {
+			const decoration = {
+				id: avatarDecoration.id,
+				angle: payload.angle,
+				flipH: payload.flipH,
+				offsetX: payload.offsetX,
+				offsetY: payload.offsetY,
+			};
+			const update = [...$i.avatarDecorations, decoration];
+			await os.apiWithDialog('i/update', {
+				avatarDecorations: update,
+			});
+			$i.avatarDecorations = update;
+		},
+		'update': async (payload) => {
+			const decoration = {
+				id: avatarDecoration.id,
+				angle: payload.angle,
+				flipH: payload.flipH,
+				offsetX: payload.offsetX,
+				offsetY: payload.offsetY,
+			};
+			const update = [...$i.avatarDecorations];
+			update[index] = decoration;
+			await os.apiWithDialog('i/update', {
+				avatarDecorations: update,
+			});
+			$i.avatarDecorations = update;
+		},
+		'detach': async () => {
+			const update = [...$i.avatarDecorations];
+			update.splice(index, 1);
+			await os.apiWithDialog('i/update', {
+				avatarDecorations: update,
+			});
+			$i.avatarDecorations = update;
+		},
+	}, 'closed');
+}
+
+function openDecoration(avatarDecoration, index?: number) {
+	const { dispose } = os.popup(defineAsyncComponent(() => import('./avatar-decoration.dialog.vue')), {
+		decoration: avatarDecorations.value.find(d => d.id === avatarDecoration.id),
+		usingIndex: index,
+	}, {
+		'attach': async (payload) => {
+			const decoration = {
+				id: avatarDecoration.id,
+				angle: payload.angle,
+				flipH: payload.flipH,
+				offsetX: payload.offsetX,
+				offsetY: payload.offsetY,
+			};
+			const update = [...$i.avatarDecorations, decoration];
+			await os.apiWithDialog('i/update', {
+				avatarDecorations: update,
+			});
+			$i.avatarDecorations = update;
+		},
+		'update': async (payload) => {
+			const decoration = {
+				id: avatarDecoration.id,
+				angle: payload.angle,
+				flipH: payload.flipH,
+				offsetX: payload.offsetX,
+				offsetY: payload.offsetY,
+			};
+			const update = [...$i.avatarDecorations];
+			update[index] = decoration;
+			await os.apiWithDialog('i/update', {
+				avatarDecorations: update,
+			});
+			$i.avatarDecorations = update;
+		},
+		'detach': async () => {
+			const update = [...$i.avatarDecorations];
+			update.splice(index, 1);
+			await os.apiWithDialog('i/update', {
+				avatarDecorations: update,
+			});
+			$i.avatarDecorations = update;
+		},
 		closed: () => dispose(),
 	});
 }
@@ -132,7 +283,6 @@ function detachAllDecorations() {
 }
 
 const headerActions = computed(() => []);
-
 const headerTabs = computed(() => []);
 
 definePageMetadata(() => ({

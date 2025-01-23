@@ -636,6 +636,13 @@ export const meta = {
 					type: 'string',
 				},
 			},
+			allowedAvatarDecorationHosts: {
+				type: 'array',
+				optional: false, nullable: false,
+				items: {
+					type: 'string',
+				},
+			},
 		},
 	},
 } as const;
@@ -811,6 +818,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				disablePublicNoteWhenInactive: instance.disablePublicNoteWhenInactive,
 				moderatorInactivityLimitDays: instance.moderatorInactivityLimitDays,
 				bubbleInstances: instance.bubbleInstances,
+				allowedAvatarDecorationHosts: instance.allowedAvatarDecorationHosts,
 			};
 		});
 	}

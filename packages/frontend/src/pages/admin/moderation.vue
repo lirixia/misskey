@@ -157,6 +157,18 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<MkButton primary @click="save_bubbleTimeline">{{ i18n.ts.save }}</MkButton>
 						</div>
 					</MkFolder>
+
+					<MkFolder>
+						<template #icon><i class="ti ti-cloud-down"></i></template>
+						<template #label>{{ i18n.ts._miry.allowedAvatarDecorationHosts }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
+
+						<div class="_gaps">
+							<MkTextarea v-model="allowedAvatarDecorationHosts">
+								<template #caption>{{ i18n.ts._miry.allowedAvatarDecorationHostsDescription }}</template>
+							</MkTextarea>
+							<MkButton primary @click="save_allowedAvatarDecorationHosts">{{ i18n.ts.save }}</MkButton>
+						</div>
+					</MkFolder>
 				</div>
 			</FormSuspense>
 		</MkSpacer>
@@ -198,6 +210,7 @@ const mediaSilencedHosts = ref<string>('');
 const trustedLinkUrlPatterns = ref<string>('');
 const bubbleTimelineEnabled = ref<boolean>(false);
 const bubbleTimeline = ref<string>('');
+const allowedAvatarDecorationHosts = ref<string>('');
 
 async function init() {
 	enableRegistration.value = !meta.disableRegistration;
@@ -216,6 +229,7 @@ async function init() {
 	trustedLinkUrlPatterns.value = meta.trustedLinkUrlPatterns.join('\n');
 	bubbleTimelineEnabled.value = meta.policies.btlAvailable;
 	bubbleTimeline.value = meta.bubbleInstances.join('\n');
+	allowedAvatarDecorationHosts.value = meta.allowedAvatarDecorationHosts.join('\n');
 }
 
 async function onChange_enableRegistration(value: boolean) {
@@ -346,6 +360,14 @@ function save_mediaSilencedHosts() {
 function save_bubbleTimeline() {
 	os.apiWithDialog('admin/update-meta', {
 		bubbleInstances: bubbleTimeline.value.split('\n') || [],
+	}).then(() => {
+		fetchInstance(true);
+	});
+}
+
+function save_allowedAvatarDecorationHosts() {
+	os.apiWithDialog('admin/update-meta', {
+		allowedAvatarDecorationHosts: allowedAvatarDecorationHosts.value.split('\n') || [],
 	}).then(() => {
 		fetchInstance(true);
 	});
