@@ -3278,3 +3278,7 @@ _scheduledNoteDelete:
 _getQRCode:
   title: "QRコードをスキャンする"
   description: "以下のQRコードをスキャンまたは共有できます。"
+
+_miry:
+  allowedAvatarDecorationHosts: "許可されたアバターデコレーションホスト"
+  allowedAvatarDecorationHostsDescription: "ここに設定されたホストからのアバターデコレーションを取得します。"

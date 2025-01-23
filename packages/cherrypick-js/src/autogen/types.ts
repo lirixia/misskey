@@ -5658,6 +5658,7 @@ export type operations = {
             disablePublicNoteWhenInactive: boolean;
             moderatorInactivityLimitDays: number;
             bubbleInstances: string[];
+            allowedAvatarDecorationHosts: string[];
           };
         };
       };
@@ -10485,6 +10486,7 @@ export type operations = {
           disablePublicNoteWhenInactive?: boolean | null;
           moderatorInactivityLimitDays?: number;
           bubbleInstances?: string[];
+          allowedAvatarDecorationHosts?: string[];
         };
       };
     };

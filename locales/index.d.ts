@@ -12309,6 +12309,16 @@ export interface Locale extends ILocale {
          */
         "description": string;
     };
+    "_miry": {
+        /**
+         * 許可されたアバターデコレーションホスト
+         */
+        "allowedAvatarDecorationHosts": string;
+        /**
+         * ここに設定されたホストからのアバターデコレーションを取得します。
+         */
+        "allowedAvatarDecorationHostsDescription": string;
+    };
 }
 declare const locales: {
     [lang: string]: Locale;

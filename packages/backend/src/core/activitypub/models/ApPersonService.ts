@@ -307,7 +307,8 @@ export class ApPersonService implements OnModuleInit {
 		if (host) {
 			const i = await this.federatedInstanceService.fetch(host);
 			console.log('avatarDecorationFetch: start');
-			if (i && i.softwareName && ['misskey', 'cherrypick', 'yojo-art', 'sharkey', 'finity'].includes(i.softwareName)) {
+			// allowedAvatarDecorationHostsに存在するホストからデコレーションを取得
+			if (i && this.meta.allowedAvatarDecorationHosts?.includes(host)) {
 				const remoteUserId = user.uri.split('/users/')[1];
 				const userMetaRequest = await this.httpRequestService.send(`https://${i.host}/api/users/show`, {
 					method: 'POST',
@@ -673,8 +674,8 @@ export class ApPersonService implements OnModuleInit {
 
 			if (this.utilityService.punyHost(url) !== this.utilityService.punyHost(person.id)) {
 				throw new Error(`person url <> uri host mismatch: ${url} <> ${person.id}`);
-				}
 			}
+		}
 
 		let host = null;
 
