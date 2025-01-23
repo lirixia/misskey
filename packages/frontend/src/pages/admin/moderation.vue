@@ -373,7 +373,6 @@ function save_allowedAvatarDecorationHosts() {
 	});
 }
 
-
 const headerTabs = computed(() => []);
 
 definePageMetadata(() => ({
