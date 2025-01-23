@@ -7971,6 +7971,10 @@ export interface Locale extends ILocale {
              */
             "canManageAvatarDecorations": string;
             /**
+             * リモートアイコンデコレーションの利用
+             */
+            "canUseRemoteAvatarDecorations": string;
+            /**
              * ドライブ容量
              */
             "driveCapacity": string;

@@ -45,6 +45,7 @@ export type RolePolicies = {
 	inviteExpirationTime: number;
 	canManageCustomEmojis: boolean;
 	canManageAvatarDecorations: boolean;
+	canUseRemoteAvatarDecorations: boolean;
 	canSearchNotes: boolean;
 	canUseTranslator: boolean;
 	canUseAutoTranslate: boolean;
@@ -83,6 +84,7 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	inviteExpirationTime: 0,
 	canManageCustomEmojis: false,
 	canManageAvatarDecorations: false,
+	canUseRemoteAvatarDecorations: false,
 	canSearchNotes: false,
 	canUseTranslator: true,
 	canUseAutoTranslate: false,
@@ -394,6 +396,7 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			inviteExpirationTime: calc('inviteExpirationTime', vs => Math.max(...vs)),
 			canManageCustomEmojis: calc('canManageCustomEmojis', vs => vs.some(v => v === true)),
 			canManageAvatarDecorations: calc('canManageAvatarDecorations', vs => vs.some(v => v === true)),
+			canUseRemoteAvatarDecorations: calc('canUseRemoteAvatarDecorations', vs => vs.some(v => v === true)),
 			canSearchNotes: calc('canSearchNotes', vs => vs.some(v => v === true)),
 			canUseTranslator: calc('canUseTranslator', vs => vs.some(v => v === true)),
 			canUseAutoTranslate: calc('canUseAutoTranslate', vs => vs.some(v => v === true)),

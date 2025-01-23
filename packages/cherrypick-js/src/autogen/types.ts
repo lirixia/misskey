@@ -5259,6 +5259,7 @@ export type components = {
       inviteExpirationTime: number;
       canManageCustomEmojis: boolean;
       canManageAvatarDecorations: boolean;
+      canUseRemoteAvatarDecorations: boolean;
       canSearchNotes: boolean;
       canUseTranslator: boolean;
       canUseAutoTranslate: boolean;
@@ -20870,6 +20871,7 @@ export type operations = {
           makeNotesHiddenBefore?: number | null;
           isBot?: boolean;
           isCat?: boolean;
+          speakAsCat?: boolean;
           injectFeaturedNote?: boolean;
           receiveAnnouncementEmail?: boolean;
           alwaysMarkNsfw?: boolean;
