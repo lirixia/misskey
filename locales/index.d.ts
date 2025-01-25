@@ -7971,6 +7971,10 @@ export interface Locale extends ILocale {
              */
             "canManageAvatarDecorations": string;
             /**
+             * リモートアイコンデコレーションの利用
+             */
+            "canUseRemoteAvatarDecorations": string;
+            /**
              * ドライブ容量
              */
             "driveCapacity": string;
@@ -12415,6 +12419,16 @@ export interface Locale extends ILocale {
          * 検索エンジンが使用するクエリを入力します。(例: https://www.google.com/search?q=test の場合qを入れる)
          */
         "queryDescription": string;
+    };
+    "_miry": {
+        /**
+         * 許可されたアバターデコレーションホスト
+         */
+        "allowedAvatarDecorationHosts": string;
+        /**
+         * ここに設定されたホストからのアバターデコレーションを取得します。
+         */
+        "allowedAvatarDecorationHostsDescription": string;
     };
 }
 declare const locales: {

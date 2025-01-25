@@ -5267,6 +5267,7 @@ export type components = {
       inviteExpirationTime: number;
       canManageCustomEmojis: boolean;
       canManageAvatarDecorations: boolean;
+      canUseRemoteAvatarDecorations: boolean;
       canSearchNotes: boolean;
       canUseTranslator: boolean;
       canUseAutoTranslate: boolean;
@@ -5667,6 +5668,7 @@ export type operations = {
             disablePublicNoteWhenInactive: boolean;
             moderatorInactivityLimitDays: number;
             bubbleInstances: string[];
+            allowedAvatarDecorationHosts: string[];
           };
         };
       };
@@ -10496,6 +10498,7 @@ export type operations = {
           disablePublicNoteWhenInactive?: boolean | null;
           moderatorInactivityLimitDays?: number;
           bubbleInstances?: string[];
+          allowedAvatarDecorationHosts?: string[];
         };
       };
     };
@@ -20882,6 +20885,7 @@ export type operations = {
           makeNotesHiddenBefore?: number | null;
           isBot?: boolean;
           isCat?: boolean;
+          speakAsCat?: boolean;
           injectFeaturedNote?: boolean;
           receiveAnnouncementEmail?: boolean;
           alwaysMarkNsfw?: boolean;
@@ -30421,6 +30425,8 @@ export type operations = {
           noIrregularRules?: boolean;
           /** @default false */
           multiple?: boolean;
+          /** @default false */
+          accept_only?: boolean;
         };
       };
     };

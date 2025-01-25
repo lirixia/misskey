@@ -847,4 +847,12 @@ export class MiMeta {
 		default: '{}',
 	})
 	public bubbleInstances: string[];
+
+	@Column('varchar', {
+		length: 256,
+		array: true,
+		default: '{}',
+		comment: 'アバター装飾のインポートを許可するリモートホストのリスト',
+	})
+	public allowedAvatarDecorationHosts: string[];
 }
