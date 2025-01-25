@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import ms from 'ms';
 import { Injectable } from '@nestjs/common';
 import { Endpoint } from '@/server/api/endpoint-base.js';
 import { GetterService } from '@/server/api/GetterService.js';
@@ -36,6 +37,10 @@ export const meta = {
 			code: 'CANNOT_REPORT_THE_ADMIN',
 			id: '35e166f5-05fb-4f87-a2d5-adb42676d48f',
 		},
+	},
+	limit: {
+		duration: ms('30m'),
+		max: 1,
 	},
 } as const;
 
