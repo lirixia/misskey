@@ -22,6 +22,8 @@ const nodeinfo_homepage = 'https://misskey-hub.net';
 
 @Injectable()
 export class NodeinfoServerService {
+	//semverに従って割り当てる
+	static reversiVersion = '1.1.0-miry';
 	constructor(
 		@Inject(DI.config)
 		private config: Config,
