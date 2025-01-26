@@ -78,6 +78,7 @@ function generateDummyUser(override?: Partial<MiUser>): MiUser {
 		isHibernated: false,
 		isDeleted: false,
 		requireSigninToViewContents: false,
+		speakAsCat: false,
 		makeNotesFollowersOnlyBefore: null,
 		makeNotesHiddenBefore: null,
 		emojis: [],
@@ -131,6 +132,12 @@ function generateDummyNote(override?: Partial<MiNote>): MiNote {
 		replyUserHost: null,
 		renoteUserId: null,
 		renoteUserHost: null,
+		updatedAt: new Date(),
+		updatedAtHistory: [],
+		noteEditHistory: [],
+		hasEvent: false,
+		disableRightClick: false,
+		deleteAt: null,
 		...override,
 	};
 }

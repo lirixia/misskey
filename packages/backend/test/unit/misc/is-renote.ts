@@ -7,6 +7,10 @@ import { isQuote, isRenote } from '@/misc/is-renote.js';
 import { MiNote } from '@/models/Note.js';
 
 const base: MiNote = {
+	updatedAt: null,
+	updatedAtHistory: [],
+	noteEditHistory: [],
+	hasEvent: false,
 	id: 'some-note-id',
 	replyId: null,
 	reply: null,
@@ -43,6 +47,8 @@ const base: MiNote = {
 	replyUserHost: null,
 	renoteUserId: null,
 	renoteUserHost: null,
+	disableRightClick: false,
+	deleteAt: null,
 };
 
 describe('misc:is-renote', () => {

@@ -50,7 +50,7 @@ export class ApGameService {
 			return;
 		}
 		if (apgame.game_state.type === 'settings') {
-			const key = apgame.game_state.key;
+			const key = apgame.game_state.key as 'map' | 'bw' | 'isLlotheo' | 'canPutEverywhere' | 'loopedBoard' | 'timeLimitForEachTurn';
 			const value = apgame.game_state.value;
 			if (key && value) {
 				await this.reversiService.updateSettings(id, remote_user, key, value);

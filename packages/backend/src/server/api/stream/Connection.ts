@@ -326,12 +326,14 @@ export default class Connection {
 	}
 
 	@bindThis
-	private typingOnMessaging(param: { partner?: MiUser['id']; group?: MiUserGroup['id']; }) {
+	private typingOnMessaging(param: JsonValue | undefined) {
+		if (!isJsonObject(param)) return;
+		const { partner, group } = param as { partner?: MiUser['id']; group?: MiUserGroup['id']; };
 		if (this.user) {
-			if (param.partner) {
-				// this.globalEventService.publishMessagingStream(param.partner, this.user.id, 'typing', this.user.id);
-			} else if (param.group) {
-				// this.globalEventService.publishGroupMessagingStream(param.group, 'typing', this.user.id);
+			if (partner) {
+				// this.globalEventService.publishMessagingStream(partner, this.user.id, 'typing', this.user.id);
+			} else if (group) {
+				// this.globalEventService.publishGroupMessagingStream(group, 'typing', this.user.id);
 			}
 		}
 	}
