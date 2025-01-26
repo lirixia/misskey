@@ -42,7 +42,15 @@ export class UtilityService {
 	@bindThis
 	public isBlockedHost(blockedHosts: string[], host: string | null): boolean {
 		if (host == null) return false;
-		return blockedHosts.some(x => `.${host.toLowerCase()}`.endsWith(`.${x}`));
+		const lowerHost = host.toLowerCase();
+		return blockedHosts.some(x => {
+			const lowerBlockedHost = x.toLowerCase();
+			if (lowerBlockedHost.startsWith('*.')) {
+				const domain = lowerBlockedHost.slice(2);
+				return lowerHost.endsWith(`.${domain}`) || lowerHost === domain;
+			}
+			return lowerHost === lowerBlockedHost || `.${lowerHost}`.endsWith(`.${lowerBlockedHost}`);
+		});
 	}
 
 	@bindThis
