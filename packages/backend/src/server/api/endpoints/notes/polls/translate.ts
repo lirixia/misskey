@@ -124,7 +124,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			}
 
 			return Promise.resolve({
-				sourceLang: translationResult.sourceLang || '',//
+				sourceLang: translationResult.sourceLang || '',
 				text: Array.isArray(translationResult.text) ? translationResult.text.join(' ') : translationResult.text || null,
 				translator: translationResult.translator || [],
 			});
