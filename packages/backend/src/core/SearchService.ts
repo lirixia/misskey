@@ -161,6 +161,7 @@ export class SearchService {
 		userId?: MiNote['userId'] | null;
 		channelId?: MiNote['channelId'] | null;
 		host?: string | null;
+		origin?: 'local' | 'remote' | 'combined';
 	}, pagination: {
 		untilId?: MiNote['id'];
 		sinceId?: MiNote['id'];

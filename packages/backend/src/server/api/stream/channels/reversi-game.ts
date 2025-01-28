@@ -102,10 +102,10 @@ class ReversiGameChannel extends Channel {
 	}
 
 	@bindThis
-	private async sendReaction(reaction: string) {
+	private async sendReaction(reaction: JsonValue) {
 		if (this.user == null) return;
 
-		this.reversiService.sendReaction(this.gameId!, this.user, reaction);
+		this.reversiService.sendReaction(this.gameId!, this.user, reaction as string);
 	}
 
 	@bindThis

@@ -17,10 +17,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</MkSwitch>
 					</div>
 
-					<template v-if="(version && version.length > 0) && (releasesCherryPick && releasesCherryPick.length > 0)">
-						<FormInfo v-if="compareVersions(version, releasesCherryPick[0].tag_name) > 0">{{
+					<template v-if="(version && version.length > 0) && (releasesMiryRemix && releasesMiryRemix.length > 0)">
+						<FormInfo v-if="compareVersions(version, releasesMiryRemix[0].tag_name) > 0">{{
 							i18n.ts.youAreRunningBetaClient }}</FormInfo>
-						<FormInfo v-else-if="compareVersions(version, releasesCherryPick[0].tag_name) === 0">{{
+						<FormInfo v-else-if="compareVersions(version, releasesMiryRemix[0].tag_name) === 0">{{
 							i18n.ts.youAreRunningUpToDateClient }}</FormInfo>
 						<FormInfo v-else warn>{{ i18n.ts.newVersionOfClientAvailable }}</FormInfo>
 					</template>
@@ -32,15 +32,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #key>{{ i18n.ts.currentVersion }} <i class="ti ti-external-link"></i></template>
 							<template #value>{{ version }}</template>
 						</MkKeyValue>
-						<MkKeyValue v-if="version < releasesCherryPick[0].tag_name && !skipVersion" style="margin-top: 10px;"
+						<MkKeyValue v-if="version < releasesMiryRemix[0].tag_name && !skipVersion" style="margin-top: 10px;"
 							@click="whatIsNewLatestCherryPick">
 							<template #key>{{ i18n.ts.latestVersion }} <i class="ti ti-external-link"></i></template>
-							<template v-if="releasesCherryPick" #value>{{ releasesCherryPick[0].tag_name }}</template>
+							<template v-if="releasesMiryRemix" #value>{{ releasesMiryRemix[0].tag_name }}</template>
 							<template v-else #value>
 								<MkEllipsis />
 							</template>
 						</MkKeyValue>
-						<MkButton v-if="!skipVersion && (compareVersions(version, releasesCherryPick[0].tag_name) < 0)"
+						<MkButton v-if="!skipVersion && (compareVersions(version, releasesMiryRemix[0].tag_name) < 0)"
 							style="margin-top: 10px;" @click="skipThisVersion">{{ i18n.ts.skipThisVersion }}</MkButton>
 					</FormSection>
 
@@ -109,6 +109,7 @@ const skipCherryPickVersion = ref<string | null>(null);
 
 const releasesCherryPick = ref(null);
 const releasesMisskey = ref(null);
+const releasesMiryRemix = ref(null);
 
 const meta = await misskeyApi('admin/meta');
 
@@ -118,15 +119,26 @@ async function init() {
 	skipCherryPickVersion.value = meta.skipCherryPickVersion;
 
 	try {
-		// CherryPick Releases Fetch
-		const cherryPickResponse = await fetch('https://api.github.com/repos/kokonect-link/cherrypick/releases');
-		const cherryPickData = await cherryPickResponse.json();
-		releasesCherryPick.value = meta.enableReceivePrerelease ? cherryPickData : cherryPickData.filter(x => !x.prerelease);
+		// Fetch version from package.json
+		const packageResponse = await fetch('https://raw.githubusercontent.com/catsmiry/misskey/refs/heads/master/package.json');
+		const packageData = await packageResponse.json();
+		const latestVersion = packageData.version;
 
-		if (compareVersions(skipCherryPickVersion.value, releasesCherryPick.value[0].tag_name) < 0) {
+		if (compareVersions(skipCherryPickVersion.value, latestVersion) < 0) {
 			skipVersion.value = false;
 			await misskeyApi('admin/update-meta', { skipVersion: skipVersion.value });
 		}
+
+		releasesMiryRemix.value = [{ version: latestVersion, published_at: new Date().toISOString() }];
+	} catch (error) {
+		console.error('Failed to fetch version from package.json:', error);
+	}
+
+	try {
+		// CherryPick Releases Fetch
+		const cherryPickResponse = await fetch('https://api.github.com/repos/kokonect-link/cherrypick/releases');
+		const cherryPickData = await cherryPickResponse.json();
+		releasesCherryPick.value = cherryPickData;
 	} catch (error) {
 		console.error('Failed to fetch CherryPick releases:', error);
 	}
@@ -142,6 +154,7 @@ async function init() {
 }
 
 function compareVersions(v1: string, v2: string): number {
+	if (!v1 || !v2) return 0;
 	const v1Parts = v1.split('.').map(Number);
 	const v2Parts = v2.split('.').map(Number);
 
@@ -164,7 +177,7 @@ function save() {
 }
 
 function skipThisVersion() {
-	skipCherryPickVersion.value = releasesCherryPick.value[0].tag_name;
+	skipCherryPickVersion.value = releasesMiryRemix.value[0].tag_name;
 	skipVersion.value = true;
 
 	os.apiWithDialog('admin/update-meta', {
@@ -176,11 +189,11 @@ function skipThisVersion() {
 }
 
 const whatIsNewCherryPick = () => {
-	window.open(`https://github.com/catsmiry/misskey/blob/develop/CHANGELOG_CHERRYPICK.md#${version.replace(/\./g, '')}`, '_blank');
+	window.open(`https://github.com/kokonect-link/cherrypick/blob/develop/CHANGELOG.md#${version.replace(/\./g, '')}`, '_blank');
 };
 
 const whatIsNewLatestCherryPick = () => {
-	window.open(`https://github.com/catsmiry/misskey/blob/develop/CHANGELOG_CHERRYPICK.md#${releasesCherryPick.value[0].tag_name.replace(/\./g, '')}`, '_blank');
+	window.open(`https://github.com/kokonect-link/cherrypick/blob/develop/CHANGELOG.md#${releasesCherryPick.value[0].tag_name.replace(/\./g, '')}`, '_blank');
 };
 
 const whatIsNewMisskey = () => {

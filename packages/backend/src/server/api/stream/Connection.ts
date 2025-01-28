@@ -131,7 +131,9 @@ export default class Connection {
 			// 個々のチャンネルではなくルートレベルでこれらのメッセージを受け取る理由は、
 			// クライアントの事情を考慮したとき、入力フォームはノートチャンネルやメッセージのメインコンポーネントとは別
 			// なこともあるため、それらのコンポーネントがそれぞれ各チャンネルに接続するようにするのは面倒なため。
-			case 'typingOnMessaging': this.typingOnMessaging(body); break;
+			case 'typingOnMessaging': 
+				this.typingOnMessaging(body);
+				break;
 		}
 	}
 
@@ -326,7 +328,7 @@ export default class Connection {
 	}
 
 	@bindThis
-	private typingOnMessaging(param: { partner?: MiUser['id']; group?: MiUserGroup['id']; }) {
+	private typingOnMessaging(param: any) {
 		if (this.user) {
 			if (param.partner) {
 				// this.globalEventService.publishMessagingStream(param.partner, this.user.id, 'typing', this.user.id);
