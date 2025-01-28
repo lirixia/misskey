@@ -13181,6 +13181,76 @@ export interface Locale extends ILocale {
              */
             "wasUnBlocked": string;
         };
+        "_serverStats": {
+            /**
+             * サーバー情報表示設定
+             */
+            "title": string;
+            /**
+             * CPUモデルを表示
+             */
+            "enableCpuModel": string;
+            /**
+             * CPUモデルを表示します。無効の場合は、「？」が表示されます。
+             */
+            "enableCpuModelDescription": string;
+            /**
+             * カスタムCPUモデル
+             */
+            "customCpuModel": string;
+            /**
+             * CPUモデルをカスタムで表示します。(オプション)
+             */
+            "customCpuModelDescription": string;
+            /**
+             * CPUコア数を表示
+             */
+            "enableCpuCore": string;
+            /**
+             * CPUコア数を表示します。無効の場合は、「？」が表示されます。
+             */
+            "enableCpuCoreDescription": string;
+            /**
+             * カスタムCPUコア数
+             */
+            "customCpuCore": string;
+            /**
+             * CPUコア数をカスタムで表示します。(オプション)
+             */
+            "customCpuCoreDescription": string;
+            /**
+             * メモリ容量を表示
+             */
+            "enableMemTotal": string;
+            /**
+             * メモリ容量を表示します。無効の場合は、「？」が表示されます。
+             */
+            "enableMemTotalDescription": string;
+            /**
+             * カスタムメモリ容量
+             */
+            "customMemTotal": string;
+            /**
+             * メモリ容量をカスタムで表示します。(オプション)
+             */
+            "customMemTotalDescription": string;
+            /**
+             * ストレージ容量を表示
+             */
+            "enableFsTotal": string;
+            /**
+             * ストレージ容量を表示します。無効の場合は、「？」が表示されます。
+             */
+            "enableFsTotalDescription": string;
+            /**
+             * カスタムストレージ容量
+             */
+            "customFsTotal": string;
+            /**
+             * ストレージ容量をカスタムで表示します。(オプション)
+             */
+            "customFsTotalDescription": string;
+        };
     };
 }
 declare const locales: {
