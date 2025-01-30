@@ -35,6 +35,7 @@ export type RolePolicies = {
 	gtlAvailable: boolean;
 	ltlAvailable: boolean;
 	btlAvailable: boolean;
+	canNote: boolean; 
 	canPublicNote: boolean;
 	canEditNote: boolean;
 	scheduleNoteMax: number;
@@ -74,6 +75,7 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	gtlAvailable: true,
 	ltlAvailable: true,
 	btlAvailable: false,
+	canNote: true, 
 	canPublicNote: true,
 	canEditNote: true,
 	scheduleNoteMax: 5,
@@ -386,6 +388,7 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			gtlAvailable: calc('gtlAvailable', vs => vs.some(v => v === true)),
 			ltlAvailable: calc('ltlAvailable', vs => vs.some(v => v === true)),
 			btlAvailable: calc('btlAvailable', vs => vs.some(v => v === true)),
+			canNote: calc('canNote', vs => vs.some(v => v === true)), 
 			canPublicNote: calc('canPublicNote', vs => vs.some(v => v === true)),
 			canEditNote: calc('canEditNote', vs => vs.some(v => v === true)),
 			scheduleNoteMax: calc('scheduleNoteMax', vs => Math.max(...vs)),

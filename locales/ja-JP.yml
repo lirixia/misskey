@@ -2053,6 +2053,7 @@ _role:
     gtlAvailable: "グローバルタイムラインの閲覧"
     ltlAvailable: "ローカルタイムラインの閲覧"
     btlAvailable: "バブルタイムラインの閲覧"
+    canNote: "ノートの投稿の許可"
     canPublicNote: "パブリック投稿の許可"
     canEditNote: "ノートの編集"
     scheduleNoteMax: "予約投稿の最大数"

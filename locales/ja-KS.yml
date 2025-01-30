@@ -1760,6 +1760,7 @@ _role:
   _options:
     gtlAvailable: "グローバルタイムライン見る"
     ltlAvailable: "ローカルタイムライン見る"
+    canNote: "ノート投稿できるか"
     canPublicNote: "パブリック投稿できるか"
     mentionMax: "ノート内の最大メンション数"
     canInvite: "サーバー招待コード作る"

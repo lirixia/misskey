@@ -2028,6 +2028,7 @@ _role:
     gtlAvailable: "Can view the global timeline"
     ltlAvailable: "Can view the local timeline"
     btlAvailable: "Can view the bubble timeline"
+    canNote: "Can post notes"
     canPublicNote: "Can send public notes"
     canEditNote: "Note editing"
     scheduleNoteMax: "Maximum number of scheduled notes"

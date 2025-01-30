@@ -7931,6 +7931,10 @@ export interface Locale extends ILocale {
              */
             "btlAvailable": string;
             /**
+             * ノートの投稿の許可
+             */
+            "canNote": string;
+            /**
              * パブリック投稿の許可
              */
             "canPublicNote": string;
