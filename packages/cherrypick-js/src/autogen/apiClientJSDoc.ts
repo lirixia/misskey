@@ -2121,7 +2121,7 @@ declare module '../api.js' {
       params: P,
       credential?: string | null,
     ): Promise<SwitchCaseResponseType<E, P>>;
-    
+
     /**
      * No description provided.
      * 

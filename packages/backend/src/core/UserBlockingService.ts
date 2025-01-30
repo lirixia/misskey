@@ -22,7 +22,6 @@ import { CacheService } from '@/core/CacheService.js';
 import { UserFollowingService } from '@/core/UserFollowingService.js';
 import { NotificationService } from '@/core/NotificationService.js';
 
-
 @Injectable()
 export class UserBlockingService implements OnModuleInit {
 	private logger: Logger;
