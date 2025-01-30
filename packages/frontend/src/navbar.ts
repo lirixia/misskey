@@ -222,19 +222,9 @@ export const navbarItemDef = reactive({
 			clearCache();
 		},
 	},
-<<<<<<< HEAD
-=======
-	roleManager: {
-		title: i18n.ts.manageRole,
-		icon: 'ti ti-tags',
-		action: (ev) => {
-			roleManager();
-		},
-	},
 	followRequestHistory: {
 		title: i18n.ts._followRequestHistory.title,
 		icon: 'ti ti-history',
 		to: '/my/follow-requests-history',
 	},
->>>>>>> 50f271794d (feat: フォロリク+ブロックの履歴を見れるように)
 });
