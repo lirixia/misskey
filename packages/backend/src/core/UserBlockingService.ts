@@ -21,6 +21,7 @@ import { bindThis } from '@/decorators.js';
 import { CacheService } from '@/core/CacheService.js';
 import { UserFollowingService } from '@/core/UserFollowingService.js';
 import { NotificationService } from '@/core/NotificationService.js';
+import { RoleService } from '@/core/RoleService.js';
 
 @Injectable()
 export class UserBlockingService implements OnModuleInit {
@@ -45,6 +46,7 @@ export class UserBlockingService implements OnModuleInit {
 		@Inject(DI.userListMembershipsRepository)
 		private userListMembershipsRepository: UserListMembershipsRepository,
 
+		private roleService: RoleService,
 		private notificationService: NotificationService,
 		private cacheService: CacheService,
 		private userEntityService: UserEntityService,
