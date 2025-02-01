@@ -49,6 +49,10 @@ export class UtilityService {
 				const domain = lowerBlockedHost.slice(2);
 				return lowerHost.endsWith(`.${domain}`) || lowerHost === domain;
 			}
+			if (lowerBlockedHost.includes('*')) {
+				const regex = new RE2(`^${lowerBlockedHost.replace(/\*/g, '.*')}$`);
+				return regex.test(lowerHost);
+			}
 			return lowerHost === lowerBlockedHost || `.${lowerHost}`.endsWith(`.${lowerBlockedHost}`);
 		});
 	}
