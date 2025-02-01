@@ -21,6 +21,7 @@ import type { Config } from '@/config.js';
 import { UserListService } from '@/core/UserListService.js';
 import type { FilterUnionByProperty } from '@/types.js';
 import { trackPromise } from '@/misc/promise-tracker.js';
+import type { MiMessagingMessage } from '@/models/MessagingMessage.js';
 
 @Injectable()
 export class NotificationService implements OnApplicationShutdown {
@@ -243,6 +244,31 @@ export class NotificationService implements OnApplicationShutdown {
 				}
 			} else console.log('(UserGroupInvitationNotification) Data field not found in fields:', fields);
 		}
+	}
+
+	@bindThis
+	public async notifyNewMessage(userId: MiUser['id'], message: MiMessagingMessage) {
+		const notification = {
+			id: this.idService.gen(),
+			createdAt: new Date(),
+			type: 'newMessage',
+			messageId: message.id,
+			userId: message.userId,
+			text: message.text,
+		} as any as MiNotification;
+
+		const redisIdPromise = this.redisClient.xadd(
+			`notificationTimeline:${userId}`,
+			'MAXLEN', '~', this.config.perUserNotificationsMaxCount.toString(),
+			'*',
+			'data', JSON.stringify(notification));
+
+		const packed = await this.notificationEntityService.pack(notification, userId, {});
+
+		if (packed == null) return;
+
+		this.globalEventService.publishMainStream(userId, 'notification', packed);
+		this.pushNotificationService.pushNotification(userId, 'notification', packed);
 	}
 
 	@bindThis
