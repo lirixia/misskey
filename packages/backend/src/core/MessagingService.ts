@@ -23,7 +23,6 @@ import { ApRendererService } from '@/core/activitypub/ApRendererService.js';
 import { MessagingMessageEntityService } from '@/core/entities/MessagingMessageEntityService.js';
 import { PushNotificationService } from '@/core/PushNotificationService.js';
 import { bindThis } from '@/decorators.js';
-import { NotificationService } from '@/core/NotificationService.js';
 
 @Injectable()
 export class MessagingService {
@@ -52,7 +51,6 @@ export class MessagingService {
 		private apRendererService: ApRendererService,
 		private queueService: QueueService,
 		private pushNotificationService: PushNotificationService,
-		private notificationService: NotificationService,
 	) {
 	}
 
@@ -87,7 +85,6 @@ export class MessagingService {
 				this.globalEventService.publishMessagingStream(recipientUser.id, message.userId, 'message', messageObj);
 				this.globalEventService.publishMessagingIndexStream(recipientUser.id, 'message', messageObj);
 				this.globalEventService.publishMainStream(recipientUser.id, 'messagingMessage', messageObj);
-				await this.notificationService.notifyNewMessage(recipientUser.id, message);
 			}
 		} else if (recipientGroup) {
 			// グループのストリーム
@@ -98,9 +95,6 @@ export class MessagingService {
 			for (const joining of joinings) {
 				this.globalEventService.publishMessagingIndexStream(joining.userId, 'message', messageObj);
 				this.globalEventService.publishMainStream(joining.userId, 'messagingMessage', messageObj);
-				if (joining.userId !== user.id) {
-					await this.notificationService.notifyNewMessage(joining.userId, message);
-				}
 			}
 		}
 
