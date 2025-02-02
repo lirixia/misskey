@@ -957,7 +957,7 @@ async function post(ev?: MouseEvent) {
 
 			const text = postData.text ?? '';
 			const lowerCase = text.toLowerCase();
-			if ((lowerCase.includes('love') || lowerCase.includes('❤')) && lowerCase.includes('misskey')) {
+			if ((lowerCase.includes('love') || lowerCase.includes('❤')) && lowerCase.includes('cherrypick')) {
 				claimAchievement('iLoveCherryPick');
 			}
 			if ([

@@ -60,6 +60,8 @@ export const paramDef = {
 				'-firstRetrievedAt',
 				'+latestRequestReceivedAt',
 				'-latestRequestReceivedAt',
+				'+reversiVersion',
+				'-reversiVersion',
 				null,
 			],
 		},
@@ -69,19 +71,6 @@ export const paramDef = {
 
 @Injectable()
 export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-disable-line import/no-default-export
-	private isBlockedHost(blockedHosts: string[], host: string | null): boolean {
-		if (host == null) return false;
-		const lowerHost = host.toLowerCase();
-		return blockedHosts.some(x => {
-			const lowerBlockedHost = x.toLowerCase();
-			if (lowerBlockedHost.startsWith('*.')) {
-				const domain = lowerBlockedHost.slice(2);
-				return lowerHost.endsWith(`.${domain}`) || lowerHost === domain;
-			}
-			return lowerHost === lowerBlockedHost || `.${lowerHost}`.endsWith(`.${lowerBlockedHost}`);
-		});
-	}
-
 	constructor(
 		@Inject(DI.instancesRepository)
 		private instancesRepository: InstancesRepository,
@@ -107,6 +96,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				case '-firstRetrievedAt': query.orderBy('instance.firstRetrievedAt', 'ASC'); break;
 				case '+latestRequestReceivedAt': query.orderBy('instance.latestRequestReceivedAt', 'DESC', 'NULLS LAST'); break;
 				case '-latestRequestReceivedAt': query.orderBy('instance.latestRequestReceivedAt', 'ASC', 'NULLS FIRST'); break;
+				case '+reversiVersion': query.orderBy('instance.reversiVersion', 'DESC', 'NULLS LAST'); break;
+				case '-reversiVersion': query.orderBy('instance.reversiVersion', 'ASC', 'NULLS FIRST'); break;
 
 				default: query.orderBy('instance.id', 'DESC'); break;
 			}
@@ -114,9 +105,9 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			if (typeof ps.blocked === 'boolean') {
 				const meta = await this.metaService.fetch(true);
 				if (ps.blocked) {
-					query.andWhere(meta.blockedHosts.length === 0 ? '1=0' : 'instance.host IN (:...blocks)', { blocks: meta.blockedHosts.filter(host => this.isBlockedHost(meta.blockedHosts, host)) });
+					query.andWhere(meta.blockedHosts.length === 0 ? '1=0' : 'instance.host IN (:...blocks)', { blocks: meta.blockedHosts });
 				} else {
-					query.andWhere(meta.blockedHosts.length === 0 ? '1=1' : 'instance.host NOT IN (:...blocks)', { blocks: meta.blockedHosts.filter(host => !this.isBlockedHost(meta.blockedHosts, host)) });
+					query.andWhere(meta.blockedHosts.length === 0 ? '1=1' : 'instance.host NOT IN (:...blocks)', { blocks: meta.blockedHosts });
 				}
 			}
 
