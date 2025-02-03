@@ -237,6 +237,12 @@ export class NoteCreateService implements OnApplicationShutdown {
 		isBot: MiUser['isBot'];
 		isCat: MiUser['isCat'];
 	}, data: Option, silent = false): Promise<MiNote> {
+		// canNote が false の場合、新規投稿をさせない
+		const userPolicies = await this.roleService.getUserPolicies(user.id);
+		if (!userPolicies.canNote) {
+			throw new Error('User is not allowed to create notes');
+		}
+
 		// チャンネル外にリプライしたら対象のスコープに合わせる
 		// (クライアントサイドでやっても良い処理だと思うけどとりあえずサーバーサイドで)
 		if (data.reply && data.channel && data.reply.channelId !== data.channel.id) {

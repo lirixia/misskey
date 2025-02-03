@@ -5092,6 +5092,7 @@ export type components = {
       /** Format: date-time */
       latestRequestReceivedAt: string | null;
       moderationNote?: string | null;
+      reversiVersion?: string | null;
     };
     GalleryPost: {
       /**
@@ -5259,6 +5260,7 @@ export type components = {
     RolePolicies: {
       gtlAvailable: boolean;
       ltlAvailable: boolean;
+      canNote: boolean;
       canPublicNote: boolean;
       mentionLimit: number;
       canInvite: boolean;
@@ -5446,6 +5448,7 @@ export type components = {
       disableRegistrationWhenInactive: boolean;
       disablePublicNoteWhenInactive: boolean;
       moderatorInactivityLimitDays: number;
+      reversiVersion: string;
     };
     MetaDetailedOnly: {
       features?: {
@@ -16209,7 +16212,7 @@ export type operations = {
           /** @default 0 */
           offset?: number;
           /** @enum {string|null} */
-          sort?: '+pubSub' | '-pubSub' | '+notes' | '-notes' | '+users' | '-users' | '+following' | '-following' | '+followers' | '-followers' | '+firstRetrievedAt' | '-firstRetrievedAt' | '+latestRequestReceivedAt' | '-latestRequestReceivedAt' | null;
+          sort?: '+pubSub' | '-pubSub' | '+notes' | '-notes' | '+users' | '-users' | '+following' | '-following' | '+followers' | '-followers' | '+firstRetrievedAt' | '-firstRetrievedAt' | '+latestRequestReceivedAt' | '-latestRequestReceivedAt' | '+reversiVersion' | '-reversiVersion' | null;
         };
       };
     };
