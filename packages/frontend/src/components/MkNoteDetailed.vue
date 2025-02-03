@@ -112,7 +112,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 								<span v-if="appearNote.localOnly" style="margin-left: 0.5em;"><i
 										v-tooltip="i18n.ts._visibility['disableFederation']" class="ti ti-rocket-off"></i></span>
 							</div>
-							<MkInstanceTicker v-if="showTicker" :instance="appearNote.user.instance" @click="showOnRemote" />
+							<MkInstanceTicker v-if="showTicker" :host="appearNote.user.host" :instance="appearNote.user.instance" @click="showOnRemote"/>
 						</div>
 					</div>
 				</div>
@@ -182,14 +182,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkA v-if="appearNote.channel && !inChannel" :class="$style.channel" :to="`/channels/${appearNote.channel.id}`">
 					<i class="ti ti-device-tv"></i> {{ appearNote.channel.name }}
 				</MkA>
-				<span style="margin-left: 0.5em;">
-					<span style="border: 1px solid var(--MI_THEME-divider); margin-right: 0.5em;"/>
-					<i v-if="appearNote.visibility === 'public'" class="ti ti-world"></i>
-					<i v-else-if="appearNote.visibility === 'home'" class="ti ti-home"></i>
-					<i v-else-if="appearNote.visibility === 'followers'" class="ti ti-lock"></i>
-					<i v-else-if="appearNote.visibility === 'specified'" ref="specified" class="ti ti-mail"></i>
-					<span style="margin-left: 0.3em;">{{ i18n.ts._visibility[appearNote.visibility] }}</span>
-				</span>
 			</div>
 			<footer>
 				<div :class="$style.noteFooterInfo">
@@ -1029,6 +1021,7 @@ function showOnRemote() {
 .noteHeaderBadgeRole {
 	height: 1.3em;
 	vertical-align: -20%;
+	border-radius: 0.4em;
 
 	&+.noteHeaderBadgeRole {
 		margin-left: 0.2em;
@@ -1268,6 +1261,7 @@ function showOnRemote() {
 .badgeRole {
 	height: 1.3em;
 	vertical-align: -20%;
+	border-radius: 0.4em;
 
 	&+.badgeRole {
 		margin-left: 0.2em;
