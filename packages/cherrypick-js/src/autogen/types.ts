@@ -5605,155 +5605,7 @@ export type operations = {
       200: {
         content: {
           'application/json': {
-            cacheRemoteFiles: boolean;
-            cacheRemoteSensitiveFiles: boolean;
-            emailRequiredForSignup: boolean;
-            enableHcaptcha: boolean;
-            hcaptchaSiteKey: string | null;
-            enableMcaptcha: boolean;
-            mcaptchaSiteKey: string | null;
-            mcaptchaInstanceUrl: string | null;
-            enableRecaptcha: boolean;
-            recaptchaSiteKey: string | null;
-            enableTurnstile: boolean;
-            turnstileSiteKey: string | null;
-            enableTestcaptcha: boolean;
-            swPublickey: string | null;
-            /** @default /assets/ai.png */
-            mascotImageUrl: string | null;
-            bannerUrl: string | null;
-            serverErrorImageUrl: string | null;
-            infoImageUrl: string | null;
-            notFoundImageUrl: string | null;
-            youBlockedImageUrl: string | null;
-            iconUrl: string | null;
-            app192IconUrl: string | null;
-            app512IconUrl: string | null;
-            enableEmail: boolean;
-            enableServiceWorker: boolean;
-            translatorAvailable: boolean;
-            translatorType: string | null;
-            silencedHosts?: string[];
-            mediaSilencedHosts: string[];
-            pinnedUsers: string[];
-            hiddenTags: string[];
-            blockedHosts: string[];
-            sensitiveWords: string[];
-            prohibitedWords: string[];
-            prohibitedWordsForNameOfUser: string[];
-            bannedEmailDomains?: string[];
-            preservedUsernames: string[];
-            hcaptchaSecretKey: string | null;
-            mcaptchaSecretKey: string | null;
-            recaptchaSecretKey: string | null;
-            turnstileSecretKey: string | null;
-            sensitiveMediaDetection: string;
-            sensitiveMediaDetectionSensitivity: string;
-            setSensitiveFlagAutomatically: boolean;
-            enableSensitiveMediaDetectionForVideos: boolean;
-            /** Format: id */
-            proxyAccountId: string | null;
-            email: string | null;
-            smtpSecure: boolean;
-            smtpHost: string | null;
-            smtpPort: number | null;
-            smtpUser: string | null;
-            smtpPass: string | null;
-            swPrivateKey: string | null;
-            useObjectStorage: boolean;
-            objectStorageBaseUrl: string | null;
-            objectStorageBucket: string | null;
-            objectStoragePrefix: string | null;
-            objectStorageEndpoint: string | null;
-            objectStorageRegion: string | null;
-            objectStoragePort: number | null;
-            objectStorageAccessKey: string | null;
-            objectStorageSecretKey: string | null;
-            objectStorageUseSSL: boolean;
-            objectStorageUseProxy: boolean;
-            objectStorageSetPublicRead: boolean;
-            useRemoteObjectStorage: boolean;
-            remoteObjectStorageBaseUrl: string | null;
-            remoteObjectStorageBucket: string | null;
-            remoteObjectStoragePrefix: string | null;
-            remoteObjectStorageEndpoint: string | null;
-            remoteObjectStorageRegion: string | null;
-            remoteObjectStoragePort: number | null;
-            remoteObjectStorageAccessKey: string | null;
-            remoteObjectStorageSecretKey: string | null;
-            remoteObjectStorageUseSSL: boolean;
-            remoteObjectStorageUseProxy: boolean;
-            remoteObjectStorageSetPublicRead: boolean;
-            enableIpLogging: boolean;
-            enableActiveEmailValidation: boolean;
-            enableVerifymailApi: boolean;
-            verifymailAuthKey: string | null;
-            enableTruemailApi: boolean;
-            truemailInstance: string | null;
-            truemailAuthKey: string | null;
-            enableChartsForRemoteUser: boolean;
-            enableChartsForFederatedInstances: boolean;
-            enableStatsForFederatedInstances: boolean;
-            enableServerMachineStats: boolean;
-            enableIdenticonGeneration: boolean;
-            manifestJsonOverride: string;
-            policies: Record<string, never>;
-            enableFanoutTimeline: boolean;
-            enableFanoutTimelineDbFallback: boolean;
-            perLocalUserUserTimelineCacheMax: number;
-            perRemoteUserUserTimelineCacheMax: number;
-            perUserHomeTimelineCacheMax: number;
-            perUserListTimelineCacheMax: number;
-            enableReactionsBuffering: boolean;
-            notesPerOneAd: number;
-            backgroundImageUrl: string | null;
-            deeplAuthKey: string | null;
-            deeplIsPro: boolean;
-            libreTranslateEndPoint: string | null;
-            libreTranslateApiKey: string | null;
-            defaultDarkTheme: string | null;
-            defaultLightTheme: string | null;
-            description: string | null;
-            disableRegistration: boolean;
-            impressumUrl: string | null;
-            maintainerEmail: string | null;
-            maintainerName: string | null;
-            name: string | null;
-            shortName: string | null;
-            objectStorageS3ForcePathStyle: boolean;
-            remoteObjectStorageS3ForcePathStyle: boolean;
-            privacyPolicyUrl: string | null;
-            inquiryUrl: string | null;
-            repositoryUrl: string | null;
-            /**
-             * @deprecated
-             * @description [Deprecated] Use "urlPreviewSummaryProxyUrl" instead.
-             */
-            summalyProxy: string | null;
-            themeColor: string | null;
-            tosUrl: string | null;
-            uri: string;
-            version: string;
-            urlPreviewEnabled: boolean;
-            urlPreviewTimeout: number;
-            urlPreviewMaximumContentLength: number;
-            urlPreviewRequireContentLength: boolean;
-            urlPreviewUserAgent: string | null;
-            urlPreviewSummaryProxyUrl: string | null;
-            federation: string;
-            federationHosts: string[];
-            doNotSendNotificationEmailsForAbuseReport: boolean;
-            emailToReceiveAbuseReport: string | null;
-            enableReceivePrerelease: boolean;
-            skipVersion: boolean;
-            skipCherryPickVersion?: string | null;
-            trustedLinkUrlPatterns: string[];
-            customSplashText: string[];
-            disableRegistrationWhenInactive: boolean;
-            disablePublicNoteWhenInactive: boolean;
-            moderatorInactivityLimitDays: number;
-            bubbleInstances: string[];
-            allowedAvatarDecorationHosts: string[];
+            name: string;
             targetUserPattern: string | null;
             reporterPattern: string | null;
             reportContentPattern: string | null;
@@ -9372,6 +9224,7 @@ export type operations = {
             disablePublicNoteWhenInactive: boolean;
             moderatorInactivityLimitDays: number;
             bubbleInstances: string[];
+            allowedAvatarDecorationHosts: string[];
           };
         };
       };
@@ -27554,6 +27407,8 @@ export type operations = {
           noIrregularRules?: boolean;
           /** @default false */
           multiple?: boolean;
+          /** @default false */
+          accept_only?: boolean;
         };
       };
     };
@@ -30687,6 +30542,12 @@ export type operations = {
       };
       /** @description I'm Ai */
       418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Too many requests */
+      429: {
         content: {
           'application/json': components['schemas']['Error'];
         };
