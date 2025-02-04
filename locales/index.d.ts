@@ -750,6 +750,10 @@ export interface Locale extends ILocale {
      */
     "youGotNewFollower": string;
     /**
+     * フォロー解除されました
+     */
+    "youGotUnFollower": string;
+    /**
      * フォローリクエストされました
      */
     "receiveFollowRequest": string;
@@ -757,6 +761,18 @@ export interface Locale extends ILocale {
      * フォローが承認されました
      */
     "followRequestAccepted": string;
+    /**
+     * フォローが拒否されました
+     */
+    "followRequestRejected": string;
+    /**
+     * ブロックされました
+     */
+    "youGotBlocked": string;
+    /**
+     * ブロックが解除されました
+     */
+    "youGotUnblocked": string;
     /**
      * メンション
      */
