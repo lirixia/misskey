@@ -811,7 +811,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</MkFolder>
 			
 			<MkFolder v-if="matchQuery([i18n.ts._role._options.canReadFollowHistory, 'canReadFollowHistory'])">
-				<template #label>{{ i18n.ts._role._options.canReadFollowHistory }}<span class="_beta">{{ i18n.ts.originalFeature }}</span></template>
+				<template #label>{{ i18n.ts._role._options.canReadFollowHistory }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
 				<template #suffix>
 					<span v-if="role.policies.canReadFollowHistory.useDefault" :class="$style.useDefaultLabel">{{ i18n.ts._role.useBaseValue }}</span>
 					<span v-else>{{ role.policies.canReadFollowHistory.value ? i18n.ts.yes : i18n.ts.no }}</span>

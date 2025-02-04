@@ -172,7 +172,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 					<MkFolder>
 						<template #icon><i class="ti ti-user-star"></i></template>
-						<template #label>{{ i18n.ts.defaultFollowedUsers }}<span class="_beta">{{ i18n.ts.originalFeature }}</span></template>
+						<template #label>{{ i18n.ts.defaultFollowedUsers }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
 
 						<div class="_gaps">
 							<MkTextarea v-model="defaultFollowedUsers">
