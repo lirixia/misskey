@@ -750,6 +750,10 @@ export interface Locale extends ILocale {
      */
     "youGotNewFollower": string;
     /**
+     * フォロー解除されました
+     */
+    "youGotUnFollower": string;
+    /**
      * フォローリクエストされました
      */
     "receiveFollowRequest": string;
@@ -757,6 +761,18 @@ export interface Locale extends ILocale {
      * フォローが承認されました
      */
     "followRequestAccepted": string;
+    /**
+     * フォローが拒否されました
+     */
+    "followRequestRejected": string;
+    /**
+     * ブロックされました
+     */
+    "youGotBlocked": string;
+    /**
+     * ブロックが解除されました
+     */
+    "youGotUnblocked": string;
     /**
      * メンション
      */
@@ -5870,6 +5886,42 @@ export interface Locale extends ILocale {
      * 開く
      */
     "open": string;
+    /**
+     * デフォルトでフォローするユーザー (ID)
+     */
+    "defaultFollowedUsers": string;
+    /**
+     * 今後アカウントが作成された際に自動でフォローされるユーザー（解除可能）のユーザーIDを改行区切りで指定します。
+     */
+    "defaultFollowedUsersDescription": string;
+    /**
+     * 交流を断てないユーザー (ID)
+     */
+    "forciblyFollowedUsers": string;
+    /**
+     * 今後アカウントが作成された際には自動でフォローされ、フォローの解除やミュート・ブロックができないユーザーのユーザーIDを改行区切りで指定します。
+     */
+    "forciblyFollowedUsersDescription": string;
+    /**
+     * 「デフォルトでフォローするユーザー」と「交流を絶てないユーザー」が重複しています。
+     */
+    "defaultFollowedUsersDuplicated": string;
+    /**
+     * サーバー管理者はこのユーザーをフォロー解除することを禁止しています。
+     */
+    "unfollowThisUserIsProhibited": string;
+    /**
+     * サーバー管理者はこのユーザーをブロックすることを禁止しています。
+     */
+    "blockThisUserIsProhibited": string;
+    /**
+     * サーバー管理者はこのユーザーをミュートすることを禁止しています。
+     */
+    "muteThisUserIsProhibited": string;
+    /**
+     * このユーザーのフォロー解除は禁止されています。
+     */
+    "unfollowThisUserProhibited": string;
     "_nsfwOpenBehavior": {
         /**
          * タップして開く
@@ -8078,6 +8130,10 @@ export interface Locale extends ILocale {
              * リストのインポートを許可
              */
             "canImportUserLists": string;
+            /**
+             * フォロー/フォロリク履歴の閲覧
+             */
+            "canReadFollowHistory": string;
         };
         "_condition": {
             /**
@@ -12334,6 +12390,190 @@ export interface Locale extends ILocale {
          * ここに設定されたホストからのアバターデコレーションを取得します。
          */
         "allowedAvatarDecorationHostsDescription": string;
+    };
+    "_followRequestHistory": {
+        /**
+         * フォロリク+ブロックの履歴
+         */
+        "title": string;
+        /**
+         * {user} へフォローリクエストを送信
+         */
+        "sent": ParameterizedString<"user">;
+        /**
+         * {user} からフォローリクエストを受信
+         */
+        "received": ParameterizedString<"user">;
+        /**
+         * {user} のフォローリクエストを許可
+         */
+        "approved": ParameterizedString<"user">;
+        /**
+         * {user} のフォローリクエストを拒否
+         */
+        "rejected": ParameterizedString<"user">;
+        /**
+         * {user} にフォローリクエストが許可された
+         */
+        "wasApproved": ParameterizedString<"user">;
+        /**
+         * {user} にフォローリクエストが拒否された
+         */
+        "wasRejected": ParameterizedString<"user">;
+        /**
+         * {user} にブロックされた
+         */
+        "wasBlocked": ParameterizedString<"user">;
+        /**
+         * {user} にブロックが解除された
+         */
+        "wasUnBlocked": ParameterizedString<"user">;
+        /**
+         * 履歴はありません
+         */
+        "empty": string;
+        /**
+         * フィルター
+         */
+        "filter": string;
+        /**
+         * 履歴をすべて削除
+         */
+        "deleteAll": string;
+        /**
+         * すべてのフォローリクエスト履歴を削除してもよろしいですか？ この操作は元に戻せません。
+         */
+        "deleteConfirm": string;
+        "types": {
+            /**
+             * すべて
+             */
+            "all": string;
+            /**
+             * 送信済み
+             */
+            "sent": string;
+            /**
+             * 受信済み
+             */
+            "received": string;
+            /**
+             * 許可済み
+             */
+            "approved": string;
+            /**
+             * 拒否済み
+             */
+            "rejected": string;
+            /**
+             * 許可された
+             */
+            "wasApproved": string;
+            /**
+             * 拒否された
+             */
+            "wasRejected": string;
+            /**
+             * ブロックされた
+             */
+            "wasBlocked": string;
+            /**
+             * ブロックが解除された
+             */
+            "wasUnBlocked": string;
+        };
+    };
+    "_followHistory": {
+        /**
+         * フォローの履歴
+         */
+        "title": string;
+        /**
+         * {user} をフォローした
+         */
+        "follow": ParameterizedString<"user">;
+        /**
+         * {user} のフォローを解除
+         */
+        "unFollow": ParameterizedString<"user">;
+        /**
+         * {user} にフォローされた
+         */
+        "wasFollow": ParameterizedString<"user">;
+        /**
+         * {user} からフォロー解除された
+         */
+        "wasUnFollow": ParameterizedString<"user">;
+        /**
+         * {user} をブロックした
+         */
+        "blocked": ParameterizedString<"user">;
+        /**
+         * {user} のブロックを解除した
+         */
+        "unBlocked": ParameterizedString<"user">;
+        /**
+         * {user} にブロックされた
+         */
+        "wasBlocked": ParameterizedString<"user">;
+        /**
+         * {user} にブロックが解除された
+         */
+        "wasUnBlocked": ParameterizedString<"user">;
+        /**
+         * 履歴はありません
+         */
+        "empty": string;
+        /**
+         * フィルター
+         */
+        "filter": string;
+        /**
+         * 履歴をすべて削除
+         */
+        "deleteAll": string;
+        /**
+         * すべてのフォローリクエスト履歴を削除してもよろしいですか？ この操作は元に戻せません。
+         */
+        "deleteConfirm": string;
+        "types": {
+            /**
+             * すべて
+             */
+            "all": string;
+            /**
+             * フォローした
+             */
+            "follow": string;
+            /**
+             * フォロー解除した
+             */
+            "unFollow": string;
+            /**
+             * フォローされた
+             */
+            "wasFollow": string;
+            /**
+             * フォロー解除された
+             */
+            "wasUnFollow": string;
+            /**
+             * ブロックした
+             */
+            "blocked": string;
+            /**
+             * ブロック解除した
+             */
+            "unBlocked": string;
+            /**
+             * ブロックされた
+             */
+            "wasBlocked": string;
+            /**
+             * ブロックが解除された
+             */
+            "wasUnBlocked": string;
+        };
     };
 }
 declare const locales: {
