@@ -273,10 +273,15 @@ async function onChange_enableRegistration(value: boolean) {
 }
 
 function save_defaultUsers() {
-	os.apiWithDialog('admin/update-meta', {
-		defaultFollowedUsers: defaultFollowedUsers.value.split('\n'),
-		forciblyFollowedUsers: forciblyFollowedUsers.value.split('\n'),
-	}, undefined, {
+	const payload: any = {};
+	if (defaultFollowedUsers.value.trim() !== '') {
+		payload.defaultFollowedUsers = defaultFollowedUsers.value.split('\n');
+	}
+	if (forciblyFollowedUsers.value.trim() !== '') {
+		payload.forciblyFollowedUsers = forciblyFollowedUsers.value.split('\n');
+	}
+
+	os.apiWithDialog('admin/update-meta', payload, undefined, {
 		'bcf088ec-fec5-42d0-8b9e-16d3b4797a4d': {
 			text: i18n.ts.defaultFollowedUsersDuplicated,
 		}
