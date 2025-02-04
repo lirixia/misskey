@@ -23,6 +23,11 @@ export type MiNotification = {
 	createdAt: string;
 	notifierId: MiUser['id'];
 } | {
+	type: 'unfollow';
+	id: string;
+	createdAt: string;
+	notifierId: MiUser['id'];
+} | {
 	type: 'mention';
 	id: string;
 	createdAt: string;
@@ -62,6 +67,22 @@ export type MiNotification = {
 	noteId: MiNote['id'];
 } | {
 	type: 'receiveFollowRequest';
+	id: string;
+	createdAt: string;
+	notifierId: MiUser['id'];
+} | {
+	type: 'followRequestRejected';
+	id: string;
+	createdAt: string;
+	notifierId: MiUser['id'];
+	message: string | null;
+} | {
+	type: 'blocked';
+	id: string;
+	createdAt: string;
+	notifierId: MiUser['id'];
+} | {
+	type: 'unblocked';
 	id: string;
 	createdAt: string;
 	notifierId: MiUser['id'];
