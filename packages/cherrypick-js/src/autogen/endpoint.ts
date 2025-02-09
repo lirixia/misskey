@@ -82,6 +82,8 @@ import type {
 	AdminInviteCreateResponse,
 	AdminInviteListRequest,
 	AdminInviteListResponse,
+	AdminRootAddRequest,
+	AdminRootRemoveRequest,
 	AdminPromoCreateRequest,
 	AdminQueueDeliverDelayedResponse,
 	AdminQueueInboxDelayedResponse,
@@ -697,6 +699,8 @@ export type Endpoints = {
 	'admin/invite/create': { req: AdminInviteCreateRequest; res: AdminInviteCreateResponse };
 	'admin/invite/list': { req: AdminInviteListRequest; res: AdminInviteListResponse };
 	'admin/invite/revoke': { req: EmptyRequest; res: EmptyResponse };
+	'admin/root/add': { req: AdminRootAddRequest; res: EmptyResponse };
+	'admin/root/remove': { req: AdminRootRemoveRequest; res: EmptyResponse };
 	'admin/promo/create': { req: AdminPromoCreateRequest; res: EmptyResponse };
 	'admin/queue/clear': { req: EmptyRequest; res: EmptyResponse };
 	'admin/queue/deliver-delayed': { req: EmptyRequest; res: AdminQueueDeliverDelayedResponse };
