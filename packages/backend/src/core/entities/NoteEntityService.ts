@@ -291,9 +291,9 @@ export class NoteEntityService implements OnModuleInit {
 	}
 
 	@bindThis
-	public async isVisibleForMe(note: MiNote, meId: MiUser['id'] | null, isModerator = false): Promise<boolean> {
+	public async isVisibleForMe(note: MiNote, meId: MiUser['id'] | null, isRoot = false): Promise<boolean> {
 		// If the user is a moderator, always return true
-		if (isModerator) return true;
+		if (isRoot) return true;
 		// This code must always be synchronized with the checks in generateVisibilityQuery.
 		// visibility が specified かつ自分が指定されていなかったら非表示
 		if (note.visibility === 'specified') {
@@ -384,7 +384,7 @@ export class NoteEntityService implements OnModuleInit {
 		}, options);
 
 		const meId = me ? me.id : null;
-		const isModerator = me ? await this.roleService.isModerator({ id: me.id, isRoot: me.isRoot ?? false }) : false;
+		const isRoot = me?.isRoot ?? false;
 		const note = typeof src === 'object' ? src : await this.noteLoader.load(src);
 		const host = note.userHost;
 
@@ -488,7 +488,7 @@ export class NoteEntityService implements OnModuleInit {
 		});
 
 		if (!opts.skipHide) {
-			await this.hideNote(packed, meId, isModerator);
+			await this.hideNote(packed, meId, isRoot);
 		}
 
 		return packed;
@@ -508,7 +508,7 @@ export class NoteEntityService implements OnModuleInit {
 		const bufferedReactions = this.meta.enableReactionsBuffering ? await this.reactionsBufferingService.getMany([...getAppearNoteIds(notes)]) : null;
 
 		const meId = me ? me.id : null;
-		const isModerator = me ? await this.roleService.isModerator({ id: me.id, isRoot: me.isRoot ?? false }) : false;
+		const isRoot = me?.isRoot ?? false;
 		const myReactionsMap = new Map<MiNote['id'], string | null>();
 		if (meId) {
 			const idsNeedFetchMyReaction = new Set<MiNote['id']>();
@@ -576,7 +576,7 @@ export class NoteEntityService implements OnModuleInit {
 		const packedUsers = await this.userEntityService.packMany(users, me)
 			.then(users => new Map(users.map(u => [u.id, u])));
 
-		return await Promise.all(notes.map(n => this.pack(n, meId ? { id: meId, isRoot: isModerator } : null, {
+		return await Promise.all(notes.map(n => this.pack(n, meId ? { id: meId, isRoot: isRoot } : null, {
 			...options,
 			_hint_: {
 				bufferedReactions,
