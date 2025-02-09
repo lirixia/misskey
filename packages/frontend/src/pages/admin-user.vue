@@ -287,7 +287,7 @@ function createFetcher() {
 		ips.value = _ips;
 		moderator.value = info.value.isModerator;
 		silenced.value = info.value.isSilenced;
-		root = info.isRoot;
+		root.value = info.value.isRoot;
 		suspended.value = info.value.isSuspended;
 		moderationNote.value = info.value.moderationNote;
 
