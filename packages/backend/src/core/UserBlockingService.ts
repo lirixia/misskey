@@ -122,7 +122,7 @@ export class UserBlockingService implements OnModuleInit {
 
 		// フォロー履歴に「blocked」を保存
 		if (this.userEntityService.isLocalUser(blocker) && blockerPolicies.canReadFollowHistory) {
-			await this.followHistoryRepository.insert({
+			this.followHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'blocked',
 				fromUserId: blocker.id,
@@ -133,7 +133,7 @@ export class UserBlockingService implements OnModuleInit {
 
 		// フォロー履歴に「wasBlocked」を保存
 		if (this.userEntityService.isLocalUser(blockee) && blockeePolicies.canReadFollowHistory) {
-			await this.followHistoryRepository.insert({
+			this.followHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'wasBlocked',
 				fromUserId: blocker.id,
@@ -251,7 +251,7 @@ export class UserBlockingService implements OnModuleInit {
 
 		// フォロー履歴に「unBlocked」を保存
 		if (this.userEntityService.isLocalUser(blocker) && blockerPolicies.canReadFollowHistory) {
-			await this.followHistoryRepository.insert({
+			this.followHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'unBlocked',
 				fromUserId: blocker.id,
@@ -262,7 +262,7 @@ export class UserBlockingService implements OnModuleInit {
 
 		// フォロー履歴に「wasUnBlocked」を保存
 		if (this.userEntityService.isLocalUser(blockee) && blockeePolicies.canReadFollowHistory) {
-			await this.followHistoryRepository.insert({
+			this.followHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'wasUnBlocked',
 				fromUserId: blocker.id,
