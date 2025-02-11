@@ -357,6 +357,12 @@ type AdminRolesUsersRequest = operations['admin___roles___users']['requestBody']
 type AdminRolesUsersResponse = operations['admin___roles___users']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
+type AdminRootAddRequest = operations['admin___root___add']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type AdminRootRemoveRequest = operations['admin___root___remove']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
 type AdminSendEmailRequest = operations['admin___send-email']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -1403,6 +1409,8 @@ declare namespace entities {
         AdminRolesUpdateDefaultPoliciesRequest,
         AdminRolesUsersRequest,
         AdminRolesUsersResponse,
+        AdminRootAddRequest,
+        AdminRootRemoveRequest,
         AdminSendEmailRequest,
         AdminServerInfoResponse,
         AdminShowModerationLogsRequest,
@@ -1565,12 +1573,6 @@ declare namespace entities {
         EndpointRequest,
         EndpointResponse,
         EndpointsResponse,
-        Ep__AdminRootAddRequest,
-        Ep__AdminRootRemoveRequest,
-        Ep__FollowingHistoryRequest,
-        Ep__FollowingHistoryResponse,
-        Ep__FollowingRequestsHistoryRequest,
-        Ep__FollowingRequestsHistoryResponse,
         FederationFollowersRequest,
         FederationFollowersResponse,
         FederationFollowingRequest,
@@ -1608,11 +1610,15 @@ declare namespace entities {
         FollowingCreateResponse,
         FollowingDeleteRequest,
         FollowingDeleteResponse,
+        FollowingHistoryRequest,
+        FollowingHistoryResponse,
         FollowingInvalidateRequest,
         FollowingInvalidateResponse,
         FollowingRequestsAcceptRequest,
         FollowingRequestsCancelRequest,
         FollowingRequestsCancelResponse,
+        FollowingRequestsHistoryRequest,
+        FollowingRequestsHistoryResponse,
         FollowingRequestsListRequest,
         FollowingRequestsListResponse,
         FollowingRequestsRejectRequest,
@@ -2000,24 +2006,6 @@ declare namespace entities {
 export { entities }
 
 // @public (undocumented)
-type Ep__AdminRootAddRequest = operations['ep___admin_root_add']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type Ep__AdminRootRemoveRequest = operations['ep___admin_root_remove']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type Ep__FollowingHistoryRequest = operations['ep___following_history']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type Ep__FollowingHistoryResponse = operations['ep___following_history']['responses']['200']['content']['application/json'];
-
-// @public (undocumented)
-type Ep__FollowingRequestsHistoryRequest = operations['ep___following_requests_history']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type Ep__FollowingRequestsHistoryResponse = operations['ep___following_requests_history']['responses']['200']['content']['application/json'];
-
-// @public (undocumented)
 type Error_2 = components['schemas']['Error'];
 
 // @public (undocumented)
@@ -2158,6 +2146,12 @@ type FollowingDeleteRequest = operations['following___delete']['requestBody']['c
 type FollowingDeleteResponse = operations['following___delete']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
+type FollowingHistoryRequest = operations['following___history']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type FollowingHistoryResponse = operations['following___history']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
 type FollowingInvalidateRequest = operations['following___invalidate']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -2171,6 +2165,12 @@ type FollowingRequestsCancelRequest = operations['following___requests___cancel'
 
 // @public (undocumented)
 type FollowingRequestsCancelResponse = operations['following___requests___cancel']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
+type FollowingRequestsHistoryRequest = operations['following___requests___history']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type FollowingRequestsHistoryResponse = operations['following___requests___history']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
 type FollowingRequestsListRequest = operations['following___requests___list']['requestBody']['content']['application/json'];

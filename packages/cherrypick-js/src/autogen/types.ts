@@ -742,6 +742,26 @@ export type paths = {
      */
     post: operations['admin___roles___users'];
   };
+  '/admin/root/add': {
+    /**
+     * admin/root/add
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['admin___root___add'];
+  };
+  '/admin/root/remove': {
+    /**
+     * admin/root/remove
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['admin___root___remove'];
+  };
   '/admin/send-email': {
     /**
      * admin/send-email
@@ -1736,44 +1756,6 @@ export type paths = {
      */
     post: operations['endpoints'];
   };
-  '/ep___admin_root_add': {
-    /**
-     * ep___admin_root_add
-     * @description No description provided.
-     *
-     * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
-     * **Credential required**: *Yes*
-     */
-    post: operations['ep___admin_root_add'];
-  };
-  '/ep___admin_root_remove': {
-    /**
-     * ep___admin_root_remove
-     * @description No description provided.
-     *
-     * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
-     * **Credential required**: *Yes*
-     */
-    post: operations['ep___admin_root_remove'];
-  };
-  '/ep___following_history': {
-    /**
-     * ep___following_history
-     * @description No description provided.
-     *
-     * **Credential required**: *Yes* / **Permission**: *read:following*
-     */
-    post: operations['ep___following_history'];
-  };
-  '/ep___following_requests_history': {
-    /**
-     * ep___following_requests_history
-     * @description No description provided.
-     *
-     * **Credential required**: *Yes* / **Permission**: *read:following*
-     */
-    post: operations['ep___following_requests_history'];
-  };
   '/export-custom-emojis': {
     /**
      * export-custom-emojis
@@ -1996,6 +1978,15 @@ export type paths = {
      */
     post: operations['following___delete'];
   };
+  '/following/history': {
+    /**
+     * following/history
+     * @description No description provided.
+     *
+     * **Credential required**: *Yes* / **Permission**: *read:following*
+     */
+    post: operations['following___history'];
+  };
   '/following/invalidate': {
     /**
      * following/invalidate
@@ -2022,6 +2013,15 @@ export type paths = {
      * **Credential required**: *Yes* / **Permission**: *write:following*
      */
     post: operations['following___requests___cancel'];
+  };
+  '/following/requests/history': {
+    /**
+     * following/requests/history
+     * @description No description provided.
+     *
+     * **Credential required**: *Yes* / **Permission**: *read:following*
+     */
+    post: operations['following___requests___history'];
   };
   '/following/requests/list': {
     /**
@@ -10389,6 +10389,112 @@ export type operations = {
     };
   };
   /**
+   * admin/root/add
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  admin___root___add: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * admin/root/remove
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  admin___root___remove: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
    * admin/send-email
    * @description No description provided.
    *
@@ -16473,290 +16579,6 @@ export type operations = {
     };
   };
   /**
-   * ep___admin_root_add
-   * @description No description provided.
-   *
-   * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
-   * **Credential required**: *Yes*
-   */
-  ep___admin_root_add: {
-    requestBody: {
-      content: {
-        'application/json': {
-          /** Format: misskey:id */
-          userId: string;
-        };
-      };
-    };
-    responses: {
-      /** @description OK (without any results) */
-      204: {
-        content: never;
-      };
-      /** @description Client error */
-      400: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Authentication error */
-      401: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Forbidden error */
-      403: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description I'm Ai */
-      418: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Internal server error */
-      500: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-    };
-  };
-  /**
-   * ep___admin_root_remove
-   * @description No description provided.
-   *
-   * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
-   * **Credential required**: *Yes*
-   */
-  ep___admin_root_remove: {
-    requestBody: {
-      content: {
-        'application/json': {
-          /** Format: misskey:id */
-          userId: string;
-        };
-      };
-    };
-    responses: {
-      /** @description OK (without any results) */
-      204: {
-        content: never;
-      };
-      /** @description Client error */
-      400: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Authentication error */
-      401: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Forbidden error */
-      403: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description I'm Ai */
-      418: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Internal server error */
-      500: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-    };
-  };
-  /**
-   * ep___following_history
-   * @description No description provided.
-   *
-   * **Credential required**: *Yes* / **Permission**: *read:following*
-   */
-  ep___following_history: {
-    requestBody: {
-      content: {
-        'application/json': {
-          /**
-           * @description Filter by type of action
-           * @enum {string|null}
-           */
-          type?: 'sent' | 'received' | 'approved' | 'rejected' | 'wasApproved' | 'wasRejected' | 'wasBlocked' | 'wasUnBlocked';
-          /**
-           * Format: misskey:id
-           * @description Get history after this ID
-           */
-          sinceId?: string;
-          /**
-           * Format: misskey:id
-           * @description Get history before this ID
-           */
-          untilId?: string;
-          /**
-           * @description Number of histories to get
-           * @default 30
-           */
-          limit?: number;
-          /**
-           * @description Delete all histories
-           * @default false
-           */
-          delete?: boolean;
-        };
-      };
-    };
-    responses: {
-      /** @description OK (with results) */
-      200: {
-        content: {
-          'application/json': ({
-              /** Format: id */
-              id: string;
-              /**
-               * @description Filter by type of action
-               * @enum {string|null}
-               */
-              type: 'sent' | 'received' | 'approved' | 'rejected' | 'wasApproved' | 'wasRejected' | 'wasBlocked' | 'wasUnBlocked';
-              fromUser: components['schemas']['UserDetailedNotMe'];
-              toUser: components['schemas']['UserDetailedNotMe'];
-              /** Format: date-time */
-              timestamp: string;
-            })[];
-        };
-      };
-      /** @description Client error */
-      400: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Authentication error */
-      401: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Forbidden error */
-      403: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description I'm Ai */
-      418: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Internal server error */
-      500: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-    };
-  };
-  /**
-   * ep___following_requests_history
-   * @description No description provided.
-   *
-   * **Credential required**: *Yes* / **Permission**: *read:following*
-   */
-  ep___following_requests_history: {
-    requestBody: {
-      content: {
-        'application/json': {
-          /**
-           * @description Filter by type of action
-           * @enum {string|null}
-           */
-          type?: 'follow' | 'unFollow' | 'wasFollow' | 'wasUnFollow' | 'blocked' | 'unBlocked' | 'wasBlocked' | 'wasUnBlocked';
-          /**
-           * Format: misskey:id
-           * @description Get history after this ID
-           */
-          sinceId?: string;
-          /**
-           * Format: misskey:id
-           * @description Get history before this ID
-           */
-          untilId?: string;
-          /**
-           * @description Number of histories to get
-           * @default 30
-           */
-          limit?: number;
-          /**
-           * @description Delete all histories
-           * @default false
-           */
-          delete?: boolean;
-        };
-      };
-    };
-    responses: {
-      /** @description OK (with results) */
-      200: {
-        content: {
-          'application/json': ({
-              /** Format: id */
-              id: string;
-              /**
-               * @description Filter by type of action
-               * @enum {string|null}
-               */
-              type: 'follow' | 'unFollow' | 'wasFollow' | 'wasUnFollow' | 'blocked' | 'unBlocked' | 'wasBlocked' | 'wasUnBlocked';
-              fromUser: components['schemas']['UserDetailedNotMe'];
-              toUser: components['schemas']['UserDetailedNotMe'];
-              /** Format: date-time */
-              timestamp: string;
-            })[];
-        };
-      };
-      /** @description Client error */
-      400: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Authentication error */
-      401: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Forbidden error */
-      403: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description I'm Ai */
-      418: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Internal server error */
-      500: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-    };
-  };
-  /**
    * export-custom-emojis
    * @description No description provided.
    *
@@ -18084,6 +17906,95 @@ export type operations = {
     };
   };
   /**
+   * following/history
+   * @description No description provided.
+   *
+   * **Credential required**: *Yes* / **Permission**: *read:following*
+   */
+  following___history: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description Filter by type of action
+           * @enum {string|null}
+           */
+          type?: 'follow' | 'unFollow' | 'wasFollow' | 'wasUnFollow' | 'blocked' | 'unBlocked' | 'wasBlocked' | 'wasUnBlocked';
+          /**
+           * Format: misskey:id
+           * @description Get history after this ID
+           */
+          sinceId?: string;
+          /**
+           * Format: misskey:id
+           * @description Get history before this ID
+           */
+          untilId?: string;
+          /**
+           * @description Number of histories to get
+           * @default 30
+           */
+          limit?: number;
+          /**
+           * @description Delete all histories
+           * @default false
+           */
+          delete?: boolean;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (with results) */
+      200: {
+        content: {
+          'application/json': ({
+              /** Format: id */
+              id: string;
+              /**
+               * @description Filter by type of action
+               * @enum {string|null}
+               */
+              type: 'follow' | 'unFollow' | 'wasFollow' | 'wasUnFollow' | 'blocked' | 'unBlocked' | 'wasBlocked' | 'wasUnBlocked';
+              fromUser: components['schemas']['UserDetailedNotMe'];
+              toUser: components['schemas']['UserDetailedNotMe'];
+              /** Format: date-time */
+              timestamp: string;
+            })[];
+        };
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
    * following/invalidate
    * @description No description provided.
    *
@@ -18215,6 +18126,95 @@ export type operations = {
       200: {
         content: {
           'application/json': components['schemas']['UserLite'];
+        };
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * following/requests/history
+   * @description No description provided.
+   *
+   * **Credential required**: *Yes* / **Permission**: *read:following*
+   */
+  following___requests___history: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description Filter by type of action
+           * @enum {string|null}
+           */
+          type?: 'sent' | 'received' | 'approved' | 'rejected' | 'wasApproved' | 'wasRejected' | 'wasBlocked' | 'wasUnBlocked';
+          /**
+           * Format: misskey:id
+           * @description Get history after this ID
+           */
+          sinceId?: string;
+          /**
+           * Format: misskey:id
+           * @description Get history before this ID
+           */
+          untilId?: string;
+          /**
+           * @description Number of histories to get
+           * @default 30
+           */
+          limit?: number;
+          /**
+           * @description Delete all histories
+           * @default false
+           */
+          delete?: boolean;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (with results) */
+      200: {
+        content: {
+          'application/json': ({
+              /** Format: id */
+              id: string;
+              /**
+               * @description Filter by type of action
+               * @enum {string|null}
+               */
+              type: 'sent' | 'received' | 'approved' | 'rejected' | 'wasApproved' | 'wasRejected' | 'wasBlocked' | 'wasUnBlocked';
+              fromUser: components['schemas']['UserDetailedNotMe'];
+              toUser: components['schemas']['UserDetailedNotMe'];
+              /** Format: date-time */
+              timestamp: string;
+            })[];
         };
       };
       /** @description Client error */

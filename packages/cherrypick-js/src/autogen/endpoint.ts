@@ -108,6 +108,8 @@ import type {
 	AdminRolesUpdateDefaultPoliciesRequest,
 	AdminRolesUsersRequest,
 	AdminRolesUsersResponse,
+	AdminRootAddRequest,
+	AdminRootRemoveRequest,
 	AdminSendEmailRequest,
 	AdminServerInfoResponse,
 	AdminShowModerationLogsRequest,
@@ -270,12 +272,6 @@ import type {
 	EndpointRequest,
 	EndpointResponse,
 	EndpointsResponse,
-	Ep__AdminRootAddRequest,
-	Ep__AdminRootRemoveRequest,
-	Ep__FollowingHistoryRequest,
-	Ep__FollowingHistoryResponse,
-	Ep__FollowingRequestsHistoryRequest,
-	Ep__FollowingRequestsHistoryResponse,
 	FederationFollowersRequest,
 	FederationFollowersResponse,
 	FederationFollowingRequest,
@@ -313,11 +309,15 @@ import type {
 	FollowingCreateResponse,
 	FollowingDeleteRequest,
 	FollowingDeleteResponse,
+	FollowingHistoryRequest,
+	FollowingHistoryResponse,
 	FollowingInvalidateRequest,
 	FollowingInvalidateResponse,
 	FollowingRequestsAcceptRequest,
 	FollowingRequestsCancelRequest,
 	FollowingRequestsCancelResponse,
+	FollowingRequestsHistoryRequest,
+	FollowingRequestsHistoryResponse,
 	FollowingRequestsListRequest,
 	FollowingRequestsListResponse,
 	FollowingRequestsRejectRequest,
@@ -726,6 +726,8 @@ export type Endpoints = {
 	'admin/roles/update': { req: AdminRolesUpdateRequest; res: EmptyResponse };
 	'admin/roles/update-default-policies': { req: AdminRolesUpdateDefaultPoliciesRequest; res: EmptyResponse };
 	'admin/roles/users': { req: AdminRolesUsersRequest; res: AdminRolesUsersResponse };
+	'admin/root/add': { req: AdminRootAddRequest; res: EmptyResponse };
+	'admin/root/remove': { req: AdminRootRemoveRequest; res: EmptyResponse };
 	'admin/send-email': { req: AdminSendEmailRequest; res: EmptyResponse };
 	'admin/server-info': { req: EmptyRequest; res: AdminServerInfoResponse };
 	'admin/show-moderation-logs': { req: AdminShowModerationLogsRequest; res: AdminShowModerationLogsResponse };
@@ -824,10 +826,6 @@ export type Endpoints = {
 	'emojis': { req: EmptyRequest; res: EmojisResponse };
 	'endpoint': { req: EndpointRequest; res: EndpointResponse };
 	'endpoints': { req: EmptyRequest; res: EndpointsResponse };
-	'ep___admin_root_add': { req: Ep__AdminRootAddRequest; res: EmptyResponse };
-	'ep___admin_root_remove': { req: Ep__AdminRootRemoveRequest; res: EmptyResponse };
-	'ep___following_history': { req: Ep__FollowingHistoryRequest; res: Ep__FollowingHistoryResponse };
-	'ep___following_requests_history': { req: Ep__FollowingRequestsHistoryRequest; res: Ep__FollowingRequestsHistoryResponse };
 	'export-custom-emojis': { req: EmptyRequest; res: EmptyResponse };
 	'federation/followers': { req: FederationFollowersRequest; res: FederationFollowersResponse };
 	'federation/following': { req: FederationFollowingRequest; res: FederationFollowingResponse };
@@ -850,9 +848,11 @@ export type Endpoints = {
 	'flash/update': { req: FlashUpdateRequest; res: EmptyResponse };
 	'following/create': { req: FollowingCreateRequest; res: FollowingCreateResponse };
 	'following/delete': { req: FollowingDeleteRequest; res: FollowingDeleteResponse };
+	'following/history': { req: FollowingHistoryRequest; res: FollowingHistoryResponse };
 	'following/invalidate': { req: FollowingInvalidateRequest; res: FollowingInvalidateResponse };
 	'following/requests/accept': { req: FollowingRequestsAcceptRequest; res: EmptyResponse };
 	'following/requests/cancel': { req: FollowingRequestsCancelRequest; res: FollowingRequestsCancelResponse };
+	'following/requests/history': { req: FollowingRequestsHistoryRequest; res: FollowingRequestsHistoryResponse };
 	'following/requests/list': { req: FollowingRequestsListRequest; res: FollowingRequestsListResponse };
 	'following/requests/reject': { req: FollowingRequestsRejectRequest; res: EmptyResponse };
 	'following/requests/sent': { req: FollowingRequestsSentRequest; res: FollowingRequestsSentResponse };
