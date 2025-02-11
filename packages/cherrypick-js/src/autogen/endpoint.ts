@@ -270,6 +270,12 @@ import type {
 	EndpointRequest,
 	EndpointResponse,
 	EndpointsResponse,
+	Ep__AdminRootAddRequest,
+	Ep__AdminRootRemoveRequest,
+	Ep__FollowingHistoryRequest,
+	Ep__FollowingHistoryResponse,
+	Ep__FollowingRequestsHistoryRequest,
+	Ep__FollowingRequestsHistoryResponse,
 	FederationFollowersRequest,
 	FederationFollowersResponse,
 	FederationFollowingRequest,
@@ -818,6 +824,10 @@ export type Endpoints = {
 	'emojis': { req: EmptyRequest; res: EmojisResponse };
 	'endpoint': { req: EndpointRequest; res: EndpointResponse };
 	'endpoints': { req: EmptyRequest; res: EndpointsResponse };
+	'ep___admin_root_add': { req: Ep__AdminRootAddRequest; res: EmptyResponse };
+	'ep___admin_root_remove': { req: Ep__AdminRootRemoveRequest; res: EmptyResponse };
+	'ep___following_history': { req: Ep__FollowingHistoryRequest; res: Ep__FollowingHistoryResponse };
+	'ep___following_requests_history': { req: Ep__FollowingRequestsHistoryRequest; res: Ep__FollowingRequestsHistoryResponse };
 	'export-custom-emojis': { req: EmptyRequest; res: EmptyResponse };
 	'federation/followers': { req: FederationFollowersRequest; res: FederationFollowersResponse };
 	'federation/following': { req: FederationFollowingRequest; res: FederationFollowingResponse };

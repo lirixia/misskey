@@ -8,10 +8,12 @@ import { ModuleRef } from '@nestjs/core';
 import { IdService } from '@/core/IdService.js';
 import type { MiUser } from '@/models/User.js';
 import type { MiBlocking } from '@/models/Blocking.js';
+import type { MiMeta } from '@/models/Meta.js';
+import { IdentifiableError } from '@/misc/identifiable-error.js';
 import { QueueService } from '@/core/QueueService.js';
 import { GlobalEventService } from '@/core/GlobalEventService.js';
 import { DI } from '@/di-symbols.js';
-import type { FollowRequestsRepository, BlockingsRepository, UserListsRepository, UserListMembershipsRepository } from '@/models/_.js';
+import type { FollowRequestsRepository, FollowHistoryRepository, BlockingsRepository, UserListsRepository, UserListMembershipsRepository } from '@/models/_.js';
 import Logger from '@/logger.js';
 import { UserEntityService } from '@/core/entities/UserEntityService.js';
 import { ApRendererService } from '@/core/activitypub/ApRendererService.js';
@@ -20,6 +22,8 @@ import { UserWebhookService } from '@/core/UserWebhookService.js';
 import { bindThis } from '@/decorators.js';
 import { CacheService } from '@/core/CacheService.js';
 import { UserFollowingService } from '@/core/UserFollowingService.js';
+import { NotificationService } from '@/core/NotificationService.js';
+import { RoleService } from '@/core/RoleService.js';
 
 @Injectable()
 export class UserBlockingService implements OnModuleInit {
@@ -29,8 +33,14 @@ export class UserBlockingService implements OnModuleInit {
 	constructor(
 		private moduleRef: ModuleRef,
 
+		@Inject(DI.meta)
+		private serverSettings: MiMeta,
+
 		@Inject(DI.followRequestsRepository)
 		private followRequestsRepository: FollowRequestsRepository,
+
+		@Inject(DI.followHistoryRepository)
+		private followHistoryRepository: FollowHistoryRepository,
 
 		@Inject(DI.blockingsRepository)
 		private blockingsRepository: BlockingsRepository,
@@ -41,6 +51,8 @@ export class UserBlockingService implements OnModuleInit {
 		@Inject(DI.userListMembershipsRepository)
 		private userListMembershipsRepository: UserListMembershipsRepository,
 
+		private roleService: RoleService,
+		private notificationService: NotificationService,
 		private cacheService: CacheService,
 		private userEntityService: UserEntityService,
 		private idService: IdService,
@@ -59,6 +71,15 @@ export class UserBlockingService implements OnModuleInit {
 
 	@bindThis
 	public async block(blocker: MiUser, blockee: MiUser, silent = false) {
+		// フォロー解除できない（＝ブロックもできない）ユーザーの場合
+		if (
+			blocker.host == null &&
+			this.serverSettings.forciblyFollowedUsers.includes(blockee.id) &&
+			!await this.roleService.isModerator(blocker)
+		) {
+			throw new IdentifiableError('e2f04d25-0d94-4ac3-a4d8-ba401062741b', 'You cannot block that user due to server policy.');
+		}
+
 		await Promise.all([
 			this.cancelRequest(blocker, blockee, silent),
 			this.cancelRequest(blockee, blocker, silent),
@@ -88,6 +109,37 @@ export class UserBlockingService implements OnModuleInit {
 		if (this.userEntityService.isLocalUser(blocker) && this.userEntityService.isRemoteUser(blockee)) {
 			const content = this.apRendererService.addContext(this.apRendererService.renderBlock(blocking));
 			this.queueService.deliver(blocker, content, blockee.inbox, false);
+		}
+
+		// 通知を作成（ブロックされた側に通知）
+		if (this.userEntityService.isLocalUser(blockee)) {
+			this.notificationService.createNotification(blockee.id, 'blocked', {
+			}, blocker.id);
+		}
+
+		const blockerPolicies = await this.roleService.getUserPolicies(blocker.id);
+		const blockeePolicies = await this.roleService.getUserPolicies(blockee.id);
+
+		// フォロー履歴に「blocked」を保存
+		if (this.userEntityService.isLocalUser(blocker) && blockerPolicies.canReadFollowHistory) {
+			this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'blocked',
+				fromUserId: blocker.id,
+				toUserId: blockee.id,
+				timestamp: new Date(),
+			});
+		}
+
+		// フォロー履歴に「wasBlocked」を保存
+		if (this.userEntityService.isLocalUser(blockee) && blockeePolicies.canReadFollowHistory) {
+			this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'wasBlocked',
+				fromUserId: blocker.id,
+				toUserId: blockee.id,
+				timestamp: new Date(),
+			});
 		}
 	}
 
@@ -180,6 +232,37 @@ export class UserBlockingService implements OnModuleInit {
 		if (this.userEntityService.isLocalUser(blocker) && this.userEntityService.isRemoteUser(blockee)) {
 			const content = this.apRendererService.addContext(this.apRendererService.renderUndo(this.apRendererService.renderBlock(blocking), blocker));
 			this.queueService.deliver(blocker, content, blockee.inbox, false);
+		}
+
+		// 通知を作成（ブロック解除された側に通知）
+		if (this.userEntityService.isLocalUser(blockee)) {
+			this.notificationService.createNotification(blockee.id, 'unblocked', {
+			}, blocker.id);
+		}
+
+		const blockerPolicies = await this.roleService.getUserPolicies(blocker.id);
+		const blockeePolicies = await this.roleService.getUserPolicies(blockee.id);
+
+		// フォロー履歴に「unBlocked」を保存
+		if (this.userEntityService.isLocalUser(blocker) && blockerPolicies.canReadFollowHistory) {
+			this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'unBlocked',
+				fromUserId: blocker.id,
+				toUserId: blockee.id,
+				timestamp: new Date(),
+			});
+		}
+
+		// フォロー履歴に「wasUnBlocked」を保存
+		if (this.userEntityService.isLocalUser(blockee) && blockeePolicies.canReadFollowHistory) {
+			this.followHistoryRepository.insert({
+				id: this.idService.gen(),
+				type: 'wasUnBlocked',
+				fromUserId: blocker.id,
+				toUserId: blockee.id,
+				timestamp: new Date(),
+			});
 		}
 	}
 

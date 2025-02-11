@@ -1565,6 +1565,12 @@ declare namespace entities {
         EndpointRequest,
         EndpointResponse,
         EndpointsResponse,
+        Ep__AdminRootAddRequest,
+        Ep__AdminRootRemoveRequest,
+        Ep__FollowingHistoryRequest,
+        Ep__FollowingHistoryResponse,
+        Ep__FollowingRequestsHistoryRequest,
+        Ep__FollowingRequestsHistoryResponse,
         FederationFollowersRequest,
         FederationFollowersResponse,
         FederationFollowingRequest,
@@ -1992,6 +1998,24 @@ declare namespace entities {
     }
 }
 export { entities }
+
+// @public (undocumented)
+type Ep__AdminRootAddRequest = operations['ep___admin_root_add']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type Ep__AdminRootRemoveRequest = operations['ep___admin_root_remove']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type Ep__FollowingHistoryRequest = operations['ep___following_history']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type Ep__FollowingHistoryResponse = operations['ep___following_history']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
+type Ep__FollowingRequestsHistoryRequest = operations['ep___following_requests_history']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type Ep__FollowingRequestsHistoryResponse = operations['ep___following_requests_history']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
 type Error_2 = components['schemas']['Error'];

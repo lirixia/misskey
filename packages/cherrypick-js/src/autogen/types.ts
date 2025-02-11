@@ -1736,6 +1736,44 @@ export type paths = {
      */
     post: operations['endpoints'];
   };
+  '/ep___admin_root_add': {
+    /**
+     * ep___admin_root_add
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['ep___admin_root_add'];
+  };
+  '/ep___admin_root_remove': {
+    /**
+     * ep___admin_root_remove
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['ep___admin_root_remove'];
+  };
+  '/ep___following_history': {
+    /**
+     * ep___following_history
+     * @description No description provided.
+     *
+     * **Credential required**: *Yes* / **Permission**: *read:following*
+     */
+    post: operations['ep___following_history'];
+  };
+  '/ep___following_requests_history': {
+    /**
+     * ep___following_requests_history
+     * @description No description provided.
+     *
+     * **Credential required**: *Yes* / **Permission**: *read:following*
+     */
+    post: operations['ep___following_requests_history'];
+  };
   '/export-custom-emojis': {
     /**
      * export-custom-emojis
@@ -5360,6 +5398,7 @@ export type components = {
       canImportUserLists: boolean;
       canEditNote: boolean;
       scheduleNoteMax: number;
+      canReadFollowHistory: boolean;
     };
     ReversiGameLite: {
       /** Format: id */
@@ -9224,6 +9263,8 @@ export type operations = {
             disablePublicNoteWhenInactive: boolean;
             moderatorInactivityLimitDays: number;
             bubbleInstances: string[];
+            defaultFollowedUsers: string[];
+            forciblyFollowedUsers: string[];
             allowedAvatarDecorationHosts: string[];
           };
         };
@@ -11600,6 +11641,8 @@ export type operations = {
           skipCherryPickVersion?: string | null;
           trustedLinkUrlPatterns?: string[] | null;
           customSplashText?: string[] | null;
+          defaultFollowedUsers?: string[] | null;
+          forciblyFollowedUsers?: string[] | null;
           disableRegistrationWhenInactive?: boolean | null;
           disablePublicNoteWhenInactive?: boolean | null;
           moderatorInactivityLimitDays?: number;
@@ -16430,6 +16473,290 @@ export type operations = {
     };
   };
   /**
+   * ep___admin_root_add
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  ep___admin_root_add: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * ep___admin_root_remove
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the cherrypick mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  ep___admin_root_remove: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * ep___following_history
+   * @description No description provided.
+   *
+   * **Credential required**: *Yes* / **Permission**: *read:following*
+   */
+  ep___following_history: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description Filter by type of action
+           * @enum {string|null}
+           */
+          type?: 'sent' | 'received' | 'approved' | 'rejected' | 'wasApproved' | 'wasRejected' | 'wasBlocked' | 'wasUnBlocked';
+          /**
+           * Format: misskey:id
+           * @description Get history after this ID
+           */
+          sinceId?: string;
+          /**
+           * Format: misskey:id
+           * @description Get history before this ID
+           */
+          untilId?: string;
+          /**
+           * @description Number of histories to get
+           * @default 30
+           */
+          limit?: number;
+          /**
+           * @description Delete all histories
+           * @default false
+           */
+          delete?: boolean;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (with results) */
+      200: {
+        content: {
+          'application/json': ({
+              /** Format: id */
+              id: string;
+              /**
+               * @description Filter by type of action
+               * @enum {string|null}
+               */
+              type: 'sent' | 'received' | 'approved' | 'rejected' | 'wasApproved' | 'wasRejected' | 'wasBlocked' | 'wasUnBlocked';
+              fromUser: components['schemas']['UserDetailedNotMe'];
+              toUser: components['schemas']['UserDetailedNotMe'];
+              /** Format: date-time */
+              timestamp: string;
+            })[];
+        };
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * ep___following_requests_history
+   * @description No description provided.
+   *
+   * **Credential required**: *Yes* / **Permission**: *read:following*
+   */
+  ep___following_requests_history: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description Filter by type of action
+           * @enum {string|null}
+           */
+          type?: 'follow' | 'unFollow' | 'wasFollow' | 'wasUnFollow' | 'blocked' | 'unBlocked' | 'wasBlocked' | 'wasUnBlocked';
+          /**
+           * Format: misskey:id
+           * @description Get history after this ID
+           */
+          sinceId?: string;
+          /**
+           * Format: misskey:id
+           * @description Get history before this ID
+           */
+          untilId?: string;
+          /**
+           * @description Number of histories to get
+           * @default 30
+           */
+          limit?: number;
+          /**
+           * @description Delete all histories
+           * @default false
+           */
+          delete?: boolean;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (with results) */
+      200: {
+        content: {
+          'application/json': ({
+              /** Format: id */
+              id: string;
+              /**
+               * @description Filter by type of action
+               * @enum {string|null}
+               */
+              type: 'follow' | 'unFollow' | 'wasFollow' | 'wasUnFollow' | 'blocked' | 'unBlocked' | 'wasBlocked' | 'wasUnBlocked';
+              fromUser: components['schemas']['UserDetailedNotMe'];
+              toUser: components['schemas']['UserDetailedNotMe'];
+              /** Format: date-time */
+              timestamp: string;
+            })[];
+        };
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
    * export-custom-emojis
    * @description No description provided.
    *
@@ -20899,8 +21226,8 @@ export type operations = {
           untilId?: string;
           /** @default true */
           markAsRead?: boolean;
-          includeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'groupInvited' | 'roleAssigned' | 'achievementEarned' | 'exportCompleted' | 'login' | 'scheduleNote' | 'app' | 'test' | 'pollVote')[];
-          excludeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'groupInvited' | 'roleAssigned' | 'achievementEarned' | 'exportCompleted' | 'login' | 'scheduleNote' | 'app' | 'test' | 'pollVote')[];
+          includeTypes?: ('note' | 'follow' | 'unfollow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestRejected' | 'blocked' | 'unblocked' | 'followRequestAccepted' | 'groupInvited' | 'roleAssigned' | 'achievementEarned' | 'exportCompleted' | 'login' | 'scheduleNote' | 'app' | 'test' | 'pollVote')[];
+          excludeTypes?: ('note' | 'follow' | 'unfollow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestRejected' | 'blocked' | 'unblocked' | 'followRequestAccepted' | 'groupInvited' | 'roleAssigned' | 'achievementEarned' | 'exportCompleted' | 'login' | 'scheduleNote' | 'app' | 'test' | 'pollVote')[];
         };
       };
     };
@@ -20967,8 +21294,8 @@ export type operations = {
           untilId?: string;
           /** @default true */
           markAsRead?: boolean;
-          includeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'groupInvited' | 'roleAssigned' | 'achievementEarned' | 'exportCompleted' | 'login' | 'scheduleNote' | 'app' | 'test' | 'reaction:grouped' | 'renote:grouped' | 'note:grouped' | 'pollVote')[];
-          excludeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'groupInvited' | 'roleAssigned' | 'achievementEarned' | 'exportCompleted' | 'login' | 'scheduleNote' | 'app' | 'test' | 'reaction:grouped' | 'renote:grouped' | 'note:grouped' | 'pollVote')[];
+          includeTypes?: ('note' | 'follow' | 'unfollow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestRejected' | 'blocked' | 'unblocked' | 'followRequestAccepted' | 'groupInvited' | 'roleAssigned' | 'achievementEarned' | 'exportCompleted' | 'login' | 'scheduleNote' | 'app' | 'test' | 'reaction:grouped' | 'renote:grouped' | 'note:grouped' | 'pollVote')[];
+          excludeTypes?: ('note' | 'follow' | 'unfollow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestRejected' | 'blocked' | 'unblocked' | 'followRequestAccepted' | 'groupInvited' | 'roleAssigned' | 'achievementEarned' | 'exportCompleted' | 'login' | 'scheduleNote' | 'app' | 'test' | 'reaction:grouped' | 'renote:grouped' | 'note:grouped' | 'pollVote')[];
         };
       };
     };

@@ -69,6 +69,8 @@ export * as 'admin/get-user-ips' from './endpoints/admin/get-user-ips.js';
 export * as 'admin/invite/create' from './endpoints/admin/invite/create.js';
 export * as 'admin/invite/list' from './endpoints/admin/invite/list.js';
 export * as 'admin/invite/revoke' from './endpoints/admin/invite/revoke.js';
+export * as 'ep___admin_root_add' from './endpoints/admin/root/add.js';
+export * as 'ep___admin_root_remove' from './endpoints/admin/root/remove.js';
 export * as 'admin/meta' from './endpoints/admin/meta.js';
 export * as 'admin/promo/create' from './endpoints/admin/promo/create.js';
 export * as 'admin/queue/clear' from './endpoints/admin/queue/clear.js';
@@ -218,6 +220,8 @@ export * as 'following/requests/reject' from './endpoints/following/requests/rej
 export * as 'following/requests/sent' from './endpoints/following/requests/sent.js';
 export * as 'following/update' from './endpoints/following/update.js';
 export * as 'following/update-all' from './endpoints/following/update-all.js';
+export * as 'ep___following_requests_history' from './endpoints/following/history.js';
+export * as 'ep___following_history' from './endpoints/following/requests/history.js';
 export * as 'gallery/featured' from './endpoints/gallery/featured.js';
 export * as 'gallery/popular' from './endpoints/gallery/popular.js';
 export * as 'gallery/posts' from './endpoints/gallery/posts.js';

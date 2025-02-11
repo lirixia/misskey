@@ -25,6 +25,7 @@
 export const notificationTypes = [
 	'note',
 	'follow',
+	'unfollow',
 	'mention',
 	'reply',
 	'renote',
@@ -32,6 +33,9 @@ export const notificationTypes = [
 	'reaction',
 	'pollEnded',
 	'receiveFollowRequest',
+	'followRequestRejected',
+	'blocked',
+	'unblocked',
 	'followRequestAccepted',
 	'groupInvited',
 	'roleAssigned',

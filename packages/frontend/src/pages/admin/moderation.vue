@@ -169,6 +169,23 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<MkButton primary @click="save_allowedAvatarDecorationHosts">{{ i18n.ts.save }}</MkButton>
 						</div>
 					</MkFolder>
+
+					<MkFolder>
+						<template #icon><i class="ti ti-user-star"></i></template>
+						<template #label>{{ i18n.ts.defaultFollowedUsers }}<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
+
+						<div class="_gaps">
+							<MkTextarea v-model="defaultFollowedUsers">
+								<template #label>{{ i18n.ts.defaultFollowedUsers }}</template>
+								<template #caption>{{ i18n.ts.defaultFollowedUsersDescription }}</template>
+							</MkTextarea>
+							<MkTextarea v-model="forciblyFollowedUsers">
+								<template #label>{{ i18n.ts.forciblyFollowedUsers }}</template>
+								<template #caption>{{ i18n.ts.forciblyFollowedUsersDescription }}</template>
+							</MkTextarea>
+							<MkButton primary @click="save_defaultUsers">{{ i18n.ts.save }}</MkButton>
+						</div>
+					</MkFolder>
 				</div>
 			</FormSuspense>
 		</MkSpacer>
@@ -210,7 +227,10 @@ const mediaSilencedHosts = ref<string>('');
 const trustedLinkUrlPatterns = ref<string>('');
 const bubbleTimeline = ref<string>('');
 const allowedAvatarDecorationHosts = ref<string>('');
+const defaultFollowedUsers = ref<string>('');
+const forciblyFollowedUsers = ref<string>('');
 
+// Add defaultFollowedUsers and forciblyFollowedUsers to meta object
 async function init() {
 	enableRegistration.value = !meta.disableRegistration;
 	disableRegistrationWhenInactive.value = meta.disableRegistrationWhenInactive;
@@ -228,6 +248,8 @@ async function init() {
 	trustedLinkUrlPatterns.value = meta.trustedLinkUrlPatterns.join('\n');
 	bubbleTimeline.value = meta.bubbleInstances.join('\n');
 	allowedAvatarDecorationHosts.value = meta.allowedAvatarDecorationHosts.join('\n');
+	defaultFollowedUsers.value = meta.defaultFollowedUsers.join('\n');
+	forciblyFollowedUsers.value = meta.forciblyFollowedUsers.join('\n');
 }
 
 async function onChange_enableRegistration(value: boolean) {
@@ -243,6 +265,24 @@ async function onChange_enableRegistration(value: boolean) {
 
 	os.apiWithDialog('admin/update-meta', {
 		disableRegistration: !value,
+	}).then(() => {
+		fetchInstance(true);
+	});
+}
+
+function save_defaultUsers() {
+	const payload: any = {};
+	if (defaultFollowedUsers.value.trim() !== '') {
+		payload.defaultFollowedUsers = defaultFollowedUsers.value.split('\n');
+	}
+	if (forciblyFollowedUsers.value.trim() !== '') {
+		payload.forciblyFollowedUsers = forciblyFollowedUsers.value.split('\n');
+	}
+
+	os.apiWithDialog('admin/update-meta', payload, undefined, {
+		'bcf088ec-fec5-42d0-8b9e-16d3b4797a4d': {
+			text: i18n.ts.defaultFollowedUsersDuplicated,
+		}
 	}).then(() => {
 		fetchInstance(true);
 	});
