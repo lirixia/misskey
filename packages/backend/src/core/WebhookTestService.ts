@@ -90,6 +90,8 @@ function generateDummyUser(override?: Partial<MiUser>): MiUser {
 		uri: null,
 		followersUri: null,
 		token: null,
+		setFederationAvatarShape: null,
+		isSquareAvatars: false,
 		...override,
 	};
 }
@@ -207,7 +209,7 @@ function toPackedUserLite(user: MiUser, override?: Packed<'UserLite'>): Packed<'
 		onlineStatus: 'active',
 		badgeRoles: [],
 		setFederationAvatarShape: user.setFederationAvatarShape,
-		isSquareAvatars: user.isSquareAvatars,
+		isSquareAvatars: user.isSquareAvatars ?? false,
 		...override,
 	};
 }
@@ -258,6 +260,7 @@ function toPackedUserDetailedNotMe(user: MiUser, override?: Packed<'UserDetailed
 		isRenoteMuted: false,
 		notify: 'none',
 		withReplies: true,
+		isSquareAvatars: user.isSquareAvatars ?? false,
 		...override,
 	};
 }
