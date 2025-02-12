@@ -51,7 +51,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</FormSection>
 			-->
 					<FormSection>
-						<template #label>CherryPick</template>
+						<template #label>Misskey Miry Remix</template>
 						<div class="_gaps_s">
 							<FormLink to="https://github.com/catsmiry/misskey" external>
 								<template #icon><i class="ti ti-code"></i></template>
@@ -191,6 +191,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</a>
 						</div>
 				</FormSection>
+				<!--
 				<FormSection>
 					<template #label><Mfm text="$[jelly ❤]"/> {{ i18n.ts._aboutMisskey.patrons }}</template>
 					<p style="font-weight: bold;">
@@ -230,6 +231,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</div>
 					<p>{{ i18n.ts._aboutMisskey.morePatrons }}</p>
 				</FormSection>
+			-->
 			</div> 
 		</MkSpacer>
 	</div>

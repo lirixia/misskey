@@ -231,12 +231,12 @@ export const navbarItemDef = reactive({
 		icon: 'ti ti-history',
 		to: '/my/follow-requests-history',
 	},
-	support: {
-		// title: i18n.tsx.supportThisInstance({ name: instance.name ?? host }),
-		title: i18n.tsx.supportThisInstance({ name: 'Misskey Miry Remix' }),
-		icon: 'ti ti-pig-money',
-		action: (ev) => donateCherryPick(ev),
-	},
+//	support: {
+//		// title: i18n.tsx.supportThisInstance({ name: instance.name ?? host }),
+//		title: i18n.tsx.supportThisInstance({ name: 'Misskey Miry Remix' }),
+//		icon: 'ti ti-pig-money',
+//		action: (ev) => donateCherryPick(ev),
+//	},
 	cacheClear: {
 		title: i18n.ts.clearCache,
 		icon: 'ti ti-trash',
