@@ -185,6 +185,7 @@ export const paramDef = {
 		perUserListTimelineCacheMax: { type: 'integer' },
 		enableReactionsBuffering: { type: 'boolean' },
 		notesPerOneAd: { type: 'integer' },
+		validateMinimumUsernameLength: { type: 'integer', minimum: 1, maximum: 20 },
 		silencedHosts: {
 			type: 'array',
 			nullable: true,
@@ -942,6 +943,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (ps.customFsTotal !== undefined) {
 				set.customFsTotal = ps.customFsTotal;
+			}
+
+			if (ps.validateMinimumUsernameLength !== undefined) {
+				set.validateMinimumUsernameLength = ps.validateMinimumUsernameLength;
 			}
 
 			const before = await this.metaService.fetch(true);

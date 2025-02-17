@@ -917,4 +917,9 @@ export class MiMeta {
 		nullable: true,
 	})
 	public customFsTotal: number | null;
+
+	@Column('integer', {
+		default: 5,
+	})
+	public validateMinimumUsernameLength: number;
 }

@@ -9379,6 +9379,7 @@ export type operations = {
             customMemTotal: number | null;
             enableFsTotal: boolean;
             customFsTotal: number | null;
+            validateMinimumUsernameLength: number;
           };
         };
       };
@@ -11842,6 +11843,7 @@ export type operations = {
           perUserListTimelineCacheMax?: number;
           enableReactionsBuffering?: boolean;
           notesPerOneAd?: number;
+          validateMinimumUsernameLength?: number;
           silencedHosts?: string[] | null;
           mediaSilencedHosts?: string[] | null;
           /** @description [Deprecated] Use "urlPreviewSummaryProxyUrl" instead. */
