@@ -8,13 +8,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
 		<div class="_gaps">
-			<div class="_panel" style="padding: 16px;">
-				<MkSwitch v-model="enableServerMachineStats" @change="onChange_enableServerMachineStats">
-					<template #label>{{ i18n.ts.enableServerMachineStats }}</template>
-					<template #caption>{{ i18n.ts.turnOffToImprovePerformance }}</template>
-				</MkSwitch>
-			</div>
-
 			<MkFolder :defaultOpen="true">
 				<template #icon><i class="ti ti-server-2"></i></template>
 				<template #label>{{ i18n.ts._serverStats.title }}</template>
