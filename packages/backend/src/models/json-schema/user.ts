@@ -510,10 +510,6 @@ export const packedMeDetailedOnlySchema = {
 			type: 'boolean',
 			nullable: false, optional: false,
 		},
-		autoRejectFollowRequest: {
-			type: 'boolean',
-			nullable: false, optional: false,
-		},
 		autoFollowBack: {
 			type: 'boolean',
 			nullable: false, optional: false,

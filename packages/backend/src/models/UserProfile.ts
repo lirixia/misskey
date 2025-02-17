@@ -176,11 +176,6 @@ export class MiUserProfile {
 	@Column('boolean', {
 		default: false,
 	})
-	public autoRejectFollowRequest: boolean;
-
-	@Column('boolean', {
-		default: false,
-	})
 	public autoFollowBack: boolean;
 
 	@Column('boolean', {

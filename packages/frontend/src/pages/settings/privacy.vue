@@ -184,7 +184,6 @@ const $i = signinRequired();
 
 const isLocked = ref($i.isLocked);
 const autoAcceptFollowed = ref($i.autoAcceptFollowed);
-const autoRejectFollowRequest = ref($i.autoRejectFollowRequest);
 const autoFollowBack = ref($i.autoFollowBack);
 const carefulBot = ref($i.carefulBot);
 const noCrawle = ref($i.noCrawle);
@@ -244,7 +243,6 @@ function save() {
 	misskeyApi('i/update', {
 		isLocked: !!isLocked.value,
 		autoAcceptFollowed: !!autoAcceptFollowed.value,
-		autoRejectFollowRequest: !!autoRejectFollowRequest.value,
 		autoFollowBack: !!autoFollowBack.value,
 		carefulBot: !!carefulBot.value,
 		noCrawle: !!noCrawle.value,
