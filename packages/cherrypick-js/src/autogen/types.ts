@@ -4291,6 +4291,8 @@ export type components = {
       autoSensitive: boolean;
       carefulBot: boolean;
       autoAcceptFollowed: boolean;
+      autoRejectFollowRequest: boolean;
+      autoFollowBack: boolean;
       noCrawle: boolean;
       preventAiLearning: boolean;
       isExplorable: boolean;
@@ -5499,6 +5501,7 @@ export type components = {
       scheduleNoteMax: number;
       canReadFollowHistory: boolean;
       canSetFederationAvatarShape: boolean;
+      canAutoFollowBack: boolean;
     };
     ReversiGameLite: {
       /** Format: id */
@@ -22517,6 +22520,8 @@ export type operations = {
           publicReactions?: boolean;
           carefulBot?: boolean;
           autoAcceptFollowed?: boolean;
+          autoRejectFollowRequest?: boolean;
+          autoFollowBack?: boolean;
           noCrawle?: boolean;
           preventAiLearning?: boolean;
           requireSigninToViewContents?: boolean;

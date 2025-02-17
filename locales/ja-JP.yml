@@ -1497,6 +1497,8 @@ unfollowThisUserIsProhibited: "サーバー管理者はこのユーザーをフ�
 blockThisUserIsProhibited: "サーバー管理者はこのユーザーをブロックすることを禁止しています。"
 muteThisUserIsProhibited: "サーバー管理者はこのユーザーをミュートすることを禁止しています。"
 unfollowThisUserProhibited: "このユーザーのフォロー解除は禁止されています。"
+autoFollowBack: "自動フォローバック"
+autoFollowBackDescription: "フォローされた際に自動でフォローバックします。"
 
 _nsfwOpenBehavior:
   click: "タップして開く"
@@ -2129,6 +2131,7 @@ _role:
     canReadFollowHistory: "フォロー/フォロリク履歴の閲覧"
     noteDraftLimit: "サーバーサイドのノートの下書きの作成可能数"
     canSetFederationAvatarShape: "アイコンの形設定の連合を許可"
+    canAutoFollowBack: "自動フォローバックを許可"
   _condition:
     roleAssignedTo: "マニュアルロールにアサイン済み"
     isLocal: "ローカルユーザー"
