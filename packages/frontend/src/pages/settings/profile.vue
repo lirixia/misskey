@@ -40,7 +40,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</MkInput>
 
 		<MkInput v-model="profile.listenbrainz" manualSave>
-		<template #label>ListenBrainz</template>
+		<template #label>ListenBrainz<span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
 		<template #prefix><i class="ti ti-headphones"></i></template>
 	  </MkInput>
 
