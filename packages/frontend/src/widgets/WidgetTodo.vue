@@ -15,8 +15,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkButton @click="completeTask(index)">{{ i18n.ts._widgets.complete }}</MkButton>
 			</li>
 		</ul>
-		<input v-model="newTodo" :placeholder="i18n.ts._widgets.addNewTodo" />
-		<div class="add-button-container">
+		<div class="input-container">
+			<MkInput v-model="newTodo" :placeholder="i18n.ts._widgets.addNewTodo" />
 			<MkButton @click="addTodo">{{ i18n.ts._widgets.addTodo }}</MkButton>
 		</div>
 	</div>
@@ -29,6 +29,7 @@ import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, Wid
 import { GetFormResultType } from '@/scripts/form.js';
 import MkContainer from '@/components/MkContainer.vue';
 import MkButton from '@/components/MkButton.vue';
+import MkInput from '@/components/MkInput.vue';
 import { i18n } from '@/i18n.js';
 import { defaultStore } from '@/store.js';
 
@@ -104,18 +105,16 @@ defineExpose<WidgetComponentExpose>({
 		}
 	}
 
-	input {
-		width: calc(100% - 100px);
-		padding: 8px;
-		margin-right: 8px;
-		border: 1px solid var(--MI_THEME-divider);
-		border-radius: 4px;
-	}
-
-	.add-button-container {
+	.input-container {
 		display: flex;
 		justify-content: center;
+		align-items: center;
 		margin-top: 16px;
+
+		.MkInput {
+			width: 70%;
+			margin-right: 8px;
+		}
 
 		.MkButton {
 			padding: 8px 16px;
