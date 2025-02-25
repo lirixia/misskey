@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</div>
 	<MkSpacer :marginMin="20" :marginMax="32">
 		<form class="_gaps_m" autocomplete="new-password" @submit.prevent="onSubmit">
-			<MkInput v-if="instance.disableRegistration || instance.emailRequiredForSignup" v-model="invitationCode" type="text" :spellcheck="false" required>
+			<MkInput v-if="instance.disableRegistration || instance.emailRequiredForSignup" v-model="invitationCode" type="text" :spellcheck="false" :required="isInvitationCodeRequired">
 				<template #label>{{ i18n.ts.invitationCode }}</template>
 				<template #prefix><i class="ti ti-key"></i></template>
 			</MkInput>
@@ -147,6 +147,10 @@ const shouldDisableSubmitting = computed((): boolean => {
 
 const isEmailRequired = computed((): boolean => {
 	return instance.emailRequiredForSignup && (!invitationCode.value || invitationCode.value === '');
+});
+
+const isInvitationCodeRequired = computed((): boolean => {
+	return instance.disableRegistration || (instance.emailRequiredForSignup && !email.value);
 });
 
 function getPasswordStrength(source: string): number {
