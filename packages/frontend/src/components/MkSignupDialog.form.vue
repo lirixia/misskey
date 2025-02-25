@@ -135,12 +135,12 @@ const emailAbortController = ref<null | AbortController>(null);
 
 const shouldDisableSubmitting = computed((): boolean => {
 	return submitting.value ||
-		instance.enableHcaptcha && !hCaptchaResponse.value ||
-		instance.enableMcaptcha && !mCaptchaResponse.value ||
-		instance.enableRecaptcha && !reCaptchaResponse.value ||
-		instance.enableTurnstile && !turnstileResponse.value ||
-		instance.enableTestcaptcha && !testcaptchaResponse.value ||
-		(instance.emailRequiredForSignup && !invitationCode && emailState.value !== 'ok') ||
+		(instance.enableHcaptcha && !hCaptchaResponse.value) ||
+		(instance.enableMcaptcha && !mCaptchaResponse.value) ||
+		(instance.enableRecaptcha && !reCaptchaResponse.value) ||
+		(instance.enableTurnstile && !turnstileResponse.value) ||
+		(instance.enableTestcaptcha && !testcaptchaResponse.value) ||
+		(instance.emailRequiredForSignup && !invitationCode.value && emailState.value !== 'ok') ||
 		usernameState.value !== 'ok' ||
 		passwordRetypeState.value !== 'match';
 });
@@ -293,7 +293,7 @@ async function onSubmit(): Promise<void> {
 	});
 
 	if (res && res.ok) {
-		if (res.status === 204 || (instance.emailRequiredForSignup && !invitationCode)) {
+		if (res.status === 204 || (instance.emailRequiredForSignup && !invitationCode.value)) {
 			os.alert({
 				type: 'success',
 				title: i18n.ts._signup.almostThere,
