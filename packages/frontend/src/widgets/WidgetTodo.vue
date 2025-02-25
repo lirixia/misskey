@@ -12,11 +12,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<ul>
 			<li v-for="(todo, index) in todos" :key="index">
 				{{ todo }}
-				<button @click="completeTask(index)">{{ i18n.ts._widgets.complete }}</button>
+				<MkButton @click="completeTask(index)">{{ i18n.ts._widgets.complete }}</MkButton>
 			</li>
 		</ul>
 		<input v-model="newTodo" :placeholder="i18n.ts._widgets.addNewTodo" />
-		<button @click="addTodo">{{ i18n.ts._widgets.addTodo }}</button>
+		<div class="add-button-container">
+			<MkButton @click="addTodo">{{ i18n.ts._widgets.addTodo }}</MkButton>
+		</div>
 	</div>
 </MkContainer>
 </template>
@@ -26,6 +28,7 @@ import { ref, onMounted } from 'vue';
 import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget.js';
 import { GetFormResultType } from '@/scripts/form.js';
 import MkContainer from '@/components/MkContainer.vue';
+import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n.js';
 import { defaultStore } from '@/store.js';
 
@@ -95,17 +98,8 @@ defineExpose<WidgetComponentExpose>({
 			padding: 8px 0;
 			border-bottom: 1px solid var(--MI_THEME-divider);
 
-			button {
-				background: var(--MI_THEME-primary);
-				color: white;
-				border: none;
-				border-radius: 4px;
-				padding: 4px 8px;
-				cursor: pointer;
-
-				&:hover {
-					background: var(--MI_THEME-primary-dark);
-				}
+			.MkButton {
+				margin-left: 8px;
 			}
 		}
 	}
@@ -118,16 +112,13 @@ defineExpose<WidgetComponentExpose>({
 		border-radius: 4px;
 	}
 
-	button {
-		background: var(--MI_THEME-primary);
-		color: white;
-		border: none;
-		border-radius: 4px;
-		padding: 8px 16px;
-		cursor: pointer;
+	.add-button-container {
+		display: flex;
+		justify-content: center;
+		margin-top: 16px;
 
-		&:hover {
-			background: var(--MI_THEME-primary-dark);
+		.MkButton {
+			padding: 8px 16px;
 		}
 	}
 }
