@@ -183,13 +183,13 @@ export class SignupApiService {
 			}
 
 			// メアド認証が有効の場合
-			if (this.meta.emailRequiredForSignup && !emailAddress) {
+			if (this.meta.emailRequiredForSignup && !emailAddress && !invitationCode) {
 				reply.code(400);
 				return;
 			}
 		}
 
-		if (this.meta.emailRequiredForSignup && !invitationCode) {
+		if (this.meta.emailRequiredForSignup && (!invitationCode || invitationCode === '')) {
 			if (await this.usersRepository.exists({ where: { usernameLower: username.toLowerCase(), host: IsNull() } })) {
 				throw new FastifyReplyError(400, 'DUPLICATED_USERNAME');
 			}
