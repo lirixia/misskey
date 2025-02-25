@@ -233,7 +233,7 @@ export class SignupApiService {
 
 			reply.code(204);
 			return;
-		} else {
+		} else if (ticket) {
 			try {
 				const { account, secret } = await this.signupService.signup({
 					username, password, host,
@@ -244,13 +244,29 @@ export class SignupApiService {
 					includeSecrets: true,
 				});
 
-				if (ticket) {
-					await this.registrationTicketsRepository.update(ticket.id, {
-						usedAt: new Date(),
-						usedBy: account,
-						usedById: account.id,
-					});
-				}
+				await this.registrationTicketsRepository.update(ticket.id, {
+					usedAt: new Date(),
+					usedBy: account,
+					usedById: account.id,
+				});
+
+				return {
+					...res,
+					token: secret,
+				};
+			} catch (err) {
+				throw new FastifyReplyError(400, typeof err === 'string' ? err : (err as Error).toString());
+			}
+		} else {
+			try {
+				const { account, secret } = await this.signupService.signup({
+					username, password, host,
+				});
+
+				const res = await this.userEntityService.pack(account, account, {
+					schema: 'MeDetailed',
+					includeSecrets: true,
+				});
 
 				return {
 					...res,
