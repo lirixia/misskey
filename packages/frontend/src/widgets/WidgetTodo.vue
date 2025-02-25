@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: Miry(@catsmiry)
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
 <template>
 <MkContainer :showHeader="widgetProps.showHeader" data-cy-mkw-todo class="mkw-todo">
 	<template #icon><i class="ti ti-checklist"></i></template>
@@ -22,6 +27,7 @@ import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, Wid
 import { GetFormResultType } from '@/scripts/form.js';
 import MkContainer from '@/components/MkContainer.vue';
 import { i18n } from '@/i18n.js';
+import { defaultStore } from '@/store.js';
 
 const name = 'todo';
 
@@ -39,18 +45,15 @@ const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name, widgetPropsDef, props, emit);
 
-const todos = ref<string[]>([]);
+const todos = ref<string[]>(defaultStore.state.todos || []);
 const newTodo = ref<string>('');
 
 const loadTodos = () => {
-	const savedTodos = localStorage.getItem('todos');
-	if (savedTodos) {
-		todos.value = JSON.parse(savedTodos);
-	}
+	todos.value = defaultStore.state.todos || [];
 };
 
 const saveTodos = () => {
-	localStorage.setItem('todos', JSON.stringify(todos.value));
+	defaultStore.set('todos', todos.value);
 };
 
 const addTodo = () => {
