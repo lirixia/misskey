@@ -29,7 +29,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<span v-else-if="usernameState === 'max-range'" style="color: var(--MI_THEME-error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts.tooLong }}</span>
 				</template>
 			</MkInput>
-			<MkInput v-if="instance.emailRequiredForSignup" v-model="email" :debounce="true" type="email" :spellcheck="false" :required="!invitationCode" data-cy-signup-email @update:modelValue="onChangeEmail">
+			<MkInput v-if="instance.emailRequiredForSignup" v-model="email" :debounce="true" type="email" :spellcheck="false" :required="isEmailRequired" data-cy-signup-email @update:modelValue="onChangeEmail">
 				<template #label>{{ i18n.ts.emailAddress }} <div v-tooltip:dialog="i18n.ts._signup.emailAddressInfo" class="_button _help"><i class="ti ti-help-circle"></i></div></template>
 				<template #prefix><i class="ti ti-mail"></i></template>
 				<template #caption>
@@ -143,6 +143,10 @@ const shouldDisableSubmitting = computed((): boolean => {
 		(instance.emailRequiredForSignup && !invitationCode.value && emailState.value !== 'ok') ||
 		usernameState.value !== 'ok' ||
 		passwordRetypeState.value !== 'match';
+});
+
+const isEmailRequired = computed((): boolean => {
+	return instance.emailRequiredForSignup && (!invitationCode.value || invitationCode.value === '');
 });
 
 function getPasswordStrength(source: string): number {
