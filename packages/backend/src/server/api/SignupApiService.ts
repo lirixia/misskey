@@ -115,7 +115,7 @@ export class SignupApiService {
 		const invitationCode = body['invitationCode'];
 		const emailAddress = body['emailAddress'];
 
-		if (this.meta.emailRequiredForSignup) {
+		if (this.meta.emailRequiredForSignup && !invitationCode) {
 			if (emailAddress == null || typeof emailAddress !== 'string') {
 				reply.code(400);
 				return;
