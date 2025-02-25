@@ -17,7 +17,6 @@ import { USER_ACTIVE_THRESHOLD, USER_ONLINE_THRESHOLD } from '@/const.js';
 import type { MiLocalUser, MiPartialLocalUser, MiPartialRemoteUser, MiRemoteUser, MiUser } from '@/models/User.js';
 import {
 	birthdaySchema,
-	listenbrainzSchema,
 	descriptionSchema,
 	localUsernameSchema,
 	locationSchema,
@@ -168,7 +167,6 @@ export class UserEntityService implements OnModuleInit {
 	public validateDescription = ajv.compile(descriptionSchema);
 	public validateLocation = ajv.compile(locationSchema);
 	public validateBirthday = ajv.compile(birthdaySchema);
-	public validateListenBrainz = ajv.compile(listenbrainzSchema);
 	//#endregion
 
 	public isLocalUser = isLocalUser;
@@ -584,7 +582,6 @@ export class UserEntityService implements OnModuleInit {
 				description: profile!.description,
 				location: profile!.location,
 				birthday: profile!.birthday,
-				listenbrainz: profile!.listenbrainz,
 				lang: profile!.lang,
 				fields: profile!.fields,
 				verifiedLinks: profile!.verifiedLinks,

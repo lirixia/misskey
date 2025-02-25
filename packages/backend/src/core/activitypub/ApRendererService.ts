@@ -564,10 +564,6 @@ export class ApRendererService {
 			person['vcard:Address'] = profile.location;
 		}
 
-		if (profile.listenbrainz) {
-			person.listenbrainz = profile.listenbrainz;
-		}
-
 		return person;
 	}
 

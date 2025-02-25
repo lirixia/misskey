@@ -37,7 +37,6 @@ export default function(app: App) {
 	app.component('WidgetSearch', defineAsyncComponent(() => import('./WidgetSearch.vue')));
 	app.component('WidgetDice', defineAsyncComponent(() => import('./WidgetDice.vue')));
 	app.component('WidgetTodo', defineAsyncComponent(() => import('./WidgetTodo.vue')));
-	app.component('WidgetListenBrainz', defineAsyncComponent(() => import('./WidgetListenBrainz.vue')));
 }
 
 // 連合関連のウィジェット（連合無効時に隠す）
@@ -76,7 +75,6 @@ export const widgets = [
 	'search',
 	'dice',
 	'todo',
-	'listenbrainz',
 
 	...federationWidgets,
 ];

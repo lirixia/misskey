@@ -534,7 +534,6 @@ export class ApPersonService implements OnModuleInit {
 					birthday: bday?.[0] ?? null,
 					location: person['vcard:Address'] ?? null,
 					userHost: host,
-					listenbrainz: person.listenbrainz ?? null,
 				}));
 
 				if (person.publicKey) {
@@ -822,7 +821,6 @@ export class ApPersonService implements OnModuleInit {
 			followersVisibility,
 			birthday: bday?.[0] ?? null,
 			location: person['vcard:Address'] ?? null,
-			listenbrainz: person.listenbrainz ?? null,
 		});
 
 		this.globalEventService.publishInternalEvent('remoteUserUpdated', { id: exist.id });

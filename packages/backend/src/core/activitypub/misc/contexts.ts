@@ -213,7 +213,6 @@ const activitystreams = {
 		'IsFollowedBy': 'as:IsFollowedBy',
 		'IsContact': 'as:IsContact',
 		'IsMember': 'as:IsMember',
-		'listenbrainz': "sharkey:listenbrainz",
 		'subject': {
 			'@id': 'as:subject',
 			'@type': '@id',
