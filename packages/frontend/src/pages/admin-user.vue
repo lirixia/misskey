@@ -17,7 +17,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<span v-if="suspended" class="suspended">Suspended</span>
 							<span v-if="silenced" class="silenced">Silenced</span>
 							<span v-if="moderator && !root" class="moderator">Moderator</span>
-							<span v-if="root" class="suspended">isRoot</span>
 						</span>
 					</div>
 				</div>
@@ -95,7 +94,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<FormSection v-if="!isSystem">
 					<div class="_gaps">
 						<MkSwitch v-model="suspended" @update:modelValue="toggleSuspend">{{ i18n.ts.suspend }}</MkSwitch>
-						<MkSwitch v-model="root" @update:modelValue="toggleRoot">{{ 'rootユーザー' }}</MkSwitch>
 						<div>
 							<MkButton v-if="user.host == null" inline style="margin-right: 8px;" @click="resetPassword"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</MkButton>
 						</div>
@@ -250,7 +248,6 @@ const info = ref<any>();
 const ips = ref<Misskey.entities.AdminGetUserIpsResponse | null>(null);
 const ap = ref<any>(null);
 const moderator = ref(false);
-const root = ref(false);
 const silenced = ref(false);
 const suspended = ref(false);
 const isSystem = ref(false);
@@ -336,19 +333,6 @@ async function toggleSuspend(v) {
 		suspended.value = !v;
 	} else {
 		await misskeyApi(v ? 'admin/suspend-user' : 'admin/unsuspend-user', { userId: user.value.id });
-		await refreshUser();
-	}
-}
-
-async function toggleRoot(v) {
-	const confirm = await os.confirm({
-		type: 'warning',
-		text: v ? 'rootにしますか？' : 'rootを外しますか？',
-	});
-	if (confirm.canceled) {
-		root.value = !v;
-	} else {
-		await misskeyApi(v ? 'admin/root/add' : 'admin/root/remove', { userId: user.value.id });
 		await refreshUser();
 	}
 }
