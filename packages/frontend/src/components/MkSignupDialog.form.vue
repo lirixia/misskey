@@ -320,13 +320,16 @@ async function onSubmit(): Promise<void> {
 			}
 		}
 	} else {
-		onSignupApiError();
+		if (res) {
+			const errorResponse = await res.json();
+			onSignupApiError(errorResponse.error);
+		}
 	}
 
 	submitting.value = false;
 }
 
-function onSignupApiError() {
+function onSignupApiError(error?: string) {
 	submitting.value = false;
 	hcaptcha.value?.reset?.();
 	mcaptcha.value?.reset?.();
@@ -334,9 +337,14 @@ function onSignupApiError() {
 	turnstile.value?.reset?.();
 	testcaptcha.value?.reset?.();
 
+	let errorMessage = i18n.ts.somethingHappened;
+	if (error === 'VPN_DETECTED') {
+		errorMessage = String(i18n.ts.ipDetected);
+	}
+
 	os.alert({
 		type: 'error',
-		text: i18n.ts.somethingHappened,
+		text: errorMessage,
 	});
 }
 </script>

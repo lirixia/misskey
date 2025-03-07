@@ -938,6 +938,10 @@ export interface Locale extends ILocale {
      */
     "somethingHappened": string;
     /**
+     * VPNサービス/Hostingサービス/モバイル回線を使って本サーバーでは登録することはできません。
+     */
+    "ipdetected": string;
+    /**
      * 再試行
      */
     "retry": string;

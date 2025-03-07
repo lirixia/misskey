@@ -86,6 +86,7 @@ export class SignupApiService {
 			if (mobile || proxy || hosting) {
 				reply.code(400).send({
 					message: 'VPNサービス/Hostingサービス/モバイル回線を使って本サーバーでは登録することはできません。You cannot register on this server using a VPN service, hosting service, or mobile network.',
+					error: 'VPN_DETECTED',
 				});
 				return;
 			}
