@@ -9540,6 +9540,7 @@ export type operations = {
             enableFsTotal: boolean;
             customFsTotal: number | null;
             validateMinimumUsernameLength: number;
+            enableIpCheck: boolean;
           };
         };
       };
@@ -12041,6 +12042,7 @@ export type operations = {
           customMemTotal?: number | null;
           enableFsTotal?: boolean;
           customFsTotal?: number | null;
+          enableIpCheck?: boolean;
         };
       };
     };

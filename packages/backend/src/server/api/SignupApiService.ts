@@ -77,16 +77,18 @@ export class SignupApiService {
 		const body = request.body;
 
 		// VPN/Proxy チェック
-		const ip = request.ip;
-		const response = await fetch(`http://ip-api.com/json/${ip}?fields=mobile,proxy,hosting`);
-		const data = await response.json() as { mobile: boolean; proxy: boolean; hosting: boolean };
-		const { mobile, proxy, hosting } = data;
+		if (this.meta.enableIpCheck) {
+			const ip = request.ip;
+			const response = await fetch(`http://ip-api.com/json/${ip}?fields=mobile,proxy,hosting`);
+			const data = await response.json() as { mobile: boolean; proxy: boolean; hosting: boolean };
+			const { mobile, proxy, hosting } = data;
 
-		if (mobile || proxy || hosting) {
-			reply.code(400).send({
-				message: 'VPNサービス/Hostingサービス/モバイル回線を使って本サーバーでは登録することはできません。You cannot register on this server using a VPN service, hosting service, or mobile network.',
-			});
-			return;
+			if (mobile || proxy || hosting) {
+				reply.code(400).send({
+					message: 'VPNサービス/Hostingサービス/モバイル回線を使って本サーバーでは登録することはできません。You cannot register on this server using a VPN service, hosting service, or mobile network.',
+				});
+				return;
+			}
 		}
 
 		// Verify *Captcha

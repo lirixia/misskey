@@ -262,6 +262,7 @@ export const paramDef = {
 		customMemTotal: { type: 'integer', nullable: true },
 		enableFsTotal: { type: 'boolean' },
 		customFsTotal: { type: 'integer', nullable: true },
+		enableIpCheck: { type: 'boolean' },
 	},
 	required: [],
 } as const;
@@ -954,6 +955,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (ps.validateMinimumUsernameLength !== undefined) {
 				set.validateMinimumUsernameLength = ps.validateMinimumUsernameLength;
+			}
+
+			if (ps.enableIpCheck !== undefined) {
+				set.enableIpCheck = ps.enableIpCheck;
 			}
 
 			const before = await this.metaService.fetch(true);

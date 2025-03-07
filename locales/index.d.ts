@@ -4327,6 +4327,10 @@ export interface Locale extends ILocale {
      */
     "emailRequiredForSignup": string;
     /**
+     * アカウント登録時にIPアドレスをチェックする(VPN,Hosting,モバイル回線等の利用を検知)
+     */
+    "IpCheckForSignup": string;
+    /**
      * 未読
      */
     "unread": string;

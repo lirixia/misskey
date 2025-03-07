@@ -928,4 +928,9 @@ export class MiMeta {
 		default: 5,
 	})
 	public validateMinimumUsernameLength: number;
+
+	@Column('boolean', {
+		default: false,
+	})
+	public enableIpCheck: boolean;
 }

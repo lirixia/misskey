@@ -710,6 +710,10 @@ export const meta = {
 				type: 'number',
 				optional: false, nullable: false,
 			},
+			enableIpCheck: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
 		},
 	},
 } as const;
@@ -901,6 +905,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				enableFsTotal: instance.enableFsTotal,
 				customFsTotal: instance.customFsTotal,
 				validateMinimumUsernameLength: instance.validateMinimumUsernameLength,
+				enableIpCheck: instance.enableIpCheck,
 			};
 		});
 	}
