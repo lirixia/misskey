@@ -799,11 +799,11 @@ export class ApRendererService {
 	public async renderReversiUpdate(local_user:MiUser, remote_user:MiRemoteUser,
 		game_state: {
 			game_session_id: string;
-			type:string;
-			pos?:number;//石配置
-			key?:string;//設定変更
-			value?:any;//設定変更
-			ready?:boolean;//ゲーム開始
+			type: string;
+			pos?: number; //石配置
+			key?: string; //設定変更
+			value?: any; //設定変更
+			ready?: boolean; //ゲーム開始
 		},
 	) {
 		const game:IApReversi = {
