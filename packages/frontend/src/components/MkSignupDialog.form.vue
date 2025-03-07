@@ -322,14 +322,14 @@ async function onSubmit(): Promise<void> {
 	} else {
 		if (res) {
 			const errorResponse = await res.json();
-			onSignupApiError(errorResponse.error);
+			onSignupApiError(errorResponse.message);
 		}
 	}
 
 	submitting.value = false;
 }
 
-function onSignupApiError(error?: string) {
+function onSignupApiError(message?: string) {
 	submitting.value = false;
 	hcaptcha.value?.reset?.();
 	mcaptcha.value?.reset?.();
@@ -337,11 +337,7 @@ function onSignupApiError(error?: string) {
 	turnstile.value?.reset?.();
 	testcaptcha.value?.reset?.();
 
-	let errorMessage = i18n.ts.somethingHappened;
-	if (error === 'VPN_DETECTED') {
-		errorMessage = String(i18n.ts.ipDetected);
-	}
-
+	let errorMessage = message ?? i18n.ts.somethingHappened;
 	os.alert({
 		type: 'error',
 		text: errorMessage,
