@@ -7,6 +7,7 @@ import { Inject, Injectable } from '@nestjs/common';
 //import bcrypt from 'bcryptjs';
 import * as argon2 from 'argon2';
 import { IsNull } from 'typeorm';
+import fetch from 'node-fetch';
 import { DI } from '@/di-symbols.js';
 import type { RegistrationTicketsRepository, UsedUsernamesRepository, UserPendingsRepository, UserProfilesRepository, UsersRepository, MiRegistrationTicket, MiMeta } from '@/models/_.js';
 import type { Config } from '@/config.js';
@@ -74,6 +75,19 @@ export class SignupApiService {
 		reply: FastifyReply,
 	) {
 		const body = request.body;
+
+		// VPN/Proxy チェック
+		const ip = request.ip;
+		const response = await fetch(`http://ip-api.com/json/${ip}?fields=mobile,proxy,hosting`);
+		const data = await response.json() as { mobile: boolean; proxy: boolean; hosting: boolean };
+		const { mobile, proxy, hosting } = data;
+
+		if (mobile || proxy || hosting) {
+			reply.code(400).send({
+				message: 'VPNサービス/Hostingサービス/モバイル回線を使って本サーバーでは登録することはできません。You cannot register on this server using a VPN service, hosting service, or mobile network.',
+			});
+			return;
+		}
 
 		// Verify *Captcha
 		// ただしテスト時はこの機構は障害となるため無効にする
