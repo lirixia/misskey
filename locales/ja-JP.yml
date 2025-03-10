@@ -1553,6 +1553,7 @@ autoFollowOnMove: "移行したユーザーを自動でフォローする"
 autoFollowOnMoveDescription: "移行したユーザーを自動でフォローするようにします。"
 blockDeliver: "ブロックしたユーザーにアクティビティを配送する。"
 blockDeliverDescription: "ブロックしたユーザーにアクティビティを配送します。これにより、ブロックしたユーザーはあなたがブロックしたことを知ることができます。(※本設定はリモート向けに作成された機能です。)"
+noSendActivity: "アクティビティを送信しない" 
 
 _nsfwOpenBehavior:
   click: "タップして開く"

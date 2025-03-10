@@ -6245,6 +6245,10 @@ export interface Locale extends ILocale {
      * ブロックしたユーザーにアクティビティを配送します。これにより、ブロックしたユーザーはあなたがブロックしたことを知ることができます。(※本設定はリモート向けに作成された機能です。)
      */
     "blockDeliverDescription": string;
+    /**
+     * アクティビティを送信しない
+     */
+    "noSendActivity": string;
     "_nsfwOpenBehavior": {
         /**
          * タップして開く
