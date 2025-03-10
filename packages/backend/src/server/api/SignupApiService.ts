@@ -142,13 +142,19 @@ export class SignupApiService {
 
 		if (this.meta.emailRequiredForSignup && !invitationCode) {
 			if (emailAddress == null || typeof emailAddress !== 'string') {
-				reply.code(400);
+				reply.code(400).send({
+					message: 'メールアドレスが必要です。',
+					error: 'EMAIL_REQUIRED',
+				});
 				return;
 			}
 
 			const res = await this.emailService.validateEmailForAccount(emailAddress);
 			if (!res.available) {
-				reply.code(400);
+				reply.code(400).send({
+					message: 'このメールアドレスは使用できません。',
+					error: 'INVALID_EMAIL',
+				});
 				return;
 			}
 		}
@@ -157,7 +163,10 @@ export class SignupApiService {
 
 		if (this.meta.disableRegistration) {
 			if (invitationCode == null || typeof invitationCode !== 'string') {
-				reply.code(400);
+				reply.code(400).send({
+					message: '招待コードが必要です。',
+					error: 'INVITATION_CODE_REQUIRED',
+				});
 				return;
 			}
 
@@ -166,12 +175,18 @@ export class SignupApiService {
 			});
 
 			if (ticket == null || ticket.usedById != null) {
-				reply.code(400);
+				reply.code(400).send({
+					message: '招待コードが無効か、すでに使用されています。',
+					error: 'INVALID_INVITATION_CODE',
+				});
 				return;
 			}
 
 			if (ticket.expiresAt && ticket.expiresAt < new Date()) {
-				reply.code(400);
+				reply.code(400).send({
+					message: '招待コードの有効期限が切れています。',
+					error: 'EXPIRED_INVITATION_CODE',
+				});
 				return;
 			}
 
@@ -179,17 +194,26 @@ export class SignupApiService {
 			if (this.meta.emailRequiredForSignup) {
 				// メアド認証済みならエラー
 				if (ticket.usedBy) {
-					reply.code(400);
+					reply.code(400).send({
+						message: '招待コードはすでに使用されています。',
+						error: 'INVITATION_CODE_ALREADY_USED',
+					});
 					return;
 				}
 
 				// 認証しておらず、メール送信から30分以内ならエラー
 				if (ticket.usedAt && ticket.usedAt.getTime() + (1000 * 60 * 30) > Date.now()) {
-					reply.code(400);
+					reply.code(400).send({
+						message: '招待コードはすでに使用されています。30分後に再度お試しください。',
+						error: 'INVITATION_CODE_RECENTLY_USED',
+					});
 					return;
 				}
 			} else if (ticket.usedAt) {
-				reply.code(400);
+				reply.code(400).send({
+					message: '招待コードはすでに使用されています。',
+					error: 'INVITATION_CODE_ALREADY_USED',
+				});
 				return;
 			}
 		} else if (invitationCode) {
@@ -198,18 +222,27 @@ export class SignupApiService {
 			});
 
 			if (ticket == null || ticket.usedById != null) {
-				reply.code(400);
+				reply.code(400).send({
+					message: '招待コードが無効か、すでに使用されています。',
+					error: 'INVALID_INVITATION_CODE',
+				});
 				return;
 			}
 
 			if (ticket.expiresAt && ticket.expiresAt < new Date()) {
-				reply.code(400);
+				reply.code(400).send({
+					message: '招待コードの有効期限が切れています。',
+					error: 'EXPIRED_INVITATION_CODE',
+				});
 				return;
 			}
 
 			// メアド認証が有効の場合
 			if (this.meta.emailRequiredForSignup && !emailAddress && !invitationCode) {
-				reply.code(400);
+				reply.code(400).send({
+					message: 'メールアドレスが必要です。',
+					error: 'EMAIL_REQUIRED',
+				});
 				return;
 			}
 		}
