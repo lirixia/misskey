@@ -80,8 +80,20 @@ const props = defineProps<{
 	note: Misskey.entities.Note;
 }>();
 
+const note = ref(props.note);
+
+const isRenote = (
+	note.value.renote != null &&
+	note.value.reply == null &&
+	note.value.text == null &&
+	note.value.cw == null &&
+	note.value.fileIds && note.value.fileIds.length === 0 &&
+	note.value.poll == null
+);
+
 const isLong = shouldCollapsed(props.note, []);
 const isMFM = shouldMfmCollapsed(props.note);
+const appearNote = computed(() => isRenote ? note.value.renote as Misskey.entities.Note : note.value);
 
 const collapsed = ref(isLong || isMFM);
 

@@ -169,6 +169,7 @@ import { misskeyApi } from '@/scripts/misskey-api.js';
 import detectLanguage from '@/scripts/detect-language.js';
 import number from '@/filters/number.js';
 import { userPage } from '@/filters/user.js';
+import { getAppearNote } from '@/scripts/get-appear-note.js';
 
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note & {
@@ -200,6 +201,7 @@ const clipButton = shallowRef<HTMLElement>();
 const canRenote = computed(() => ['public', 'home'].includes(props.note.visibility) || (props.note.visibility === 'followers' && props.note.userId === $i.id));
 const isDeleted = ref(false);
 const currentClip = inject<Ref<Misskey.entities.Clip> | null>('currentClip', null);
+const appearNote = computed(() => getAppearNote(props.note));
 
 const showContent = ref(true);
 const translation = ref<Misskey.entities.NotesTranslateResponse | null>(null);
