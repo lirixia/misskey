@@ -265,7 +265,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<!--
 		MkDateSeparatedList uses TransitionGroup which requires single element in the child elements
 		so MkNote create empty div instead of no elements
-	-->
+		-->
 	</div>
 </template>
 
@@ -277,6 +277,7 @@ import { isLink } from '@@/js/is-link.js';
 import { shouldCollapsed, shouldMfmCollapsed } from '@@/js/collapsed.js';
 import { host } from '@@/js/config.js';
 import { concat } from '@@/js/array.js';
+import { toUnicode } from 'punycode.js';
 import type { Ref } from 'vue';
 import type { MenuItem } from '@/types/menu.js';
 import type { Keymap } from '@/scripts/hotkey.js';
@@ -424,6 +425,10 @@ const collapseLabel = computed(() => {
 	] as string[][]).join(' / ');
 });
 
+const disableRightClickHandler = (event: Event) => {
+	if (appearNote.value.disableRightClick) event.preventDefault();
+};
+
 /* Overload FunctionにLintが対応していないのでコメントアウト
 function checkMute(noteToCheck: Misskey.entities.Note, mutedWords: Array<string | string[]> | undefined | null, checkOnly: true): boolean;
 function checkMute(noteToCheck: Misskey.entities.Note, mutedWords: Array<string | string[]> | undefined | null, checkOnly: false): Array<string | string[]> | false | 'sensitiveMute';
@@ -507,9 +512,9 @@ const keymap = {
 } as const satisfies Keymap;
 
 const replyTo = computed(() => {
-	const username = appearNote.value.reply.user.username;
+	const username = appearNote.value.reply.user.host == null ? `@${appearNote.value.reply.user.username}` : `@${appearNote.value.reply.user.username}@${toUnicode(appearNote.value.reply.user.host)}`;
 	const text = i18n.tsx.replyTo({ user: username });
-	const user = `<span style="color: var(--MI_THEME-accent); margin-right: 0.25em;">@${username}</span>`;
+	const user = `<span style="color: var(--MI_THEME-accent); margin-right: 0.25em;">${username}</span>`;
 
 	return text.replace(username, user);
 });
@@ -671,7 +676,7 @@ function react(): void {
 			reaction: '❤️',
 		});
 		const el = reactButton.value;
-		if (el) {
+		if (el && defaultStore.state.animation) {
 			const rect = el.getBoundingClientRect();
 			const x = rect.left + (el.offsetWidth / 2);
 			const y = rect.top + (el.offsetHeight / 2);
@@ -758,11 +763,13 @@ function heartReact(): void {
 	}
 
 	const el = heartReactButton.value;
-	if (el) {
+	if (el && defaultStore.state.animation) {
 		const rect = el.getBoundingClientRect();
 		const x = rect.left + (el.offsetWidth / 2);
 		const y = rect.top + (el.offsetHeight / 2);
-		os.popup(MkRippleEffect, { x, y }, {}, 'end');
+		const { dispose } = os.popup(MkRippleEffect, { x, y }, {
+			end: () => dispose(),
+		});
 	}
 }
 

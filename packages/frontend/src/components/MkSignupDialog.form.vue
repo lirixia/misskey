@@ -45,18 +45,20 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<span v-else-if="emailState === 'error'" style="color: var(--MI_THEME-error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts.error }}</span>
 				</template>
 			</MkInput>
-			<MkInput v-model="password" type="password" autocomplete="new-password" required data-cy-signup-password @update:modelValue="onChangePassword">
+			<MkInput v-model="password" type="password" autocomplete="new-password" required data-cy-signup-password @update:modelValue="onChangePassword" @keydown="checkCapsLock" @focus="checkCapsLock" @click="checkCapsLock">
 				<template #label>{{ i18n.ts.password }}</template>
 				<template #prefix><i class="ti ti-lock"></i></template>
+				<template v-if="isCapsLock" #suffix><div :class="$style.isCapslock"><i class="ti ti-arrow-big-up-line"></i></div></template>
 				<template #caption>
 					<span v-if="passwordStrength == 'low'" style="color: var(--MI_THEME-error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts.weakPassword }}</span>
 					<span v-if="passwordStrength == 'medium'" style="color: var(--MI_THEME-warn)"><i class="ti ti-check ti-fw"></i> {{ i18n.ts.normalPassword }}</span>
 					<span v-if="passwordStrength == 'high'" style="color: var(--MI_THEME-success)"><i class="ti ti-check ti-fw"></i> {{ i18n.ts.strongPassword }}</span>
 				</template>
 			</MkInput>
-			<MkInput v-model="retypedPassword" type="password" autocomplete="new-password" required data-cy-signup-password-retype @update:modelValue="onChangePasswordRetype">
+			<MkInput v-model="retypedPassword" type="password" autocomplete="new-password" required data-cy-signup-password-retype @update:modelValue="onChangePasswordRetype" @keydown="checkCapsLock" @focus="checkCapsLock" @click="checkCapsLock">
 				<template #label>{{ i18n.ts.password }} ({{ i18n.ts.retype }})</template>
 				<template #prefix><i class="ti ti-lock"></i></template>
+				<template v-if="isCapsLock" #suffix><div :class="$style.isCapslock"><i class="ti ti-arrow-big-up-line"></i></div></template>
 				<template #caption>
 					<span v-if="passwordRetypeState == 'match'" style="color: var(--MI_THEME-success)"><i class="ti ti-check ti-fw"></i> {{ i18n.ts.passwordMatched }}</span>
 					<span v-if="passwordRetypeState == 'not-match'" style="color: var(--MI_THEME-error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts.passwordNotMatched }}</span>
@@ -82,7 +84,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { toUnicode } from 'punycode.js';
 import * as Misskey from 'cherrypick-js';
 import * as config from '@@/js/config.js';
@@ -153,6 +155,8 @@ const isEmailRequired = computed((): boolean => {
 const isInvitationCodeRequired = computed((): boolean => {
 	return instance.disableRegistration || (instance.emailRequiredForSignup && !email.value);
 });
+
+const isCapsLock = ref(false);
 
 function getPasswordStrength(source: string): number {
 	let strength = 0;
@@ -343,6 +347,20 @@ function onSignupApiError(message?: string) {
 		text: errorMessage,
 	});
 }
+
+function checkCapsLock(ev: KeyboardEvent) {
+	isCapsLock.value = ev.getModifierState('CapsLock');
+}
+
+onMounted(() => {
+	window.addEventListener('keydown', checkCapsLock);
+	window.addEventListener('keyup', checkCapsLock);
+});
+
+onUnmounted(() => {
+	window.removeEventListener('keydown', checkCapsLock);
+	window.removeEventListener('keyup', checkCapsLock);
+});
 </script>
 
 <style lang="scss" module>
