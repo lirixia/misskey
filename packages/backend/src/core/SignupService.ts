@@ -93,6 +93,8 @@ export class SignupService {
 			throw new Error('USED_USERNAME');
 		}
 
+		const isTheFirstUser = await this.usersRepository.count() === 0;
+
 		if (!opts.ignorePreservedUsernames && this.meta.rootUserId != null) {
 			const isPreserved = this.meta.preservedUsernames.map(x => x.toLowerCase()).includes(username.toLowerCase());
 			if (isPreserved) {
