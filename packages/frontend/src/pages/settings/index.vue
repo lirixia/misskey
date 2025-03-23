@@ -178,7 +178,7 @@ const menuDef = computed<SuperMenuDef[]>(() => [{
 	}, {
 		icon: 'ti ti-bulb-filled',
 		text: 'Misskey Miry Remix',
-		to: '/settings/cherrypick',
+		to: '/settings/miry',
 		active: currentPage.value?.route.name === 'cherrypick',
 	}, {
 		icon: 'ti ti-dots',
