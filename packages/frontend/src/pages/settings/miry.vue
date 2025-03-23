@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and misskey-project & noridev and cherrypick-project
+SPDX-FileCopyrightText: syuilo and misskey-project & noridev and cherrypick-project and Miry(@carsmiry)
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
