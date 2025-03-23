@@ -73,7 +73,6 @@ function generateDummyUser(override?: Partial<MiUser>): MiUser {
 		isLocked: false,
 		isBot: false,
 		isCat: true,
-		isRoot: false,
 		isExplorable: true,
 		isHibernated: false,
 		isDeleted: false,
@@ -92,6 +91,7 @@ function generateDummyUser(override?: Partial<MiUser>): MiUser {
 		token: null,
 		setFederationAvatarShape: null,
 		isSquareAvatars: null,
+		isRoot: false,
 		...override,
 	};
 }

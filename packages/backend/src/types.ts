@@ -133,6 +133,7 @@ export const moderationLogTypes = [
 	'deletePage',
 	'deleteFlash',
 	'deleteGalleryPost',
+	'updateProxyAccountDescription',
 ] as const;
 
 export type ModerationLogPayloads = {
@@ -384,6 +385,10 @@ export type ModerationLogPayloads = {
 		postUserId: string;
 		postUserUsername: string;
 		post: any;
+	};
+	updateProxyAccountDescription: {
+		before: string | null;
+		after: string | null;
 	};
 };
 

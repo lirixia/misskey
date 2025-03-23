@@ -50,6 +50,7 @@ import { IdService } from '@/core/IdService.js';
 import type { AnnouncementService } from '@/core/AnnouncementService.js';
 import type { CustomEmojiService } from '@/core/CustomEmojiService.js';
 import { AvatarDecorationService } from '@/core/AvatarDecorationService.js';
+import { SystemAccountService } from '@/core/SystemAccountService.js';
 import type { OnModuleInit } from '@nestjs/common';
 import type { NoteEntityService } from './NoteEntityService.js';
 import type { DriveFileEntityService } from './DriveFileEntityService.js';
@@ -96,6 +97,7 @@ export class UserEntityService implements OnModuleInit {
 	private federatedInstanceService: FederatedInstanceService;
 	private idService: IdService;
 	private avatarDecorationService: AvatarDecorationService;
+	private systemAccountService: SystemAccountService;
 
 	constructor(
 		private moduleRef: ModuleRef,
@@ -160,6 +162,7 @@ export class UserEntityService implements OnModuleInit {
 		this.federatedInstanceService = this.moduleRef.get('FederatedInstanceService');
 		this.idService = this.moduleRef.get('IdService');
 		this.avatarDecorationService = this.moduleRef.get('AvatarDecorationService');
+		this.systemAccountService = this.moduleRef.get('SystemAccountService');
 	}
 
 	//#region Validators
@@ -424,7 +427,11 @@ export class UserEntityService implements OnModuleInit {
 
 	@bindThis
 	public getIdenticonUrl(user: MiUser): string {
-		return `${this.config.url}/identicon/${user.username.toLowerCase()}@${user.host ?? this.config.host}`;
+		if ((user.host == null || user.host === this.config.host) && user.username.includes('.') && this.meta.iconUrl) { // ローカルのシステムアカウントの場合
+			return this.meta.iconUrl;
+		} else {
+			return `${this.config.url}/identicon/${user.username.toLowerCase()}@${user.host ?? this.config.host}`;
+		}
 	}
 
 	@bindThis
@@ -539,7 +546,7 @@ export class UserEntityService implements OnModuleInit {
 			isBot: user.isBot,
 			isCat: user.isCat,
 			speakAsCat: user.speakAsCat,
-			isProxy: this.meta.proxyAccountId === user.id,
+			isProxy: this.systemAccountService.fetch('proxy').then(proxyAccount => proxyAccount.id === user.id),
 			requireSigninToViewContents: user.requireSigninToViewContents === false ? undefined : true,
 			makeNotesFollowersOnlyBefore: user.makeNotesFollowersOnlyBefore ?? undefined,
 			makeNotesHiddenBefore: user.makeNotesHiddenBefore ?? undefined,
