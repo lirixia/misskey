@@ -429,7 +429,7 @@ export class UserFollowingService implements OnModuleInit {
 		}
 
 		const policies = await this.roleService.getUserPolicies(followee.id);
-		    // フォローバックの処理を追加
+		// フォローバックの処理を追加
 		if (this.userEntityService.isLocalUser(followee) && policies.canAutoFollowBack) {
 			const followeeProfile = await this.userProfilesRepository.findOneBy({ userId: followee.id });
 			if (followeeProfile?.autoFollowBack) {
@@ -455,7 +455,7 @@ export class UserFollowingService implements OnModuleInit {
 	@bindThis
 	public async unfollow(
 		follower: {
-			id: MiUser['id']; host: MiUser['host']; uri: MiUser['host']; isRoot: MiUser['isRoot']; inbox: MiUser['inbox']; sharedInbox: MiUser['sharedInbox'];
+			id: MiUser['id']; host: MiUser['host']; uri: MiUser['host']; inbox: MiUser['inbox']; sharedInbox: MiUser['sharedInbox'];
 		},
 		followee: {
 			id: MiUser['id']; host: MiUser['host']; uri: MiUser['host']; inbox: MiUser['inbox']; sharedInbox: MiUser['sharedInbox'];
