@@ -10,11 +10,11 @@ import { misskeyApi } from '@/utility/misskey-api.js';
 export async function fetchCherrypickReleases(): Promise<boolean> {
 	try {
 		const meta = await misskeyApi('admin/meta');
-		const response = await fetch('https://api.github.com/repos/kokonect-link/cherrypick/releases');
+		const response = await window.fetch('https://api.github.com/repos/catsmiry/misskey/releases');
 		const releasesData = await response.json();
 
 		if (!Array.isArray(releasesData) || releasesData.length === 0) {
-			console.warn('No CherryPick releases found.');
+			console.warn('No Misskey Miry Remix releases found.');
 			return false;
 		}
 
@@ -23,7 +23,7 @@ export async function fetchCherrypickReleases(): Promise<boolean> {
 			: releasesData.filter((x: any) => !x.prerelease)[0];
 
 		if (!latestRelease || !latestRelease.tag_name || typeof latestRelease.tag_name !== 'string') {
-			console.warn('Invalid latest CherryPick release:', latestRelease);
+			console.warn('Invalid latest Misskey Miry Remix release:', latestRelease);
 			return false;
 		}
 
@@ -32,7 +32,7 @@ export async function fetchCherrypickReleases(): Promise<boolean> {
 			compareVersions(<string>meta.skipCherryPickVersion || version, latestRelease.tag_name) < 0
 		);
 	} catch (error) {
-		console.error('Failed to fetch CherryPick releases:', error);
+		console.error('Failed to fetch Misskey Miry Remix releases:', error);
 		return false;
 	}
 }

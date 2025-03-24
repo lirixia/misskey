@@ -183,11 +183,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<XFiles :key="user.id" :user="user" @unfold="emit('unfoldFiles')"/>
 			<XActivity :key="user.id" :user="user"/>
 			<XListenBrainz
-					v-if="user.listenbrainz && listenbrainzdata"
-					:key="user.id"
-					:user="user"
-					style="margin-top: var(--margin)"
-				/>
+				v-if="user.listenbrainz && listenbrainzdata"
+				:key="user.id"
+				:user="user"
+				style="margin-top: var(--margin)"
+			/>
 		</div>
 	</div>
 </MkSpacer>
@@ -247,7 +247,7 @@ function calcAge(birthdate: string): number {
 const XFiles = defineAsyncComponent(() => import('./index.files.vue'));
 const XActivity = defineAsyncComponent(() => import('./index.activity.vue'));
 const XTimeline = defineAsyncComponent(() => import('./index.timeline.vue'));
-const XListenBrainz = defineAsyncComponent(() => import("./index.listenbrainz.vue"));
+const XListenBrainz = defineAsyncComponent(() => import('./index.listenbrainz.vue'));
 
 const props = withDefaults(defineProps<{
 	user: Misskey.entities.UserDetailed;
@@ -280,10 +280,10 @@ const translating = ref(false);
 let listenbrainzdata = false;
 if (props.user.listenbrainz) {
 	try {
-		const response = await fetch(`https://api.listenbrainz.org/1/user/${props.user.listenbrainz}/playing-now`, {
+		const response = await window.fetch(`https://api.listenbrainz.org/1/user/${props.user.listenbrainz}/playing-now`, {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
 		});
 		const data = await response.json();

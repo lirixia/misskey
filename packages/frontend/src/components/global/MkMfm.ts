@@ -64,7 +64,7 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 	//provide('linkNavigationBehavior', props.linkNavigationBehavior);
 
 	const isNote = props.isNote ?? true;
-	const shouldNyaize = props.nyaize ? props.nyaize === 'respect' ? props.author?.isCat === true && props.author?.speakAsCat === true : false : false;
+	const shouldNyaize = props.nyaize ? props.nyaize === 'respect' ? props.author?.isCat === true && props.author.speakAsCat === true : false : false;
 
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (props.text == null || props.text === '') return;
@@ -461,13 +461,13 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 			}
 
 			case 'mathInline': {
-				const ret = document.createElement('span');
+				const ret = window.document.createElement('span');
 				temml.render(token.props.formula, ret, {});
 				return [h('span', { innerHTML: ret.innerHTML })];
 			}
 
 			case 'mathBlock': {
-				const ret = document.createElement('div');
+				const ret = window.document.createElement('div');
 				temml.render(token.props.formula, ret, { displayMode: true });
 				return [h('div', { innerHTML: ret.innerHTML })];
 			}

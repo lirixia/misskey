@@ -235,7 +235,7 @@ if (!mock) {
 			reaction: props.reaction,
 			users,
 			count: props.count,
-			targetElement: buttonEl.value ?? document.createElement('div'),
+			targetElement: buttonEl.value ?? window.document.createElement('div'),
 		}, {
 			closed: () => dispose(),
 		});

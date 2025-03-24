@@ -482,7 +482,7 @@ export class WebhookTestService {
 			securityKeys: false,
 			roles: [],
 			memo: null,
-			moderationNote: undefined,
+			moderationNote: '',
 			isFollowing: false,
 			isFollowed: false,
 			hasPendingFollowRequestFromYou: false,
@@ -492,7 +492,8 @@ export class WebhookTestService {
 			isMuted: false,
 			isRenoteMuted: false,
 			notify: 'none',
-			withReplies: true,
+			withReplies: false,
+			ListenBrainz: null,
 			...override,
 		};
 	}
