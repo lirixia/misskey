@@ -131,13 +131,13 @@ export class AvatarDecorationService implements OnApplicationShutdown {
 	}
 
 	@bindThis
-	public async remoteUserUpdate(user: MiUser) {
+	public async remoteUserUpdate(user: MiUser): Promise<'success' | 'skip' | undefined> {
 		const userHost = user.host ?? '';
 		const instance = await this.instancesRepository.findOneBy({ host: userHost });
 		const userHostUrl = `https://${user.host}`;
 		const showUserApiUrl = `${userHostUrl}/api/users/show`;
 
-		if (!['misskey', 'cherrypick', 'sharkey', 'yojo-art'].includes(<string>instance?.softwareName)) return;
+		if (!['misskey', 'cherrypick', 'sharkey', 'yojo-art'].includes(<string>instance?.softwareName)) return undefined;
 
 		const res = await this.httpRequestService.send(showUserApiUrl, {
 			method: 'POST',
@@ -151,8 +151,12 @@ export class AvatarDecorationService implements OnApplicationShutdown {
 		if (!userAvatarDecorations || userAvatarDecorations.length === 0) {
 			const updates = {} as Partial<MiUser>;
 			updates.avatarDecorations = [];
-			await this.usersRepository.update({ id: user.id }, updates);
-			return;
+
+			if (!(await this.usersRepository.update({ id: user.id, isDeleted: false }, updates)).affected) {
+				return 'skip';
+			}
+
+			return 'success';
 		}
 
 		const instanceHost = instance!.host;
@@ -218,7 +222,10 @@ export class AvatarDecorationService implements OnApplicationShutdown {
 				opacity: avatarDecoration.opacity ?? 1,
 			});
 		}
-		await this.usersRepository.update({ id: user.id }, updates);
+		if (!(await this.usersRepository.update({ id: user.id, isDeleted: false }, updates)).affected) {
+			return 'skip';
+		}
+		return 'success';
 	}
 
 	@bindThis

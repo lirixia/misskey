@@ -4,98 +4,108 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-	<MkStickyContainer>
-		<template #header>
-			<XHeader :actions="headerActions" :tabs="headerTabs" />
-		</template>
-		<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
-			<FormSuspense :p="init">
-				<div class="_gaps_m">
-					<div class="_panel" style="padding: 16px;">
-						<MkSwitch v-model="enableReceivePrerelease">
-							<template #label>{{ i18n.ts.enableReceivePrerelease }}</template>
-						</MkSwitch>
-					</div>
-
-					<template v-if="(version && version.length > 0) && (releasesMiryRemix && releasesMiryRemix.length > 0)">
-						<FormInfo v-if="compareVersions(version, releasesMiryRemix[0].tag_name) > 0">{{
-							i18n.ts.youAreRunningBetaClient }}</FormInfo>
-						<FormInfo v-else-if="compareVersions(version, releasesMiryRemix[0].tag_name) === 0">{{
-							i18n.ts.youAreRunningUpToDateClient }}</FormInfo>
-						<FormInfo v-else warn>{{ i18n.ts.newVersionOfClientAvailable }}</FormInfo>
-					</template>
-					<FormInfo v-else>{{ i18n.ts.loading }}</FormInfo>
-
-					<FormSection first>
-						<template #label>{{ instanceName }}</template>
-						<MkKeyValue @click="whatIsNewCherryPick">
-							<template #key>{{ i18n.ts.currentVersion }} <i class="ti ti-external-link"></i></template>
-							<template #value>{{ version }}</template>
-						</MkKeyValue>
-						<MkKeyValue v-if="version < releasesMiryRemix[0].tag_name && !skipVersion" style="margin-top: 10px;"
-							@click="whatIsNewLatestCherryPick">
-							<template #key>{{ i18n.ts.latestVersion }} <i class="ti ti-external-link"></i></template>
-							<template v-if="releasesMiryRemix" #value>{{ releasesMiryRemix[0].tag_name }}</template>
-							<template v-else #value>
-								<MkEllipsis />
-							</template>
-						</MkKeyValue>
-						<MkButton v-if="!skipVersion && (compareVersions(version, releasesMiryRemix[0].tag_name) < 0)"
-							style="margin-top: 10px;" @click="skipThisVersion">{{ i18n.ts.skipThisVersion }}</MkButton>
-					</FormSection>
-
-					<FormSection @click="whatIsNewLatestCherryPick">
-						<template #label>CherryPick <i class="ti ti-external-link"></i></template>
-						<MkKeyValue>
-							<template #key>{{ i18n.ts.latestVersion }}</template>
-							<template v-if="releasesCherryPick" #value>{{ releasesCherryPick[0].tag_name }}</template>
-							<template v-else #value>
-								<MkEllipsis />
-							</template>
-						</MkKeyValue>
-						<MkKeyValue style="margin: 8px 0 0; color: var(--MI_THEME-fgTransparentWeak); font-size: 0.85em;">
-							<template v-if="releasesCherryPick" #value>
-								<MkTime :time="releasesCherryPick[0].published_at" mode="detail" />
-							</template>
-							<template v-else #value>
-								<MkEllipsis />
-							</template>
-						</MkKeyValue>
-					</FormSection>
-
-					<FormSection @click="whatIsNewLatestMisskey">
-						<template #label>Misskey <i class="ti ti-external-link"></i></template>
-						<MkKeyValue>
-							<template #key>{{ i18n.ts.latestVersion }}</template>
-							<template v-if="releasesMisskey" #value>{{ releasesMisskey[0].tag_name }}</template>
-							<template v-else #value>
-								<MkEllipsis />
-							</template>
-						</MkKeyValue>
-						<MkKeyValue style="margin: 8px 0 0; color: var(--MI_THEME-fgTransparentWeak); font-size: 0.85em;">
-							<template v-if="releasesMisskey" #value>
-								<MkTime :time="releasesMisskey[0].published_at" mode="detail" />
-							</template>
-							<template v-else #value>
-								<MkEllipsis />
-							</template>
-						</MkKeyValue>
-					</FormSection>
+<MkStickyContainer>
+	<template #header>
+		<XHeader :actions="headerActions" :tabs="headerTabs"/>
+	</template>
+	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
+		<FormSuspense :p="init">
+			<div class="_gaps_m">
+				<div class="_panel" style="padding: 16px;">
+					<MkSwitch v-model="enableReceivePrerelease">
+						<template #label>{{ i18n.ts.enableReceivePrerelease }}</template>
+					</MkSwitch>
 				</div>
-			</FormSuspense>
-		</MkSpacer>
-	</MkStickyContainer>
+
+				<template v-if="(version && version.length > 0) && (releasesMiryRemix && releasesMiryRemix.length > 0)">
+					<FormInfo v-if="compareVersions(version, releasesMiryRemix[0].tag_name) > 0">
+						{{
+							i18n.ts.youAreRunningBetaClient }}
+					</FormInfo>
+					<FormInfo v-else-if="compareVersions(version, releasesMiryRemix[0].tag_name) === 0">
+						{{
+							i18n.ts.youAreRunningUpToDateClient }}
+					</FormInfo>
+					<FormInfo v-else warn>{{ i18n.ts.newVersionOfClientAvailable }}</FormInfo>
+				</template>
+				<FormInfo v-else>{{ i18n.ts.loading }}</FormInfo>
+
+				<FormSection first>
+					<template #label>{{ instanceName }}</template>
+					<MkKeyValue @click="whatIsNewCherryPick">
+						<template #key>{{ i18n.ts.currentVersion }} <i class="ti ti-external-link"></i></template>
+						<template #value>{{ version }}</template>
+					</MkKeyValue>
+					<MkKeyValue
+						v-if="version < releasesMiryRemix[0].tag_name && !skipVersion" style="margin-top: 10px;"
+						@click="whatIsNewLatestCherryPick"
+					>
+						<template #key>{{ i18n.ts.latestVersion }} <i class="ti ti-external-link"></i></template>
+						<template v-if="releasesMiryRemix" #value>{{ releasesMiryRemix[0].tag_name }}</template>
+						<template v-else #value>
+							<MkEllipsis/>
+						</template>
+					</MkKeyValue>
+					<MkButton
+						v-if="!skipVersion && (compareVersions(version, releasesMiryRemix[0].tag_name) < 0)"
+						style="margin-top: 10px;" @click="skipThisVersion"
+					>
+						{{ i18n.ts.skipThisVersion }}
+					</MkButton>
+				</FormSection>
+
+				<FormSection @click="whatIsNewLatestCherryPick">
+					<template #label>CherryPick <i class="ti ti-external-link"></i></template>
+					<MkKeyValue>
+						<template #key>{{ i18n.ts.latestVersion }}</template>
+						<template v-if="releasesCherryPick" #value>{{ releasesCherryPick[0].tag_name }}</template>
+						<template v-else #value>
+							<MkEllipsis/>
+						</template>
+					</MkKeyValue>
+					<MkKeyValue style="margin: 8px 0 0; color: var(--MI_THEME-fgTransparentWeak); font-size: 0.85em;">
+						<template v-if="releasesCherryPick" #value>
+							<MkTime :time="releasesCherryPick[0].published_at" mode="detail"/>
+						</template>
+						<template v-else #value>
+							<MkEllipsis/>
+						</template>
+					</MkKeyValue>
+				</FormSection>
+
+				<FormSection @click="whatIsNewLatestMisskey">
+					<template #label>Misskey <i class="ti ti-external-link"></i></template>
+					<MkKeyValue>
+						<template #key>{{ i18n.ts.latestVersion }}</template>
+						<template v-if="releasesMisskey" #value>{{ releasesMisskey[0].tag_name }}</template>
+						<template v-else #value>
+							<MkEllipsis/>
+						</template>
+					</MkKeyValue>
+					<MkKeyValue style="margin: 8px 0 0; color: var(--MI_THEME-fgTransparentWeak); font-size: 0.85em;">
+						<template v-if="releasesMisskey" #value>
+							<MkTime :time="releasesMisskey[0].published_at" mode="detail"/>
+						</template>
+						<template v-else #value>
+							<MkEllipsis/>
+						</template>
+					</MkKeyValue>
+				</FormSection>
+			</div>
+		</FormSuspense>
+	</MkSpacer>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { version, instanceName, basedMisskeyVersion } from '@@/js/config.js';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/scripts/misskey-api.js';
+import { misskeyApi } from '@/utility/misskey-api.js';
 import FormInfo from '@/components/MkInfo.vue';
 import FormSection from '@/components/form/section.vue';
 import MkKeyValue from '@/components/MkKeyValue.vue';
-import { definePageMetadata } from '@/scripts/page-metadata.js';
+import { definePage } from '@/page.js';
 import { i18n } from '@/i18n.js';
 import XHeader from '@/pages/admin/_header_.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
@@ -120,7 +130,7 @@ async function init() {
 
 	try {
 		// Fetch version from package.json
-		const packageResponse = await fetch('https://raw.githubusercontent.com/catsmiry/misskey/refs/heads/master/package.json');
+		const packageResponse = await window.fetch('https://raw.githubusercontent.com/catsmiry/misskey/refs/heads/master/package.json');
 		const packageData = await packageResponse.json();
 		const latestVersion = packageData.version;
 
@@ -136,7 +146,7 @@ async function init() {
 
 	try {
 		// CherryPick Releases Fetch
-		const cherryPickResponse = await fetch('https://api.github.com/repos/kokonect-link/cherrypick/releases');
+		const cherryPickResponse = await window.fetch('https://api.github.com/repos/kokonect-link/cherrypick/releases');
 		const cherryPickData = await cherryPickResponse.json();
 		releasesCherryPick.value = cherryPickData;
 	} catch (error) {
@@ -145,7 +155,7 @@ async function init() {
 
 	try {
 		// Misskey Releases Fetch
-		const misskeyResponse = await fetch('https://api.github.com/repos/misskey-dev/misskey/releases');
+		const misskeyResponse = await window.fetch('https://api.github.com/repos/misskey-dev/misskey/releases');
 		const misskeyData = await misskeyResponse.json();
 		releasesMisskey.value = meta.enableReceivePrerelease ? misskeyData : misskeyData.filter(x => !x.prerelease);
 	} catch (error) {
@@ -196,9 +206,11 @@ const whatIsNewLatestCherryPick = () => {
 	window.open(`https://github.com/kokonect-link/cherrypick/blob/develop/CHANGELOG.md#${releasesCherryPick.value[0].tag_name.replace(/\./g, '')}`, '_blank');
 };
 
-const whatIsNewMisskey = () => {
-	window.open(`https://misskey-hub.net/docs/releases.html#_${basedMisskeyVersion.replace(/\./g, '-')}`, '_blank');
-};
+/**
+ * const whatIsNewMisskey = () => {
+ * 	window.open(`https://misskey-hub.net/docs/releases/#_${basedMisskeyVersion.replace(/\./g, '')}`, '_blank');
+ * };
+ */
 
 const whatIsNewLatestMisskey = () => {
 	window.open(`https://github.com/misskey-dev/misskey/blob/develop/CHANGELOG.md#${releasesMisskey.value[0].tag_name.replace(/\./g, '')}`, '_blank');
@@ -213,7 +225,7 @@ const headerActions = computed(() => [{
 
 const headerTabs = computed(() => []);
 
-definePageMetadata(() => ({
+definePage(() => ({
 	title: i18n.ts.cherrypickUpdate,
 	icon: 'ti ti-refresh',
 }));

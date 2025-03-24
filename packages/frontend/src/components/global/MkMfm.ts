@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { h, provide } from 'vue';
+import { h } from 'vue';
 import * as mfm from 'mfc-js';
 import * as Misskey from 'cherrypick-js';
 import temml from 'temml/dist/temml.mjs';
@@ -21,7 +21,7 @@ import MkCodeInline from '@/components/MkCodeInline.vue';
 import MkGoogle from '@/components/MkGoogle.vue';
 import MkSparkle from '@/components/MkSparkle.vue';
 import MkA from '@/components/global/MkA.vue';
-import { defaultStore } from '@/store.js';
+import { prefer } from '@/preferences.js';
 
 function safeParseFloat(str: unknown): number | null {
 	if (typeof str !== 'string' || str === '') return null;
@@ -64,7 +64,7 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 	//provide('linkNavigationBehavior', props.linkNavigationBehavior);
 
 	const isNote = props.isNote ?? true;
-	const shouldNyaize = props.nyaize ? props.nyaize === 'respect' ? props.author?.isCat === true && props.author?.speakAsCat === true : false : false;
+	const shouldNyaize = props.nyaize ? props.nyaize === 'respect' ? props.author?.isCat === true && props.author.speakAsCat === true : false : false;
 
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (props.text == null || props.text === '') return;
@@ -82,7 +82,7 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 		return c.match(/^[0-9a-f]{3,6}$/i) ? c : null;
 	};
 
-	const useAnim = defaultStore.state.advancedMfm && defaultStore.state.animatedMfm;
+	const useAnim = prefer.s.advancedMfm && prefer.s.animatedMfm;
 
 	/**
 	 * Gen Vue Elements from MFM AST
@@ -189,17 +189,17 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 					}
 					case 'x2': {
 						return h('span', {
-							class: defaultStore.state.advancedMfm ? 'mfm-x2' : '',
+							class: prefer.s.advancedMfm ? 'mfm-x2' : '',
 						}, genEl(token.children, scale * 2));
 					}
 					case 'x3': {
 						return h('span', {
-							class: defaultStore.state.advancedMfm ? 'mfm-x3' : '',
+							class: prefer.s.advancedMfm ? 'mfm-x3' : '',
 						}, genEl(token.children, scale * 3));
 					}
 					case 'x4': {
 						return h('span', {
-							class: defaultStore.state.advancedMfm ? 'mfm-x4' : '',
+							class: prefer.s.advancedMfm ? 'mfm-x4' : '',
 						}, genEl(token.children, scale * 4));
 					}
 					case 'font': {
@@ -251,14 +251,14 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 						break;
 					}
 					case 'position': {
-						if (!defaultStore.state.advancedMfm) break;
+						if (!prefer.s.advancedMfm) break;
 						const x = safeParseFloat(token.props.args.x) ?? 0;
 						const y = safeParseFloat(token.props.args.y) ?? 0;
 						style = `transform: translateX(${x}em) translateY(${y}em);`;
 						break;
 					}
 					case 'scale': {
-						if (!defaultStore.state.advancedMfm) {
+						if (!prefer.s.advancedMfm) {
 							style = '';
 							break;
 						}
@@ -461,13 +461,13 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 			}
 
 			case 'mathInline': {
-				const ret = document.createElement('span');
+				const ret = window.document.createElement('span');
 				temml.render(token.props.formula, ret, {});
 				return [h('span', { innerHTML: ret.innerHTML })];
 			}
 
 			case 'mathBlock': {
-				const ret = document.createElement('div');
+				const ret = window.document.createElement('div');
 				temml.render(token.props.formula, ret, { displayMode: true });
 				return [h('div', { innerHTML: ret.innerHTML })];
 			}
