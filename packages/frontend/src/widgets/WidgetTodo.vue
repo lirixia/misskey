@@ -16,7 +16,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</li>
 		</ul>
 		<div class="input-container">
-			<MkInput v-model="newTodo" :placeholder="i18n.ts._widgets.addNewTodo" />
+			<MkInput v-model="newTodo" :placeholder="i18n.ts._widgets.addNewTodo"/>
 			<MkButton @click="addTodo">{{ i18n.ts._widgets.addTodo }}</MkButton>
 		</div>
 	</div>
@@ -24,14 +24,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget.js';
-import { GetFormResultType } from '@/scripts/form.js';
+import { ref, onMounted, computed, watch } from 'vue';
+import { useWidgetPropsManager } from './widget.js';
+import type { WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget.js';
+import type { GetFormResultType } from '@/utility/form.js';
 import MkContainer from '@/components/MkContainer.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkInput from '@/components/MkInput.vue';
 import { i18n } from '@/i18n.js';
-import { defaultStore } from '@/store.js';
+import { store } from '@/store.js';
 
 const name = 'todo';
 
@@ -49,15 +50,15 @@ const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name, widgetPropsDef, props, emit);
 
-const todos = ref<string[]>(defaultStore.state.todos || []);
+const todos = ref<string[]>(store.s.todos || []);
 const newTodo = ref<string>('');
 
 const loadTodos = () => {
-	todos.value = defaultStore.state.todos || [];
+	todos.value = store.s.todos || [];
 };
 
 const saveTodos = () => {
-	defaultStore.set('todos', todos.value);
+	store.set('todos', todos.value);
 };
 
 const addTodo = () => {
@@ -77,10 +78,19 @@ onMounted(() => {
 	loadTodos();
 });
 
+// storeの値の変更を監視
+watch(() => store.r.todos, newTodos => {
+	if (newTodos.value) {
+		todos.value = newTodos.value;
+	}
+});
+
+const widgetId = computed(() => props.widget ? props.widget.id : null);
+
 defineExpose<WidgetComponentExpose>({
 	name,
 	configure,
-	id: props.widget ? props.widget.id : null,
+	id: widgetId.value,
 });
 </script>
 
