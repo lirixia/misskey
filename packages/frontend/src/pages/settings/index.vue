@@ -151,20 +151,6 @@ const menuDef = computed<SuperMenuDef[]>(() => [{
 		active: currentPage.value?.route.name === 'connect',
 	}, {
 		icon: 'ti ti-package',
-		text: i18n.ts.importAndExport,
-		to: '/settings/import-export',
-		active: currentPage.value?.route.name === 'import-export',
-	}, {
-		icon: 'ti ti-plane',
-		text: `${i18n.ts.accountMigration}`,
-		to: '/settings/migration',
-		active: currentPage.value?.route.name === 'migration',
-	}, {
-		icon: 'ti ti-bulb-filled',
-		text: 'Misskey Miry Remix',
-		to: '/settings/miry',
-		active: currentPage.value?.route.name === 'cherrypick',
-	}, {
 		text: i18n.ts._settings.accountData,
 		to: '/settings/account-data',
 		active: currentPage.value?.route.name === 'account-data',
