@@ -1,43 +1,41 @@
 doctype html
 
 //
-	-
-	   _____ _                          _____ _      _
-	  / ____| |                        |  __ (_)    | |
-	 | |    | |__   ___ _ __ _ __ _   _| |__) |  ___| | __
-	 | |    | '_ \ / _ \ '__| '__| | | |  ___/ |/ __| |/ /
-	 | |____| | | |  __/ |  | |  | |_| | |   | | (__|   <
-	  \_____|_| |_|\___|_|  |_|   \__, |_|   |_|\___|_|\_\
-	                               __/ |
-	                              |___/
-		Thank you for using CherryPick!
-		If you are reading this message... how about joining the development?
-		https://github.com/kokonect-link/cherrypick
-
+    -
+    ___  ____         _               ___  ____             ______               _      
+    |  \/  (_)       | |              |  \/  (_)            | ___ \             (_)     
+    | .  . |_ ___ ___| | _____ _   _  | .  . |_ _ __ _   _  | |_/ /___ _ __ ___  ___  __
+    | |\/| | / __/ __| |/ / _ \ | | | | |\/| | | '__| | | | |    // _ \ '_ ` _ \| \ \/ /
+    | |  | | \__ \__ \   <  __/ |_| | | |  | | | |  | |_| | | |\ \  __/ | | | | | |>  < 
+    \_|  |_/_|___/___/_|\_\___|\__, | \_|  |_/_|_|   \__, | \_| \_\___|_| |_| |_|_/_/\_\
+                                __/ |                 __/ |                             
+                               |___/                 |___/                              
+        Thank you for using Misskey Miry Remix!
+        If you are reading this message... how about joining the development?
+        https://github.com/catsmiry/misskey
 
 html
+    head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        meta(name='application-name' content='Misskey')
+        meta(name='referrer' content='origin')
 
-	head
-		meta(charset='utf-8')
-		meta(name='viewport' content='width=device-width, initial-scale=1')
-		meta(name='application-name' content='CherryPick')
-		meta(name='referrer' content='origin')
+        title
+            block title
+                = 'An error has occurred... | Misskey'
 
-		title
-			block title
-				= 'An error has occurred... | CherryPick'
-
-		style
-			include ../error.css
+        style
+            include ../error.css
 
 		script
 			include ../error.js
 
 body
-	svg.icon-warning(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 24 24", stroke-width="2", stroke="currentColor", fill="none", stroke-linecap="round", stroke-linejoin="round")
-		path(stroke="none", d="M0 0h24v24H0z", fill="none")
-		path(d="M12 9v2m0 4v.01")
-		path(d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75")
+    svg.icon-warning(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 24 24", stroke-width="2", stroke="currentColor", fill="none", stroke-linecap="round", stroke-linejoin="round")
+        path(stroke="none", d="M0 0h24v24H0z", fill="none")
+        path(d="M12 9v2m0 4v.01")
+        path(d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75")
 
 	h1(data-i18n="title") Failed to initialize CherryPick
 
@@ -46,10 +44,10 @@ body
 
 	p(data-i18n="serverError") If reloading after a period of time does not resolve the problem, contact the server administrator with the following ERROR ID.
 
-	div#errors
-		code.
-			ERROR CODE: #{code}
-			ERROR ID: #{id}
+    div#errors
+        code.
+            ERROR CODE: #{code}
+            ERROR ID: #{id}
 
 	p
 		b(data-i18n="solution") The following actions may solve the problem.
@@ -59,7 +57,7 @@ body
 	p(data-i18n="solution3") Clear your browser cache
 	p(data-i18n="solution4") (Tor Browser) Set dom.webaudio.enabled to true
 
-	details(style="color: rgb(255, 188, 220);")
+	details(style="color: #86b300;")
 		summary(data-i18n="otherOption") Other options
 		a(href="/flush")
 			button.button-small
