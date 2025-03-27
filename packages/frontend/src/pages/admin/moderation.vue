@@ -292,6 +292,7 @@ import MkButton from '@/components/MkButton.vue';
 import FormLink from '@/components/form/link.vue';
 import MkFolder from '@/components/MkFolder.vue';
 import MkFormFooter from '@/components/MkFormFooter.vue';
+import { useForm } from '@/use/use-form.js';
 
 const meta = await misskeyApi('admin/meta');
 
