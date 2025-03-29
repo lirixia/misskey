@@ -3,13 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { FindOneOptions, InsertQueryBuilder, ObjectLiteral, Repository, SelectQueryBuilder, TypeORMError } from 'typeorm';
-import { DriverUtils } from 'typeorm/driver/DriverUtils.js';
+import { FindOneOptions, InsertQueryBuilder, ObjectLiteral, Repository, SelectQueryBuilder } from 'typeorm';
 import { RelationCountLoader } from 'typeorm/query-builder/relation-count/RelationCountLoader.js';
 import { RelationIdLoader } from 'typeorm/query-builder/relation-id/RelationIdLoader.js';
 import { RawSqlResultsToEntityTransformer } from 'typeorm/query-builder/transformer/RawSqlResultsToEntityTransformer.js';
-import { ObjectUtils } from 'typeorm/util/ObjectUtils.js';
-import { OrmUtils } from 'typeorm/util/OrmUtils.js';
 import { MiAbuseReportResolver } from '@/models/AbuseReportResolver.js';
 import { MiAbuseUserReport } from '@/models/AbuseUserReport.js';
 import { MiAbuseReportNotificationRecipient } from '@/models/AbuseReportNotificationRecipient.js';
@@ -39,7 +36,6 @@ import { MiGalleryLike } from '@/models/GalleryLike.js';
 import { MiGalleryPost } from '@/models/GalleryPost.js';
 import { MiHashtag } from '@/models/Hashtag.js';
 import { MiInstance } from '@/models/Instance.js';
-import { MiMessagingMessage } from '@/models/MessagingMessage.js';
 import { MiMeta } from '@/models/Meta.js';
 import { MiModerationLog } from '@/models/ModerationLog.js';
 import { MiMuting } from '@/models/Muting.js';
@@ -49,7 +45,6 @@ import { MiNoteDraft } from '@/models/NoteDraft.js';
 import { MiNoteFavorite } from '@/models/NoteFavorite.js';
 import { MiNoteReaction } from '@/models/NoteReaction.js';
 import { MiNoteThreadMuting } from '@/models/NoteThreadMuting.js';
-import { MiNoteUnread } from '@/models/NoteUnread.js';
 import { MiPage } from '@/models/Page.js';
 import { MiPageLike } from '@/models/PageLike.js';
 import { MiPasswordResetRequest } from '@/models/PasswordResetRequest.js';
@@ -87,6 +82,11 @@ import { MiRoleAssignment } from '@/models/RoleAssignment.js';
 import { MiFlash } from '@/models/Flash.js';
 import { MiFlashLike } from '@/models/FlashLike.js';
 import { MiUserListFavorite } from '@/models/UserListFavorite.js';
+import { MiChatMessage } from '@/models/ChatMessage.js';
+import { MiChatRoom } from '@/models/ChatRoom.js';
+import { MiChatRoomMembership } from '@/models/ChatRoomMembership.js';
+import { MiChatRoomInvitation } from '@/models/ChatRoomInvitation.js';
+import { MiChatApproval } from '@/models/ChatApproval.js';
 import { MiBubbleGameRecord } from '@/models/BubbleGameRecord.js';
 import { MiReversiGame } from '@/models/ReversiGame.js';
 import { MiNoteSchedule } from '@/models/NoteSchedule.js';
@@ -165,7 +165,6 @@ export {
 	MiGalleryPost,
 	MiHashtag,
 	MiInstance,
-	MiMessagingMessage,
 	MiMeta,
 	MiModerationLog,
 	MiMuting,
@@ -176,7 +175,6 @@ export {
 	MiNoteReaction,
 	MiNoteSchedule,
 	MiNoteThreadMuting,
-	MiNoteUnread,
 	MiPage,
 	MiPageLike,
 	MiPasswordResetRequest,
@@ -214,6 +212,11 @@ export {
 	MiFlash,
 	MiFlashLike,
 	MiUserMemo,
+	MiChatMessage,
+	MiChatRoom,
+	MiChatRoomMembership,
+	MiChatRoomInvitation,
+	MiChatApproval,
 	MiBubbleGameRecord,
 	MiReversiGame,
 };
@@ -247,7 +250,6 @@ export type GalleryLikesRepository = Repository<MiGalleryLike> & MiRepository<Mi
 export type GalleryPostsRepository = Repository<MiGalleryPost> & MiRepository<MiGalleryPost>;
 export type HashtagsRepository = Repository<MiHashtag> & MiRepository<MiHashtag>;
 export type InstancesRepository = Repository<MiInstance> & MiRepository<MiInstance>;
-export type MessagingMessagesRepository = Repository<MiMessagingMessage> & MiRepository<MiMessagingMessage>;
 export type MetasRepository = Repository<MiMeta> & MiRepository<MiMeta>;
 export type ModerationLogsRepository = Repository<MiModerationLog> & MiRepository<MiModerationLog>;
 export type MutingsRepository = Repository<MiMuting> & MiRepository<MiMuting>;
@@ -257,7 +259,6 @@ export type NoteDraftsRepository = Repository<MiNoteDraft> & MiRepository<MiNote
 export type NoteFavoritesRepository = Repository<MiNoteFavorite> & MiRepository<MiNoteFavorite>;
 export type NoteReactionsRepository = Repository<MiNoteReaction> & MiRepository<MiNoteReaction>;
 export type NoteThreadMutingsRepository = Repository<MiNoteThreadMuting> & MiRepository<MiNoteThreadMuting>;
-export type NoteUnreadsRepository = Repository<MiNoteUnread> & MiRepository<MiNoteUnread>;
 export type PagesRepository = Repository<MiPage> & MiRepository<MiPage>;
 export type PageLikesRepository = Repository<MiPageLike> & MiRepository<MiPageLike>;
 export type PasswordResetRequestsRepository = Repository<MiPasswordResetRequest> & MiRepository<MiPasswordResetRequest>;
@@ -295,6 +296,11 @@ export type RoleAssignmentsRepository = Repository<MiRoleAssignment> & MiReposit
 export type FlashsRepository = Repository<MiFlash> & MiRepository<MiFlash>;
 export type FlashLikesRepository = Repository<MiFlashLike> & MiRepository<MiFlashLike>;
 export type UserMemoRepository = Repository<MiUserMemo> & MiRepository<MiUserMemo>;
+export type ChatMessagesRepository = Repository<MiChatMessage> & MiRepository<MiChatMessage>;
+export type ChatRoomsRepository = Repository<MiChatRoom> & MiRepository<MiChatRoom>;
+export type ChatRoomMembershipsRepository = Repository<MiChatRoomMembership> & MiRepository<MiChatRoomMembership>;
+export type ChatRoomInvitationsRepository = Repository<MiChatRoomInvitation> & MiRepository<MiChatRoomInvitation>;
+export type ChatApprovalsRepository = Repository<MiChatApproval> & MiRepository<MiChatApproval>;
 export type BubbleGameRecordsRepository = Repository<MiBubbleGameRecord> & MiRepository<MiBubbleGameRecord>;
 export type ReversiGamesRepository = Repository<MiReversiGame> & MiRepository<MiReversiGame>;
 export type NoteScheduleRepository = Repository<MiNoteSchedule>;

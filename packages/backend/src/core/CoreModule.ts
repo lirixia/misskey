@@ -39,7 +39,6 @@ import { IdService } from './IdService.js';
 import { ImageProcessingService } from './ImageProcessingService.js';
 import { SystemAccountService } from './SystemAccountService.js';
 import { InternalStorageService } from './InternalStorageService.js';
-import { MessagingService } from './MessagingService.js';
 import { MetaService } from './MetaService.js';
 import { MfmService } from './MfmService.js';
 import { ModerationLogService } from './ModerationLogService.js';
@@ -47,7 +46,6 @@ import { NoteCreateService } from './NoteCreateService.js';
 import { NoteUpdateService } from './NoteUpdateService.js';
 import { NoteDeleteService } from './NoteDeleteService.js';
 import { NotePiningService } from './NotePiningService.js';
-import { NoteReadService } from './NoteReadService.js';
 import { NoteDraftService } from './NoteDraftService.js';
 import { NotificationService } from './NotificationService.js';
 import { PollService } from './PollService.js';
@@ -79,6 +77,7 @@ import { ClipService } from './ClipService.js';
 import { FeaturedService } from './FeaturedService.js';
 import { FanoutTimelineService } from './FanoutTimelineService.js';
 import { ChannelFollowingService } from './ChannelFollowingService.js';
+import { ChatService } from './ChatService.js';
 import { RegistryApiService } from './RegistryApiService.js';
 import { ReversiService } from './ReversiService.js';
 
@@ -104,6 +103,7 @@ import { AppEntityService } from './entities/AppEntityService.js';
 import { AuthSessionEntityService } from './entities/AuthSessionEntityService.js';
 import { BlockingEntityService } from './entities/BlockingEntityService.js';
 import { ChannelEntityService } from './entities/ChannelEntityService.js';
+import { ChatEntityService } from './entities/ChatEntityService.js';
 import { ClipEntityService } from './entities/ClipEntityService.js';
 import { DriveFileEntityService } from './entities/DriveFileEntityService.js';
 import { DriveFolderEntityService } from './entities/DriveFolderEntityService.js';
@@ -115,7 +115,6 @@ import { GalleryPostEntityService } from './entities/GalleryPostEntityService.js
 import { HashtagEntityService } from './entities/HashtagEntityService.js';
 import { InstanceEntityService } from './entities/InstanceEntityService.js';
 import { InviteCodeEntityService } from './entities/InviteCodeEntityService.js';
-import { MessagingMessageEntityService } from './entities/MessagingMessageEntityService.js';
 import { ModerationLogEntityService } from './entities/ModerationLogEntityService.js';
 import { MutingEntityService } from './entities/MutingEntityService.js';
 import { RenoteMutingEntityService } from './entities/RenoteMutingEntityService.js';
@@ -189,7 +188,6 @@ const $HttpRequestService: Provider = { provide: 'HttpRequestService', useExisti
 const $IdService: Provider = { provide: 'IdService', useExisting: IdService };
 const $ImageProcessingService: Provider = { provide: 'ImageProcessingService', useExisting: ImageProcessingService };
 const $InternalStorageService: Provider = { provide: 'InternalStorageService', useExisting: InternalStorageService };
-const $MessagingService: Provider = { provide: 'MessagingService', useExisting: MessagingService };
 const $MetaService: Provider = { provide: 'MetaService', useExisting: MetaService };
 const $MfmService: Provider = { provide: 'MfmService', useExisting: MfmService };
 const $ModerationLogService: Provider = { provide: 'ModerationLogService', useExisting: ModerationLogService };
@@ -197,7 +195,6 @@ const $NoteCreateService: Provider = { provide: 'NoteCreateService', useExisting
 const $NoteUpdateService: Provider = { provide: 'NoteUpdateService', useExisting: NoteUpdateService };
 const $NoteDeleteService: Provider = { provide: 'NoteDeleteService', useExisting: NoteDeleteService };
 const $NotePiningService: Provider = { provide: 'NotePiningService', useExisting: NotePiningService };
-const $NoteReadService: Provider = { provide: 'NoteReadService', useExisting: NoteReadService };
 const $NoteDraftService: Provider = { provide: 'NoteDraftService', useExisting: NoteDraftService };
 const $NotificationService: Provider = { provide: 'NotificationService', useExisting: NotificationService };
 const $PollService: Provider = { provide: 'PollService', useExisting: PollService };
@@ -235,6 +232,7 @@ const $FeaturedService: Provider = { provide: 'FeaturedService', useExisting: Fe
 const $FanoutTimelineService: Provider = { provide: 'FanoutTimelineService', useExisting: FanoutTimelineService };
 const $FanoutTimelineEndpointService: Provider = { provide: 'FanoutTimelineEndpointService', useExisting: FanoutTimelineEndpointService };
 const $ChannelFollowingService: Provider = { provide: 'ChannelFollowingService', useExisting: ChannelFollowingService };
+const $ChatService: Provider = { provide: 'ChatService', useExisting: ChatService };
 const $RegistryApiService: Provider = { provide: 'RegistryApiService', useExisting: RegistryApiService };
 const $ReversiService: Provider = { provide: 'ReversiService', useExisting: ReversiService };
 
@@ -261,6 +259,7 @@ const $AppEntityService: Provider = { provide: 'AppEntityService', useExisting: 
 const $AuthSessionEntityService: Provider = { provide: 'AuthSessionEntityService', useExisting: AuthSessionEntityService };
 const $BlockingEntityService: Provider = { provide: 'BlockingEntityService', useExisting: BlockingEntityService };
 const $ChannelEntityService: Provider = { provide: 'ChannelEntityService', useExisting: ChannelEntityService };
+const $ChatEntityService: Provider = { provide: 'ChatEntityService', useExisting: ChatEntityService };
 const $ClipEntityService: Provider = { provide: 'ClipEntityService', useExisting: ClipEntityService };
 const $DriveFileEntityService: Provider = { provide: 'DriveFileEntityService', useExisting: DriveFileEntityService };
 const $DriveFolderEntityService: Provider = { provide: 'DriveFolderEntityService', useExisting: DriveFolderEntityService };
@@ -272,7 +271,6 @@ const $GalleryPostEntityService: Provider = { provide: 'GalleryPostEntityService
 const $HashtagEntityService: Provider = { provide: 'HashtagEntityService', useExisting: HashtagEntityService };
 const $InstanceEntityService: Provider = { provide: 'InstanceEntityService', useExisting: InstanceEntityService };
 const $InviteCodeEntityService: Provider = { provide: 'InviteCodeEntityService', useExisting: InviteCodeEntityService };
-const $MessagingMessageEntityService: Provider = { provide: 'MessagingMessageEntityService', useExisting: MessagingMessageEntityService };
 const $ModerationLogEntityService: Provider = { provide: 'ModerationLogEntityService', useExisting: ModerationLogEntityService };
 const $MutingEntityService: Provider = { provide: 'MutingEntityService', useExisting: MutingEntityService };
 const $RenoteMutingEntityService: Provider = { provide: 'RenoteMutingEntityService', useExisting: RenoteMutingEntityService };
@@ -348,7 +346,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		IdService,
 		ImageProcessingService,
 		InternalStorageService,
-		MessagingService,
 		MetaService,
 		MfmService,
 		ModerationLogService,
@@ -356,7 +353,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		NoteUpdateService,
 		NoteDeleteService,
 		NotePiningService,
-		NoteReadService,
 		NoteDraftService,
 		NotificationService,
 		PollService,
@@ -394,6 +390,7 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		FanoutTimelineService,
 		FanoutTimelineEndpointService,
 		ChannelFollowingService,
+		ChatService,
 		RegistryApiService,
 		ReversiService,
 
@@ -420,6 +417,7 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		AuthSessionEntityService,
 		BlockingEntityService,
 		ChannelEntityService,
+		ChatEntityService,
 		ClipEntityService,
 		DriveFileEntityService,
 		DriveFolderEntityService,
@@ -431,7 +429,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		HashtagEntityService,
 		InstanceEntityService,
 		InviteCodeEntityService,
-		MessagingMessageEntityService,
 		ModerationLogEntityService,
 		MutingEntityService,
 		RenoteMutingEntityService,
@@ -503,7 +500,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$IdService,
 		$ImageProcessingService,
 		$InternalStorageService,
-		$MessagingService,
 		$MetaService,
 		$MfmService,
 		$ModerationLogService,
@@ -511,7 +507,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$NoteUpdateService,
 		$NoteDeleteService,
 		$NotePiningService,
-		$NoteReadService,
 		$NoteDraftService,
 		$NotificationService,
 		$PollService,
@@ -549,6 +544,7 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$FanoutTimelineService,
 		$FanoutTimelineEndpointService,
 		$ChannelFollowingService,
+		$ChatService,
 		$RegistryApiService,
 		$ReversiService,
 
@@ -575,6 +571,7 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$AuthSessionEntityService,
 		$BlockingEntityService,
 		$ChannelEntityService,
+		$ChatEntityService,
 		$ClipEntityService,
 		$DriveFileEntityService,
 		$DriveFolderEntityService,
@@ -586,7 +583,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$HashtagEntityService,
 		$InstanceEntityService,
 		$InviteCodeEntityService,
-		$MessagingMessageEntityService,
 		$ModerationLogEntityService,
 		$MutingEntityService,
 		$RenoteMutingEntityService,
@@ -659,7 +655,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		IdService,
 		ImageProcessingService,
 		InternalStorageService,
-		MessagingService,
 		MetaService,
 		MfmService,
 		ModerationLogService,
@@ -667,7 +662,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		NoteUpdateService,
 		NoteDeleteService,
 		NotePiningService,
-		NoteReadService,
 		NoteDraftService,
 		NotificationService,
 		PollService,
@@ -705,6 +699,7 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		FanoutTimelineService,
 		FanoutTimelineEndpointService,
 		ChannelFollowingService,
+		ChatService,
 		RegistryApiService,
 		ReversiService,
 
@@ -730,6 +725,7 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		AuthSessionEntityService,
 		BlockingEntityService,
 		ChannelEntityService,
+		ChatEntityService,
 		ClipEntityService,
 		DriveFileEntityService,
 		DriveFolderEntityService,
@@ -741,7 +737,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		HashtagEntityService,
 		InstanceEntityService,
 		InviteCodeEntityService,
-		MessagingMessageEntityService,
 		ModerationLogEntityService,
 		MutingEntityService,
 		RenoteMutingEntityService,
@@ -813,7 +808,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$IdService,
 		$ImageProcessingService,
 		$InternalStorageService,
-		$MessagingService,
 		$MetaService,
 		$MfmService,
 		$ModerationLogService,
@@ -821,7 +815,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$NoteUpdateService,
 		$NoteDeleteService,
 		$NotePiningService,
-		$NoteReadService,
 		$NoteDraftService,
 		$NotificationService,
 		$PollService,
@@ -858,6 +851,7 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$FanoutTimelineService,
 		$FanoutTimelineEndpointService,
 		$ChannelFollowingService,
+		$ChatService,
 		$RegistryApiService,
 		$ReversiService,
 
@@ -883,6 +877,7 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$AuthSessionEntityService,
 		$BlockingEntityService,
 		$ChannelEntityService,
+		$ChatEntityService,
 		$ClipEntityService,
 		$DriveFileEntityService,
 		$DriveFolderEntityService,
@@ -894,7 +889,6 @@ const $ApGameService: Provider = { provide: 'ApGameService', useExisting: ApGame
 		$HashtagEntityService,
 		$InstanceEntityService,
 		$InviteCodeEntityService,
-		$MessagingMessageEntityService,
 		$ModerationLogEntityService,
 		$MutingEntityService,
 		$RenoteMutingEntityService,

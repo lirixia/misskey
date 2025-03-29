@@ -239,10 +239,6 @@ export interface Locale extends ILocale {
      */
     "copiedContent": string;
     /**
-     * コピーしました！
-     */
-    "copied": string;
-    /**
      * ようこそ！
      */
     "welcome": string;
@@ -1734,10 +1730,6 @@ export interface Locale extends ILocale {
      */
     "saved": string;
     /**
-     * チャット
-     */
-    "messaging": string;
-    /**
      * アップロード
      */
     "upload": string;
@@ -1782,17 +1774,13 @@ export interface Locale extends ILocale {
      */
     "messageRead": string;
     /**
-     * 送信済み
-     */
-    "messageSend": string;
-    /**
      * これより過去の履歴はありません
      */
     "noMoreHistory": string;
     /**
-     * チャットを開始
+     * チャットを始める
      */
-    "startMessaging": string;
+    "startChat": string;
     /**
      * {n}人が読みました
      */
@@ -2534,14 +2522,6 @@ export interface Locale extends ILocale {
      */
     "transfer": string;
     /**
-     * ユーザーとチャット
-     */
-    "messagingWithUser": string;
-    /**
-     * グループでチャット
-     */
-    "messagingWithGroup": string;
-    /**
      * タイトル
      */
     "title": string;
@@ -2581,10 +2561,6 @@ export interface Locale extends ILocale {
      * クリップボードのテキストが長いです。テキストファイルとして添付しますか？
      */
     "attachAsFileQuestion": string;
-    /**
-     * まだチャットはありません
-     */
-    "noMessagesYet": string;
     /**
      * 新しいメッセージがあります
      */
@@ -3458,7 +3434,7 @@ export interface Locale extends ILocale {
      */
     "copy": string;
     /**
-     * クリップボードにコピーされました
+     * クリップボードにコピーされました！
      */
     "copiedToClipboard": string;
     /**
@@ -6075,6 +6051,18 @@ export interface Locale extends ILocale {
      */
     "information": string;
     /**
+     * チャット
+     */
+    "chat": string;
+    /**
+     * 旧設定情報を移行
+     */
+    "migrateOldSettings": string;
+    /**
+     * 通常これは自動で行われていますが、何らかの理由により上手く移行されなかった場合は手動で移行処理をトリガーできます。現在の設定情報は上書きされます。
+     */
+    "migrateOldSettings_description": string;
+    /**
      * 下書き
      */
     "draft": string;
@@ -6190,14 +6178,6 @@ export interface Locale extends ILocale {
          */
         "notification": string;
         /**
-         * チャット
-         */
-        "chat": string;
-        /**
-         * チャット(バックグラウンド)
-         */
-        "chatBg": string;
-        /**
          * システムの触覚
          */
         "system": string;
@@ -6216,11 +6196,174 @@ export interface Locale extends ILocale {
          */
         "inactive": string;
     };
-    "_messaging": {
+    "_chat": {
         /**
-         * ダイレクトメッセージ
+         * まだメッセージはありません
          */
-        "direct": string;
+        "noMessagesYet": string;
+        /**
+         * 新しいメッセージ
+         */
+        "newMessage": string;
+        /**
+         * 個人チャット
+         */
+        "individualChat": string;
+        /**
+         * 特定ユーザーとの一対一のチャットができます。
+         */
+        "individualChat_description": string;
+        /**
+         * ルームチャット
+         */
+        "roomChat": string;
+        /**
+         * 複数人でのチャットができます。
+         * また、個人チャットを許可していないユーザーとでも、相手が受け入れればチャットができます。
+         */
+        "roomChat_description": string;
+        /**
+         * ルームを作成
+         */
+        "createRoom": string;
+        /**
+         * ユーザーを招待してチャットを始めましょう
+         */
+        "inviteUserToChat": string;
+        /**
+         * 作成したルーム
+         */
+        "yourRooms": string;
+        /**
+         * 参加中のルーム
+         */
+        "joiningRooms": string;
+        /**
+         * 招待
+         */
+        "invitations": string;
+        /**
+         * 招待はありません
+         */
+        "noInvitations": string;
+        /**
+         * 履歴
+         */
+        "history": string;
+        /**
+         * 履歴はありません
+         */
+        "noHistory": string;
+        /**
+         * ルームはありません
+         */
+        "noRooms": string;
+        /**
+         * ユーザーを招待
+         */
+        "inviteUser": string;
+        /**
+         * 送信した招待
+         */
+        "sentInvitations": string;
+        /**
+         * 参加
+         */
+        "join": string;
+        /**
+         * 無視
+         */
+        "ignore": string;
+        /**
+         * ルームから退出
+         */
+        "leave": string;
+        /**
+         * メンバー
+         */
+        "members": string;
+        /**
+         * メッセージを検索
+         */
+        "searchMessages": string;
+        /**
+         * ホーム
+         */
+        "home": string;
+        /**
+         * 送信
+         */
+        "send": string;
+        /**
+         * 改行
+         */
+        "newline": string;
+        /**
+         * このルームをミュート
+         */
+        "muteThisRoom": string;
+        /**
+         * ルームを削除
+         */
+        "deleteRoom": string;
+        /**
+         * このユーザーとのチャットを開始できません
+         */
+        "cannotChatWithTheUser": string;
+        /**
+         * チャットが使えない状態になっているか、相手がチャットを開放していません。
+         */
+        "cannotChatWithTheUser_description": string;
+        /**
+         * チャットする
+         */
+        "chatWithThisUser": string;
+        /**
+         * このユーザーはフォロワーからのみチャットを受け付けています。
+         */
+        "thisUserAllowsChatOnlyFromFollowers": string;
+        /**
+         * このユーザーはフォローしているユーザーからのみチャットを受け付けています。
+         */
+        "thisUserAllowsChatOnlyFromFollowing": string;
+        /**
+         * このユーザーは相互フォローのユーザーからのみチャットを受け付けています。
+         */
+        "thisUserAllowsChatOnlyFromMutualFollowing": string;
+        /**
+         * このユーザーは誰からもチャットを受け付けていません。
+         */
+        "thisUserNotAllowedChatAnyone": string;
+        /**
+         * チャットを許可する相手
+         */
+        "chatAllowedUsers": string;
+        /**
+         * 自分からチャットメッセージを送った相手とはこの設定に関わらずチャットが可能です。
+         */
+        "chatAllowedUsers_note": string;
+        "_chatAllowedUsers": {
+            /**
+             * 誰でも
+             */
+            "everyone": string;
+            /**
+             * 自分のフォロワーのみ
+             */
+            "followers": string;
+            /**
+             * 自分がフォローしているユーザーのみ
+             */
+            "following": string;
+            /**
+             * 相互フォローのユーザーのみ
+             */
+            "mutual": string;
+            /**
+             * 誰も許可しない
+             */
+            "none": string;
+        };
     };
     "_emojiPalette": {
         /**
@@ -6241,6 +6384,10 @@ export interface Locale extends ILocale {
         "paletteForReaction": string;
     };
     "_settings": {
+        /**
+         * CherryPickの独自機能、パッチ、UIに関する設定を行えます。
+         */
+        "cherrypickBanner": string;
         /**
          * ドライブの管理と設定、使用量の確認、ファイルをアップロードする際の設定を行えます。
          */
@@ -6318,9 +6465,27 @@ export interface Locale extends ILocale {
          */
         "makeEveryTextElementsSelectable_description": string;
         /**
-         * CherryPickの独自機能、パッチ、UIに関する設定を行えます。
+         * ナビゲーションバーに副ボタンを表示
          */
-        "cherrypickBanner": string;
+        "showNavbarSubButtons": string;
+        /**
+         * オンのとき
+         */
+        "ifOn": string;
+        /**
+         * オフのとき
+         */
+        "ifOff": string;
+        "_chat": {
+            /**
+             * 送信者の名前を表示
+             */
+            "showSenderName": string;
+            /**
+             * Enterで送信
+             */
+            "sendOnEnter": string;
+        };
     };
     "_preferencesProfile": {
         /**
@@ -8531,6 +8696,10 @@ export interface Locale extends ILocale {
              */
             "canReadFollowHistory": string;
             /**
+             * チャットを許可
+             */
+            "canChat": string;
+            /**
              * サーバーサイドのノートの下書きの作成可能数
              */
             "noteDraftLimit": string;
@@ -8542,18 +8711,18 @@ export interface Locale extends ILocale {
              * 自動フォローバックを許可
              */
             "canAutoFollowBack": string;
-             /**
+            /**
              * フォロー解除通知を許可
              */
-             "canUseUnFollowNotification": string;
-             /**
-              * ブロック通知を許可
-              */
-             "canUseBlockedNotification": string;
-             /**
-              * ブロック解除通知を許可
-              */
-             "canUseUnBlockedNotification": string;
+            "canUseUnFollowNotification": string;
+            /**
+             * ブロック通知を許可
+             */
+            "canUseBlockedNotification": string;
+            /**
+             * ブロック解除通知を許可
+             */
+            "canUseUnBlockedNotification": string;
         };
         "_condition": {
             /**
@@ -9786,17 +9955,13 @@ export interface Locale extends ILocale {
          */
         "notification": string;
         /**
-         * チャット
-         */
-        "chat": string;
-        /**
-         * チャット(バックグラウンド)
-         */
-        "chatBg": string;
-        /**
          * リアクション選択時
          */
         "reaction": string;
+        /**
+         * チャットのメッセージ
+         */
+        "chatMessage": string;
     };
     "_soundSettings": {
         /**
@@ -10377,6 +10542,14 @@ export interface Locale extends ILocale {
          * 違反を報告する
          */
         "write:report-abuse": string;
+        /**
+         * チャットを操作する
+         */
+        "write:chat": string;
+        /**
+         * チャットを閲覧する
+         */
+        "read:chat": string;
     };
     "_auth": {
         /**
@@ -11384,6 +11557,10 @@ export interface Locale extends ILocale {
          */
         "roleAssigned": string;
         /**
+         * チャットルームへ招待されました
+         */
+        "chatRoomInvitationReceived": string;
+        /**
          * プッシュ通知の更新をしました
          */
         "emptyPushNotificationMessage": string;
@@ -11466,6 +11643,10 @@ export interface Locale extends ILocale {
              */
             "follow": string;
             /**
+             * フォロー解除
+             */
+            "unfollow": string;
+            /**
              * メンション
              */
             "mention": string;
@@ -11502,9 +11683,21 @@ export interface Locale extends ILocale {
              */
             "groupInvited": string;
             /**
+             * ブロックされた
+             */
+            "blocked": string;
+            /**
+             * ブロックが解除された
+             */
+            "unblocked": string;
+            /**
              * ロールが付与された
              */
             "roleAssigned": string;
+            /**
+             * チャットルームへ招待された
+             */
+            "chatRoomInvitationReceived": string;
             /**
              * 実績の獲得
              */
@@ -12064,6 +12257,10 @@ export interface Locale extends ILocale {
          * ギャラリーの投稿を削除
          */
         "deleteGalleryPost": string;
+        /**
+         * チャットルームを削除
+         */
+        "deleteChatRoom": string;
         /**
          * プロキシアカウントの説明を更新
          */

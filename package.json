@@ -1,8 +1,8 @@
 {
 	"name": "misskey",
-	"version": "2025.3.2-beta.9-miry-dev.5",
-	"basedMisskeyVersion": "2025.3.2-beta.9",
-	"basedCherryPickVersion": "4.16.0-beta.2",
+	"version": "2025.3.2-beta.13-miry-dev.1",
+	"basedMisskeyVersion": "2025.3.2-beta.13",
+	"basedCherryPickVersion": "4.16.0-beta.4",
 	"codename": "nasubi",
 	"repository": {
 		"type": "git",

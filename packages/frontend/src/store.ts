@@ -201,7 +201,7 @@ export const store = markRaw(new Pizzax('base', {
 		where: 'deviceAccount',
 		default: [
 			'notifications',
-			'messaging',
+			'chat',
 			'favorites',
 			'explore',
 			'followRequests',
@@ -510,14 +510,6 @@ export const store = markRaw(new Pizzax('base', {
 		where: 'device',
 		default: { type: 'syuilo/n-ea', volume: 1 },
 	},
-	sound_chat: {
-		where: 'device',
-		default: { type: 'syuilo/pope1', volume: 1 },
-	},
-	sound_chatBg: {
-		where: 'device',
-		default: { type: 'syuilo/waon', volume: 1 },
-	},
 	sound_reaction: {
 		where: 'device',
 		default: { type: 'syuilo/bubble2', volume: 1 },
@@ -732,7 +724,7 @@ export const store = markRaw(new Pizzax('base', {
 		where: 'device',
 		default: true,
 	},
-	showMessageButtonInNavbar: {
+	showChatButtonInNavbar: {
 		where: 'device',
 		default: isFriendly().value,
 	},
@@ -789,14 +781,6 @@ export const store = markRaw(new Pizzax('base', {
 		default: true,
 	},
 	vibrate_notification: {
-		where: 'device',
-		default: true,
-	},
-	vibrate_chat: {
-		where: 'device',
-		default: true,
-	},
-	vibrate_chatBg: {
 		where: 'device',
 		default: true,
 	},

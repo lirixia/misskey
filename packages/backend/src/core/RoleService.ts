@@ -70,6 +70,7 @@ export type RolePolicies = {
 	canImportMuting: boolean;
 	canImportUserLists: boolean;
 	canReadFollowHistory: boolean;
+	canChat: boolean;
 	noteDraftLimit: number;
 	canSetFederationAvatarShape: boolean;
 	canAutoFollowBack: boolean;
@@ -117,6 +118,7 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	canImportMuting: true,
 	canImportUserLists: true,
 	canReadFollowHistory: false,
+	canChat: true,
 	noteDraftLimit: 10,
 	canSetFederationAvatarShape: true,
 	canAutoFollowBack: false,
@@ -435,6 +437,7 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			canImportMuting: calc('canImportMuting', vs => vs.some(v => v === true)),
 			canImportUserLists: calc('canImportUserLists', vs => vs.some(v => v === true)),
 			canReadFollowHistory: calc('canReadFollowHistory', vs => vs.some(v => v === true)),
+			canChat: calc('canChat', vs => vs.some(v => v === true)),
 			noteDraftLimit: calc('noteDraftLimit', vs => Math.max(...vs)),
 			canSetFederationAvatarShape: calc('canSetFederationAvatarShape', vs => vs.some(v => v === true)),
 			canAutoFollowBack: calc('canAutoFollowBack', vs => vs.some(v => v === true)),
