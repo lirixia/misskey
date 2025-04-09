@@ -37,7 +37,6 @@ import MkLoading from '@/components/global/MkLoading.vue';
 import { i18n } from '@/i18n.js';
 import { infoImageUrl } from '@/instance.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
-import { $i } from '@/i.js';
 import MkMfm from '@/components/global/MkMfm.js';
 	
 const name = i18n.ts._widgets.listenBrainz;
@@ -71,27 +70,41 @@ const widgetPropsDef = {
 	},
 };
 	
-	type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
+type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
+
+// ListenBrainzのトラックメタデータ型定義
+type TrackMetadata = {
+	artist_name?: string;
+	track_name?: string;
+	additional_info?: {
+		media_player?: string;
+		music_service_name?: string;
+		origin_url?: string;
+		submission_client?: string;
+		[key: string]: unknown;
+	};
+	[key: string]: unknown;
+};
 	
 const props = defineProps<WidgetComponentProps<WidgetProps>>();
 const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 	
-const { widgetProps, configure, save } = useWidgetPropsManager(name, widgetPropsDef, props, emit);
+const { widgetProps, configure } = useWidgetPropsManager(name, widgetPropsDef, props, emit);
 	
 const playingNow = ref(false);
-const trackMetadata = ref<any>(null);
+const trackMetadata = ref<TrackMetadata | null>(null);
 const fetching = ref(true);
-let intervalId: ReturnType<typeof setTimeout> | null = null;
+let intervalId: number | null = null;
 	
 const formattedNote = computed(() => {
 	if (!trackMetadata.value) return '';
 	return widgetProps.noteFormat
-		.replace('{artist_name}', trackMetadata.value.artist_name || '')
-		.replace('{track_name}', trackMetadata.value.track_name || '')
-		.replace('{media_player}', trackMetadata.value.additional_info?.media_player || '')
-		.replace('{music_service_name}', trackMetadata.value.additional_info?.music_service_name || '')
-		.replace('{url}', trackMetadata.value.additional_info?.origin_url || '')
-		.replace('{client}', trackMetadata.value.additional_info?.submission_client || '');
+		.replace('{artist_name}', trackMetadata.value.artist_name ?? '')
+		.replace('{track_name}', trackMetadata.value.track_name ?? '')
+		.replace('{media_player}', trackMetadata.value.additional_info?.media_player ?? '')
+		.replace('{music_service_name}', trackMetadata.value.additional_info?.music_service_name ?? '')
+		.replace('{url}', trackMetadata.value.additional_info?.origin_url ?? '')
+		.replace('{client}', trackMetadata.value.additional_info?.submission_client ?? '');
 });
 	
 const fetchPlayingNow = async () => {
@@ -126,30 +139,33 @@ const postNote = async () => {
 watch(() => widgetProps.userId, fetchPlayingNow, { immediate: true });
 	
 watch(() => widgetProps.refreshIntervalSec, (newInterval) => {
-	if (intervalId) clearInterval(intervalId);
+	if (intervalId) window.clearInterval(intervalId);
 	if (newInterval > 0) {
-		intervalId = setInterval(fetchPlayingNow, newInterval * 1000);
+		intervalId = window.setInterval(fetchPlayingNow, newInterval * 1000);
 	}
 }, { immediate: true });
 	
 onMounted(() => {
 	if (widgetProps.refreshIntervalSec > 0) {
-		intervalId = setInterval(fetchPlayingNow, widgetProps.refreshIntervalSec * 1000);
+		intervalId = window.setInterval(fetchPlayingNow, widgetProps.refreshIntervalSec * 1000);
 	}
 });
 	
 onUnmounted(() => {
-	if (intervalId) clearInterval(intervalId);
+	if (intervalId) window.clearInterval(intervalId);
 });
-	
+
+// 反応性を保持するため、computedを使用
+const widgetId = computed(() => props.widget ? props.widget.id : null);
+
 defineExpose<WidgetComponentExpose>({
 	name,
 	configure,
-	id: props.widget ? props.widget.id : null,
+	get id() { return widgetId.value; },
 });
 </script>
 	
-	<style lang="scss" module>
+<style lang="scss" module>
 	.root {
 			padding: 16px;
 	}
@@ -159,4 +175,4 @@ defineExpose<WidgetComponentExpose>({
 		max-height: 100px;
 	}
 	</style>
-	
+

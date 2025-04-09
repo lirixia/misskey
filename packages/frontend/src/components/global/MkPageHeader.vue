@@ -69,7 +69,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref, inject, useTemplateRef, computed } from 'vue';
-import { scrollToTop } from '@@/js/scroll.js';
+import { scrollToTop, getScrollPosition } from '@@/js/scroll.js';
 import XTabs from './MkPageHeader.tabs.vue';
 import type { Tab } from './MkPageHeader.tabs.vue';
 import type { PageHeaderItem } from '@/types/page-header.js';
