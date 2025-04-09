@@ -423,7 +423,7 @@ function menuEdit() {
 
 		&:hover, &.active {
 			&::before {
-				background: var(--MI_THEME-accentLighten);
+				background: hsl(from var(--MI_THEME-accent) h s calc(l + 10));
 			}
 		}
 	}
@@ -499,7 +499,7 @@ function menuEdit() {
 
 		&:hover {
 			text-decoration: none;
-			color: var(--MI_THEME-navHoverFg);
+			color: light-dark(hsl(from var(--MI_THEME-navFg) h s calc(l - 17)), hsl(from var(--MI_THEME-navFg) h s calc(l + 17)));
 		}
 
 		&.active {
@@ -655,7 +655,7 @@ function menuEdit() {
 
 		&:hover, &.active {
 			&::before {
-				background: var(--MI_THEME-accentLighten);
+				background: hsl(from var(--MI_THEME-accent) h s calc(l + 10));
 			}
 		}
 	}

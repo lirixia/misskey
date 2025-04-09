@@ -24,7 +24,7 @@ class Systemd {
 			const elapsed_secs = Math.floor((Date.now() - started) / 1000);
 			const stars = shiftArray(
 				[" ", "*", "*", "*", " ", " "],
-				elapsed_secs % 6,
+				elapsed_secs % 6
 			);
 			const spanStatus = document.createElement("span");
 			spanStatus.innerText = stars.join("");
@@ -60,7 +60,9 @@ class Systemd {
 			spanStatus.innerText = "FAILED";
 			spanStatus.className = "tty-status-failed";
 			const spanMessage = document.createElement("span");
-			spanMessage.innerText = `Failed ${id} in ${elapsed_secs.toFixed(3)}s: ${message}`;
+			spanMessage.innerText = `Failed ${id} in ${elapsed_secs.toFixed(
+				3
+			)}s: ${message}`;
 			const div = document.createElement("div");
 			div.className = "tty-line";
 			div.innerHTML = "[";
@@ -120,7 +122,7 @@ class Systemd {
 			id,
 			(async () => {
 				return func();
-			})(),
+			})()
 		);
 	}
 	emergency_mode(code, details) {
@@ -168,7 +170,7 @@ class Systemd {
 	if (forceError != null) {
 		await systemd.startSync("Force Error Service", () => {
 			throw new Error(
-				"This error is forced by having forceError in local storage.",
+				"This error is forced by having forceError in local storage."
 			);
 		});
 	}
@@ -182,7 +184,7 @@ class Systemd {
 				lang = navigator.language;
 			} else {
 				lang = supportedLangs.find(
-					(x) => x.split("-")[0] === navigator.language,
+					(x) => x.split("-")[0] === navigator.language
 				);
 
 				// Fallback
@@ -200,7 +202,7 @@ class Systemd {
 				headers: {
 					"Content-Type": "application/json",
 				},
-			}),
+			})
 		);
 		if (metaRes.status !== 200) {
 			renderError("META_FETCH");
@@ -226,7 +228,7 @@ class Systemd {
 
 		const localRes = await systemd.start(
 			"Fetch Locale files",
-			window.fetch(`/assets/locales/${lang}.${v}.json`),
+			window.fetch(`/assets/locales/${lang}.${v}.json`)
 		);
 		if (localRes.status === 200) {
 			localStorage.setItem("lang", lang);
@@ -272,7 +274,7 @@ class Systemd {
 			for (const [k, v] of Object.entries(JSON.parse(theme))) {
 				document.documentElement.style.setProperty(
 					`--MI_THEME-${k}`,
-					v.toString(),
+					v.toString()
 				);
 
 				// HTMLの theme-color 適用

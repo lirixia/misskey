@@ -193,10 +193,6 @@ export const store = markRaw(new Pizzax('base', {
 		where: 'account',
 		default: false,
 	},
-	imageCompressionMode: {
-		where: 'account',
-		default: 'resizeCompressLossy' as 'resizeCompress' | 'noResizeCompress' | 'resizeCompressLossy' | 'noResizeCompressLossy' | null,
-	},
 	menu: {
 		where: 'deviceAccount',
 		default: [
@@ -272,10 +268,6 @@ export const store = markRaw(new Pizzax('base', {
 		where: 'device',
 		default: window.matchMedia('(prefers-reduced-motion)').matches,
 	},
-	showingAnimatedImages: {
-		where: 'device',
-		default: /mobile|iphone|android/.test(navigator.userAgent.toLowerCase()) ? 'inactive' : 'always' as 'always' | 'interaction' | 'inactive',
-	},
 	emojiStyle: {
 		where: 'device',
 		default: 'twemoji', // twemoji / fluentEmoji / native
@@ -289,10 +281,6 @@ export const store = markRaw(new Pizzax('base', {
 		default: DEFAULT_DEVICE_KIND === 'desktop',
 	},
 	useBlurEffect: {
-		where: 'device',
-		default: DEFAULT_DEVICE_KIND === 'desktop',
-	},
-	removeModalBgColorForBlur: {
 		where: 'device',
 		default: DEFAULT_DEVICE_KIND === 'desktop',
 	},
@@ -460,22 +448,6 @@ export const store = markRaw(new Pizzax('base', {
 	hemisphere: {
 		where: 'device',
 		default: hemisphere as 'N' | 'S',
-	},
-	showUnreadNotificationsCount: {
-		where: 'deviceAccount',
-		default: false,
-	},
-	externalNavigationWarning: {
-		where: 'device',
-		default: true,
-	},
-	trustedDomains: {
-		where: 'device',
-		default: [] as string[],
-	},
-	showPreview: {
-		where: 'device',
-		default: false,
 	},
 
 	sound_masterVolume: {
@@ -656,12 +628,32 @@ export const store = markRaw(new Pizzax('base', {
 		where: 'device',
 		default: 'q',
 	},
+	showUnreadNotificationsCount: {
+		where: 'deviceAccount',
+		default: false,
+	},
+	externalNavigationWarning: {
+		where: 'device',
+		default: true,
+	},
+	trustedDomains: {
+		where: 'device',
+		default: [] as string[],
+	},
+	showPreview: {
+		where: 'device',
+		default: false,
+	},
 	showProfilePreview: {
 		where: 'device',
 		default: true,
 	},
 
 	// - Settings/Appearance
+	removeModalBgColorForBlur: {
+		where: 'device',
+		default: DEFAULT_DEVICE_KIND === 'desktop',
+	},
 	fontSize: {
 		where: 'device',
 		default: 8,
@@ -857,6 +849,18 @@ export const store = markRaw(new Pizzax('base', {
 	friendlyUiShowAvatarDecorationsInNavBtn: {
 		where: 'device',
 		default: false,
+	},
+
+	// - Settings/Accessibility
+	showingAnimatedImages: {
+		where: 'device',
+		default: /mobile|iphone|android/.test(navigator.userAgent.toLowerCase()) ? 'inactive' : 'always' as 'always' | 'interaction' | 'inactive',
+	},
+
+	// - Settings/Drive
+	imageCompressionMode: {
+		where: 'account',
+		default: 'resizeCompressLossy' as 'resizeCompress' | 'noResizeCompress' | 'resizeCompressLossy' | 'noResizeCompressLossy' | null,
 	},
 	// #endregion
 }));

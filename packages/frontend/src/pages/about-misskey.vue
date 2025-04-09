@@ -142,6 +142,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<FormSection>
 					<template #label>{{ i18n.ts._aboutMisskey.projectMembers }}</template>
 					<div :class="$style.contributors">
+						<a href="https://github.com/lirisianet" target="_blank" :class="$style.contributor">
+							<img src="https://avatars.githubusercontent.com/u/205486604?v=4" :class="$style.contributorAvatar">
+							<span :class="$style.contributorUsername">@lirisianet
+								<span :class="$style.contributorClient">
+									<span :class="$style.misskey">Misskey Miry Remix</span>
+								</span>
+							</span>
+						</a>
 						<a href="https://github.com/catsmiry" target="_blank" :class="$style.contributor">
 							<img src="https://avatars.githubusercontent.com/u/186817830?v=4" :class="$style.contributorAvatar">
 							<span :class="$style.contributorUsername">@catsmiry
@@ -804,8 +812,7 @@ definePage(() => ({
 	margin-right: 0.75em;
 	flex-shrink: 0;
 	text-align: center;
-	color: var(--MI_THEME-fgTransparentWeak);
-
+	color: color(from var(--MI_THEME-fg) srgb r g b / 0.75);
 	&:empty {
 		display: none;
 

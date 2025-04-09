@@ -118,12 +118,6 @@ export const PREF_DEF = {
 	keepCw: {
 		default: true,
 	},
-	keepOriginalUploading: {
-		default: false,
-	},
-	imageCompressionMode: {
-		default: 'resizeCompressLossy' as 'resizeCompress' | 'noResizeCompress' | 'resizeCompressLossy' | 'noResizeCompressLossy' | null,
-	},
 	rememberNoteVisibility: {
 		default: false,
 	},
@@ -191,9 +185,6 @@ export const PREF_DEF = {
 	disableShowingAnimatedImages: {
 		default: window.matchMedia('(prefers-reduced-motion)').matches,
 	},
-	showingAnimatedImages: {
-		default: /mobile|iphone|android/.test(navigator.userAgent.toLowerCase()) ? 'inactive' : 'always' as 'always' | 'interaction' | 'inactive',
-	},
 	emojiStyle: {
 		default: 'twemoji', // twemoji / fluentEmoji / native
 	},
@@ -206,8 +197,8 @@ export const PREF_DEF = {
 	useBlurEffect: {
 		default: DEFAULT_DEVICE_KIND === 'desktop',
 	},
-	removeModalBgColorForBlur: {
-		default: DEFAULT_DEVICE_KIND === 'desktop',
+	useStickyIcons: {
+		default: true,
 	},
 	showFixedPostForm: {
 		default: false,
@@ -343,18 +334,6 @@ export const PREF_DEF = {
 	plugins: {
 		default: [] as Plugin[],
 	},
-	showUnreadNotificationsCount: {
-		default: false,
-	},
-	externalNavigationWarning: {
-		default: true,
-	},
-	trustedDomains: {
-		default: [] as string[],
-	},
-	showPreview: {
-		default: false,
-	},
 
 	'sound.masterVolume': {
 		default: 0.3,
@@ -397,7 +376,19 @@ export const PREF_DEF = {
 		default: true,
 	},
 	'deck.columnAlign': {
-		default: 'left' as 'left' | 'right' | 'center',
+		default: 'center' as 'left' | 'right' | 'center',
+	},
+	'deck.columnGap': {
+		default: 6,
+	},
+	'deck.menuPosition': {
+		default: 'bottom' as 'right' | 'bottom',
+	},
+	'deck.navbarPosition': {
+		default: 'left' as 'left' | 'top' | 'bottom',
+	},
+	'deck.wallpaper': {
+		default: null as string | null,
 	},
 
 	'chat.showSenderName': {
@@ -503,6 +494,18 @@ export const PREF_DEF = {
 	newNoteReceivedNotificationBehavior: {
 		default: 'count' as 'default' | 'count' | 'none',
 	},
+	showUnreadNotificationsCount: {
+		default: false,
+	},
+	externalNavigationWarning: {
+		default: true,
+	},
+	trustedDomains: {
+		default: [] as string[],
+	},
+	showPreview: {
+		default: false,
+	},
 	showProfilePreview: {
 		default: true,
 	},
@@ -510,6 +513,9 @@ export const PREF_DEF = {
 	// - Settings/Appearance
 	fontSize: {
 		default: 8,
+	},
+	removeModalBgColorForBlur: {
+		default: DEFAULT_DEVICE_KIND === 'desktop',
 	},
 	setFederationAvatarShape: {
 		default: true,
@@ -632,6 +638,16 @@ export const PREF_DEF = {
 	},
 	friendlyUiShowAvatarDecorationsInNavBtn: {
 		default: false,
+	},
+
+	// - Settings/Accessibility
+	showingAnimatedImages: {
+		default: /mobile|iphone|android/.test(navigator.userAgent.toLowerCase()) ? 'inactive' : 'always' as 'always' | 'interaction' | 'inactive',
+	},
+
+	// - Settings/Drive
+	imageCompressionMode: {
+		default: 'resizeCompressLossy' as 'resizeCompress' | 'noResizeCompress' | 'resizeCompressLossy' | 'noResizeCompressLossy' | null,
 	},
 	//#endregion
 

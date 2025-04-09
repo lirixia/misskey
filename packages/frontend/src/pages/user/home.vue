@@ -301,7 +301,7 @@ watch(moderationNote, async () => {
 
 const playAnimation = ref(true);
 if (prefer.s.showingAnimatedImages === 'interaction') playAnimation.value = false;
-let playAnimationTimer = setTimeout(() => playAnimation.value = false, 5000);
+let playAnimationTimer = window.setTimeout(() => playAnimation.value = false, 5000);
 
 const style = computed(() => {
 	if (props.user.bannerUrl == null) return {};
@@ -389,8 +389,8 @@ async function translate(): Promise<void> {
 
 function resetTimer() {
 	playAnimation.value = true;
-	clearTimeout(playAnimationTimer);
-	playAnimationTimer = setTimeout(() => playAnimation.value = false, 5000);
+	window.clearTimeout(playAnimationTimer);
+	playAnimationTimer = window.setTimeout(() => playAnimation.value = false, 5000);
 }
 
 async function toggleNotify() {
@@ -637,7 +637,7 @@ onUnmounted(() => {
 
 					> .heading {
 						text-align: left;
-						color: var(--MI_THEME-fgTransparent);
+						color: color(from var(--MI_THEME-fg) srgb r g b / 0.5);
 						line-height: 1.5;
 						font-size: 85%;
 					}
