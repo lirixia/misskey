@@ -956,6 +956,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<template #icon><i class="ti ti-battery-vertical-eco"></i></template>
 
 					<div class="_gaps_s">
+						<SearchMarker :keywords="['widgets', 'position', 'left', 'right']">
+							<MkPreferenceContainer k="widgetsPosition">
+								<MkRadios v-model="widgetsPosition">
+									<template #label><SearchLabel>{{ i18n.ts.widgetsPosition }}</SearchLabel></template>
+									<option value="left">{{ i18n.ts.widgetsleft }}</option>
+									<option value="right">{{ i18n.ts.widgetsright }}</option>
+								</MkRadios>
+							</MkPreferenceContainer>
+						</SearchMarker>
+
 						<SearchMarker :keywords="['blur']">
 							<MkPreferenceContainer k="useBlurEffect">
 								<MkSwitch v-model="useBlurEffect">
@@ -1299,6 +1309,7 @@ const nsfw = prefer.model('nsfw');
 const emojiStyle = prefer.model('emojiStyle');
 const useBlurEffectForModal = prefer.model('useBlurEffectForModal');
 const useBlurEffect = prefer.model('useBlurEffect');
+const widgetsPosition = prefer.model('widgetsPosition');
 const defaultFollowWithReplies = prefer.model('defaultFollowWithReplies');
 const chatShowSenderName = prefer.model('chat.showSenderName');
 const chatSendOnEnter = prefer.model('chat.sendOnEnter');
