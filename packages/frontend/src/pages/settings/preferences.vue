@@ -1445,6 +1445,7 @@ watch([
 	filesGridLayoutInUserPage,
 	disableShowingAnimatedImages,
 	showingAnimatedImages,
+	widgetsPosition,
 ], async () => {
 	await reloadAsk({ reason: i18n.ts.reloadToApplySetting, unison: true });
 });
