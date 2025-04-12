@@ -92,9 +92,16 @@ export class SignupApiService {
 			}
 
 			if (mobile || proxy || hosting) {
+				const detectedTypes = [];
+				if (mobile) detectedTypes.push('モバイル回線/Mobile network');
+				if (proxy) detectedTypes.push('プロキシ/Proxy');
+				if (hosting) detectedTypes.push('ホスティングサービス/Hosting service');
+				
+				const detectedTypesStr = detectedTypes.join('、');
 				reply.code(400).send({
-					message: 'VPNサービス/Hostingサービス/モバイル回線を使って本サーバーでは登録することはできません。\nYou cannot register on this server using a VPN service, hosting service, or mobile network.',
+					message: `${detectedTypesStr}が検出されたため、本サーバーでは登録できません。\n${detectedTypesStr} detected. You cannot register on this server.`,
 					error: 'VPN_DETECTED',
+					details: { mobile, proxy, hosting },
 				});
 				return;
 			}
