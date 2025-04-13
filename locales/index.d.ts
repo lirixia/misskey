@@ -5583,7 +5583,7 @@ export interface Locale extends ILocale {
      */
     "repositoryUrl": string;
     /**
-     * ソースコードが公開されているリポジトリがある場合、そのURLを記入します。Misskey Miry Remixを現状のまま（ソースコードにいかなる変更も加えずに）使用している場合は https://github.com/catsmiry/misskey と記入します。
+     * ソースコードが公開されているリポジトリがある場合、そのURLを記入します。Misskey Miry Remixを現状のまま（ソースコードにいかなる変更も加えずに）使用している場合は https://github.com/lirisianet/misskey と記入します。
      */
     "repositoryUrlDescription": string;
     /**
