@@ -1,9 +1,9 @@
 <div align="center">
 <a href="https://misskey-hub.net">
-	<img src="./assets/title_froat_misskeymiryremix.svg" alt="Misskey Miry Remix logo" style="border-radius:50%" width="300"/>
+	<img src="./assets/title_froat_misskeylirisiaremix.svg" alt="Misskey Lirisia Remix logo" style="border-radius:50%" width="300"/>
 </a>
 
-**🌎 **Misskey Miry Remix** is an open source, federated social media platform that's free forever! 🚀**
+**🌎 **Misskey Lirisia Remix** is an open source, federated social media platform that's free forever! 🚀**
 
 [Learn more](https://misskey-hub.net/)
 
@@ -48,4 +48,4 @@ Thanks to [Crowdin](https://crowdin.com/) for providing the localization platfor
 
 <a href="https://ghcr.io/catsmiry/misskey"><img src="https://user-images.githubusercontent.com/20679825/230148221-f8e73a32-a49b-47c3-9029-9a15c3824f92.png" height="30" alt="Docker" /></a>
 
-Thanks to [Docker](https://hub.docker.com/) for providing the container platform that helps us run Misskey Miry Remix in production.
+Thanks to [Docker](https://hub.docker.com/) for providing the container platform that helps us run Misskey Lirisia Remix in production.

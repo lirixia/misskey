@@ -31,7 +31,7 @@ const themeColor = chalk.hex('#ffa9c3');
 
 function greet() {
     if (!envOption.quiet) {
-        //#region Misskey Miry Remix logo
+        //#region Misskey Lirisia Remix logo
         console.log(chalk.hex('#ffa9c3').bold(' ___  ____         _               ___  ____             ______               _      '));
         console.log(chalk.hex('#ffa9c3').bold('|  \\/  (_)       | |              |  \\/  (_)            | ___ \\             (_)     '));
         console.log(chalk.hex('#ffa9c3').bold('| .  . |_ ___ ___| | _____ _   _  | .  . |_ _ __ _   _  | |_/ /___ _ __ ___  ___  __'));
@@ -50,8 +50,8 @@ function greet() {
         console.log(chalkTemplate`--- ${os.hostname()} {gray (PID: ${process.pid.toString()})} ---`);
     }
 
-    bootLogger.info('Welcome to Misskey Miry Remix!');
-    bootLogger.info(`Misskey Miry Remix v${meta.version}`, null, true);
+    bootLogger.info('Welcome to Misskey Lirisia Remix!');
+    bootLogger.info(`Misskey Lirisia Remix v${meta.version}`, null, true);
     bootLogger.info(`Based on Misskey v${meta.basedMisskeyVersion}`, null, true);
 }
 

@@ -14,7 +14,7 @@ export async function fetchCherrypickReleases(): Promise<boolean> {
 		const releasesData = await response.json();
 
 		if (!Array.isArray(releasesData) || releasesData.length === 0) {
-			console.warn('No Misskey Miry Remix releases found.');
+			console.warn('No Misskey Lirisia Remix releases found.');
 			return false;
 		}
 
@@ -23,7 +23,7 @@ export async function fetchCherrypickReleases(): Promise<boolean> {
 			: releasesData.filter((x: any) => !x.prerelease)[0];
 
 		if (!latestRelease || !latestRelease.tag_name || typeof latestRelease.tag_name !== 'string') {
-			console.warn('Invalid latest Misskey Miry Remix release:', latestRelease);
+			console.warn('Invalid latest Misskey Lirisia Remix release:', latestRelease);
 			return false;
 		}
 
@@ -32,7 +32,7 @@ export async function fetchCherrypickReleases(): Promise<boolean> {
 			compareVersions(<string>meta.skipCherryPickVersion || version, latestRelease.tag_name) < 0
 		);
 	} catch (error) {
-		console.error('Failed to fetch Misskey Miry Remix releases:', error);
+		console.error('Failed to fetch Misskey Lirisia Remix releases:', error);
 		return false;
 	}
 }

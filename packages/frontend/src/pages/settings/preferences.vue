@@ -1219,7 +1219,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<FormLink to="/settings/statusbar"><template #icon><i class="ti ti-equal-double"></i></template>{{ i18n.ts.statusbar }}</FormLink>
 			<FormLink to="/settings/deck"><template #icon><i class="ti ti-columns"></i></template>{{ i18n.ts.deck }}</FormLink>
 			<FormLink to="/settings/custom-css"><template #icon><i class="ti ti-code"></i></template>{{ i18n.ts.customCss }}</FormLink>
-			<FormLink to="/settings/miry"><template #icon><i class="ti ti-bulb-filled"></i></template>Misskey Miry Remix</FormLink>
+			<FormLink to="/settings/miry"><template #icon><i class="ti ti-bulb-filled"></i></template>Misskey Lirisia Remix</FormLink>
 		</div>
 	</div>
 </SearchMarker>

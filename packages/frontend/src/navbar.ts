@@ -224,7 +224,7 @@ export const navbarItemDef = reactive({
 	},
 //	support: {
 //		// title: i18n.tsx.supportThisInstance({ name: instance.name ?? host }),
-//		title: i18n.tsx.supportThisInstance({ name: 'Misskey Miry Remix' }),
+//		title: i18n.tsx.supportThisInstance({ name: 'Misskey Lirisia Remix' }),
 //		icon: 'ti ti-pig-money',
 //		action: (ev) => donateCherryPick(ev),
 //	},

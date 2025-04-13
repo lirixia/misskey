@@ -62,9 +62,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</FormSection>
 			-->
 				<FormSection>
-					<template #label>Misskey Miry Remix</template>
+					<template #label>Misskey Lirisia Remix</template>
 					<div class="_gaps_s">
-						<FormLink to="https://github.com/catsmiry/misskey" external>
+						<FormLink to="https://github.com/lirisianet/misskey" external>
 							<template #icon><i class="ti ti-code"></i></template>
 							{{ i18n.ts._aboutMisskey.source }} ({{ i18n.ts._aboutMisskey.original }})
 							<template #suffix>GitHub</template>
@@ -120,7 +120,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</FormLink>
 					</div>
 				</FormSection>
-				<FormSection v-if="instance.repositoryUrl !== 'https://github.com/catsmiry/misskey'">
+				<FormSection v-if="instance.repositoryUrl !== 'https://github.com/lirisianet/misskey'">
 					<div class="_gaps_s">
 						<MkInfo>
 							{{ i18n.tsx._aboutMisskey.thisIsModifiedVersion({ name: instance.name ?? '' }) }}
@@ -146,7 +146,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<img src="https://avatars.githubusercontent.com/u/205486604?v=4" :class="$style.contributorAvatar">
 							<span :class="$style.contributorUsername">@lirisianet
 								<span :class="$style.contributorClient">
-									<span :class="$style.misskey">Misskey Miry Remix</span>
+									<span :class="$style.misskey">Misskey Lirisia Remix</span>
 								</span>
 							</span>
 						</a>
@@ -154,7 +154,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<img src="https://avatars.githubusercontent.com/u/186817830?v=4" :class="$style.contributorAvatar">
 							<span :class="$style.contributorUsername">@catsmiry
 								<span :class="$style.contributorClient">
-									<span :class="$style.misskey">Misskey Miry Remix</span>
+									<span :class="$style.misskey">Misskey Lirisia Remix</span>
 								</span>
 							</span>
 						</a>
@@ -557,7 +557,7 @@ const easterEggEngine = ref<{ stop: () => void } | null>(null);
 const containerEl = useTemplateRef('containerEl');
 
 const whatIsNewCherryPick = () => {
-	window.open(`https://github.com/catsmiry/misskey/blob/develop/CHANGELOG_CHERRYPICK.md#${version.replace(/\./g, '')}`, '_blank');
+	window.open(`https://github.com/lirisianet/misskey/blob/develop/CHANGELOG_CHERRYPICK.md#${version.replace(/\./g, '')}`, '_blank');
 };
 
 const whatIsNewMisskey = () => {
