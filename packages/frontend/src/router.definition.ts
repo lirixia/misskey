@@ -188,9 +188,9 @@ export const ROUTE_DEF = [{
 		name: 'other',
 		component: page(() => import('@/pages/settings/account-stats.vue')),
 	}, {
-		path: '/miry',
-		name: 'misskey-miry-remix',
-		component: page(() => import('@/pages/settings/miry.vue')),
+		path: '/lirisia',
+		name: 'misskey-lirisia-remix',
+		component: page(() => import('@/pages/settings/lirisia.vue')),
 	}, {
 		path: '/',
 		component: page(() => import('@/pages/_empty_.vue')),
