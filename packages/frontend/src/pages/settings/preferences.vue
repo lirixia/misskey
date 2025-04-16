@@ -153,6 +153,19 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 						<hr>
 
+						<SearchMarker :keywords="['widgets', 'position', 'left', 'right']">
+							<MkPreferenceContainer k="widgetsPosition">
+								<MkDisableSection :disabled="!isMobile">
+									<MkRadios v-model="widgetsPosition">
+										<template #label><SearchLabel>{{ i18n.ts.widgetsPosition }}</SearchLabel><span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
+										<option value="left">{{ i18n.ts.widgetsleft }}</option>
+										<option value="right">{{ i18n.ts.widgetsright }}</option>
+										<template v-if="!isMobile" #caption>{{ i18n.ts.cannotBeUsedFunc }} <a class="_link" @click="learnMoreBottomNavbar">{{ i18n.ts.learnMore }}</a></template>
+									</MkRadios>
+								</MkDisableSection>
+							</MkPreferenceContainer>
+						</SearchMarker>
+
 						<SearchMarker :keywords="['highlight', 'sensitive', 'nsfw', 'image', 'photo', 'picture', 'media', 'thumbnail']">
 							<MkPreferenceContainer k="highlightSensitiveMedia">
 								<MkSwitch v-model="highlightSensitiveMedia">
@@ -956,16 +969,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<template #icon><i class="ti ti-battery-vertical-eco"></i></template>
 
 					<div class="_gaps_s">
-						<SearchMarker :keywords="['widgets', 'position', 'left', 'right']">
-							<MkPreferenceContainer k="widgetsPosition">
-								<MkRadios v-model="widgetsPosition">
-									<template #label><SearchLabel>{{ i18n.ts.widgetsPosition }}</SearchLabel></template>
-									<option value="left">{{ i18n.ts.widgetsleft }}</option>
-									<option value="right">{{ i18n.ts.widgetsright }}</option>
-								</MkRadios>
-							</MkPreferenceContainer>
-						</SearchMarker>
-
 						<SearchMarker :keywords="['blur']">
 							<MkPreferenceContainer k="useBlurEffect">
 								<MkSwitch v-model="useBlurEffect">
@@ -1257,10 +1260,20 @@ import { claimAchievement } from '@/utility/achievements.js';
 import { instance } from '@/instance.js';
 import { $i } from '@/i.js';
 import { unisonReload } from '@/utility/unison-reload.js';
+import { deviceKind } from '@/utility/device-kind.js';
 
 const lang = ref(miLocalStorage.getItem('lang'));
 const dataSaver = ref(prefer.s.dataSaver);
 const trustedDomains = ref(prefer.s.trustedDomains.join('\n'));
+
+// モバイル環境を判定するための定数
+const MOBILE_THRESHOLD = 500;
+const isMobile = ref(deviceKind === 'smartphone' || window.innerWidth <= MOBILE_THRESHOLD);
+
+// ウィンドウサイズが変更されたときにモバイル判定を更新
+window.addEventListener('resize', () => {
+	isMobile.value = deviceKind === 'smartphone' || window.innerWidth <= MOBILE_THRESHOLD;
+});
 
 // const fontSize = ref(miLocalStorage.getItem('fontSize'));
 const fontSize = prefer.model('fontSize');
@@ -1718,6 +1731,13 @@ definePage(() => ({
 	title: i18n.ts.general,
 	icon: 'ti ti-adjustments',
 }));
+
+function learnMoreBottomNavbar() {
+	os.alert({
+		type: 'info',
+		text: i18n.ts.bottomNavbarDescription,
+	});
+}
 </script>
 
 <style lang="scss" module>
