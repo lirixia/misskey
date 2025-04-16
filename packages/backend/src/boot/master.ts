@@ -30,29 +30,26 @@ const bootLogger = logger.createSubLogger('boot', 'magenta');
 const themeColor = chalk.hex('#ffa9c3');
 
 function greet() {
-    if (!envOption.quiet) {
-        //#region Misskey Lirisia Remix logo
-        console.log(chalk.hex('#ffa9c3').bold(' ___  ____         _               ___  ____             ______               _      '));
-        console.log(chalk.hex('#ffa9c3').bold('|  \\/  (_)       | |              |  \\/  (_)            | ___ \\             (_)     '));
-        console.log(chalk.hex('#ffa9c3').bold('| .  . |_ ___ ___| | _____ _   _  | .  . |_ _ __ _   _  | |_/ /___ _ __ ___  ___  __'));
-        console.log(chalk.hex('#ffa9c3').bold('| |\\/| | / __/ __| |/ / _ \\ | | | | |\\/| | | \'__| | | | |    // _ \\ \'_ ` _ \\| \\ \\/ /'));
-        console.log(chalk.hex('#ffa9c3').bold('| |  | | \\__ \\__ \\   <  __/ |_| | | |  | | | |  | |_| | | |\\ \\  __/ | | | | | |>  < '));
-        console.log(chalk.hex('#ffa9c3').bold('|_|  |_/_|___/___/_|\\_\\___|\\__, | \\_|  |_/_|_|   \\__, | \\_| \\_\\___|_| |_| |_|_/_/\\_\\'));
-        console.log(chalk.hex('#ffa9c3').bold('                            __/ |                 __/ |                              '));
-        console.log(chalk.hex('#ffa9c3').bold('                           |___/                 |___/                               '));
-        //#endregion
+	if (!envOption.quiet) {
+		//#region Misskey Lirisia Remix logo
+		console.log(chalk.hex('#ffa9c3').bold(' __  __ _       _              _    _     _    _        ___           _     '));
+		console.log(chalk.hex('#ffa9c3').bold('|  \\/  (_)_____| |_____ _  _  | |  (_)_ _(_)__(_)__ _  | _ \\___ _ __ (_)_ __'));
+		console.log(chalk.hex('#ffa9c3').bold('| |\\/| | (_-<_-< / / -_) || | | |__| | \'_| (_-< / _` | |   / -_) \'  \\| \\ \\ /'));
+		console.log(chalk.hex('#ffa9c3').bold('|_|  |_|_/__/__/_\\_\\___|\\_, | |____|_|_| |_/__/_\\__,_| |_|_\\___|_|_|_|_/_\\_\\'));
+		console.log(chalk.hex('#ffa9c3').bold('                        |__/                                                '));
+		//#endregion
 
-        console.log(chalk.hex('#ffa9c3').bold(' Misskey') + chalk.hex('#95e3e8').bold('Miry Remix') + (' is an open-source decentralized microblogging platform based from') + (chalk.hex('#9ec23f').bold(' Misskey') + ('.')));
-        console.log(chalk.hex('#ffbb00')(' If you like ') + chalk.hex('#ffa9c3').bold('Misskey') + chalk.hex('#95e3e8').bold('Miry Remix') + chalk.hex('#ffbb00'));
-        // console.log(chalk.hex('#ffa9c3').bold(' KOKO') + chalk.hex('#95e3e8').bold('NECT') + chalk.hex('#ffa9c3')(' with') + chalk.hex('#95e3e8').bold(' NoriDev.'));
+		console.log(chalk.hex('#ffa9c3').bold(' Misskey') + chalk.hex('#95e3e8').bold('Lirisia Remix') + (' is an open-source decentralized microblogging platform based from') + (chalk.hex('#9ec23f').bold(' Misskey') + ('.')));
+		console.log(chalk.hex('#ffbb00')(' If you like ') + chalk.hex('#ffa9c3').bold('Misskey') + chalk.hex('#95e3e8').bold('Lirisia Remix') + chalk.hex('#ffbb00'));
+		// console.log(chalk.hex('#ffa9c3').bold(' KOKO') + chalk.hex('#95e3e8').bold('NECT') + chalk.hex('#ffa9c3')(' with') + chalk.hex('#95e3e8').bold(' NoriDev.'));
 
-        console.log('');
-        console.log(chalkTemplate`--- ${os.hostname()} {gray (PID: ${process.pid.toString()})} ---`);
-    }
+		console.log('');
+		console.log(chalkTemplate`--- ${os.hostname()} {gray (PID: ${process.pid.toString()})} ---`);
+	}
 
-    bootLogger.info('Welcome to Misskey Lirisia Remix!');
-    bootLogger.info(`Misskey Lirisia Remix v${meta.version}`, null, true);
-    bootLogger.info(`Based on Misskey v${meta.basedMisskeyVersion}`, null, true);
+	bootLogger.info('Welcome to Misskey Lirisia Remix!');
+	bootLogger.info(`Misskey Lirisia Remix v${meta.version}`, null, true);
+	bootLogger.info(`Based on Misskey v${meta.basedMisskeyVersion}`, null, true);
 }
 
 /**
