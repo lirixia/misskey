@@ -191,6 +191,11 @@ export class MiUserProfile {
 	public blockDeliver: boolean;
 
 	@Column('boolean', {
+		default: true,
+	})
+	public autoFollowOnMove: boolean;
+
+	@Column('boolean', {
 		default: false,
 		comment: 'Whether reject index by crawler.',
 	})

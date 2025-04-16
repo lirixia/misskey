@@ -243,6 +243,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				followedMessage: profile.followedMessage,
 				autoAcceptFollowed: profile.autoAcceptFollowed,
 				autoFollowBack: profile.autoFollowBack,
+				autoFollowOnMove: profile.autoFollowOnMove,
 				blockDeliver: profile.blockDeliver,
 				noCrawle: profile.noCrawle,
 				preventAiLearning: profile.preventAiLearning,

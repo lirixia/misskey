@@ -181,6 +181,7 @@ export const paramDef = {
 		carefulBot: { type: 'boolean' },
 		autoAcceptFollowed: { type: 'boolean' },
 		autoFollowBack: { type: 'boolean' },
+		autoFollowOnMove: { type: 'boolean' },
 		blockDeliver: { type: 'boolean' },
 		noCrawle: { type: 'boolean' },
 		preventAiLearning: { type: 'boolean' },
@@ -349,6 +350,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			if (typeof ps.carefulBot === 'boolean') profileUpdates.carefulBot = ps.carefulBot;
 			if (typeof ps.autoAcceptFollowed === 'boolean') profileUpdates.autoAcceptFollowed = ps.autoAcceptFollowed;
 			if (typeof ps.autoFollowBack === 'boolean') profileUpdates.autoFollowBack = ps.autoFollowBack;
+			if (typeof ps.autoFollowOnMove === 'boolean') profileUpdates.autoFollowOnMove = ps.autoFollowOnMove;
 			if (typeof ps.blockDeliver === 'boolean') profileUpdates.blockDeliver = ps.blockDeliver;
 			if (typeof ps.noCrawle === 'boolean') profileUpdates.noCrawle = ps.noCrawle;
 			if (typeof ps.preventAiLearning === 'boolean') profileUpdates.preventAiLearning = ps.preventAiLearning;
@@ -561,6 +563,12 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			const urls = updatedProfile.fields.filter(x => x.value.startsWith('https://'));
 			for (const url of urls) {
 				this.verifyLink(url.value, user);
+			}
+
+			if (ps.autoFollowOnMove !== undefined) {
+				await this.userProfilesRepository.update({ userId: user.id }, {
+					autoFollowOnMove: ps.autoFollowOnMove,
+				});
 			}
 
 			return iObj;

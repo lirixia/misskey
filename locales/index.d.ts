@@ -6230,6 +6230,14 @@ export interface Locale extends ILocale {
      */
     "autoFollowBackDescription": string;
     /**
+     * 移行したユーザーを自動でフォローする
+     */
+    "autoFollowOnMove": string;
+    /**
+     * 移行したユーザーを自動でフォローするようにします。
+     */
+    "autoFollowOnMoveDescription": string;
+    /**
      * ブロックしたユーザーにアクティビティを配送する。
      */
     "blockDeliver": string;

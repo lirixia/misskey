@@ -32,6 +32,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</MkSwitch>
 		</SearchMarker>
 
+		<SearchMarker :keywords="['follow', 'move']">
+			<MkSwitch v-model="autoFollowOnMove" @update:modelValue="save()">
+				<template #label><SearchLabel>{{ i18n.ts.autoFollowOnMove }}</SearchLabel><span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
+				<template #caption><SearchKeyword>{{ i18n.ts.autoFollowOnMoveDescription }}</SearchKeyword></template>
+			</MkSwitch>
+		</SearchMarker>
+
 		<SearchMarker :keywords="['block', 'deliver', 'activity']">
 			<MkSwitch v-model="blockDeliver" @update:modelValue="save()">
 				<template #label><SearchLabel>{{ i18n.ts.blockDeliver }}</SearchLabel><span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
@@ -234,6 +241,7 @@ const $i = ensureSignin();
 const isLocked = ref($i.isLocked);
 const autoAcceptFollowed = ref($i.autoAcceptFollowed);
 const autoFollowBack = ref($i.autoFollowBack);
+const autoFollowOnMove = ref($i.autoFollowOnMove);
 const carefulBot = ref($i.carefulBot);
 const noCrawle = ref($i.noCrawle);
 const preventAiLearning = ref($i.preventAiLearning);
@@ -290,6 +298,7 @@ function save() {
 		isLocked: !!isLocked.value,
 		autoAcceptFollowed: !!autoAcceptFollowed.value,
 		autoFollowBack: !!autoFollowBack.value,
+		autoFollowOnMove: !!autoFollowOnMove.value,
 		carefulBot: !!carefulBot.value,
 		noCrawle: !!noCrawle.value,
 		preventAiLearning: !!preventAiLearning.value,
