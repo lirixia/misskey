@@ -270,7 +270,7 @@ $widgets-hide-threshold: 1090px;
 .transition_widgetsDrawer_enterFrom,
 .transition_widgetsDrawer_leaveTo {
 	opacity: 0;
-	transform: translateX(240px);
+	transform: translateX(-240px);
 }
 
 .transition_widgetsDrawer_right_enterActive,
@@ -428,7 +428,8 @@ $widgets-hide-threshold: 1090px;
 .widgetsDrawer {
 	position: fixed;
 	top: 0;
-	right: 0;
+	left: 0;
+	right: auto;
 	z-index: 1001;
 	width: 310px;
 	height: 100dvh;
