@@ -158,8 +158,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 					folderId: multipartUpload.folderId,
 					force: multipartUpload.force,
 					sensitive: multipartUpload.isSensitive,
-					requestIp: ip,
-					requestHeaders: headers,
+					requestIp: typeof ip === 'function' ? ip() : (ip || null),
+					requestHeaders: headers && typeof headers === 'object' ? headers : null,
 				});
 
 				// Clean up temp files

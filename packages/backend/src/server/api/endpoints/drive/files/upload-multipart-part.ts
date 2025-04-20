@@ -120,7 +120,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				const partExists = fs.existsSync(partPath);
 
 				// Move the uploaded file to the part path
-				fs.renameSync(file!.path, partPath);
+				fs.renameSync((file as any).path, partPath);
 
 				// Calculate ETag (MD5 hash would be ideal, but we'll just use a simple identifier for now)
 				const etag = `part_${ps.partNumber}_${Date.now()}`;
@@ -150,7 +150,9 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 					etag,
 				};
 			} catch (err) {
-				if (file && cleanup) cleanup();
+				if (file && cleanup) {
+					(cleanup as unknown as () => void)();
+				}
 				throw err;
 			}
 		});
