@@ -85,7 +85,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 		@Inject(DI.multipartUploadsRepository)
 		private multipartUploadsRepository: MultipartUploadsRepository,
 	) {
-		super(meta, paramDef, async (ps, me, _, file, cleanup) => {
+		super(meta, paramDef, async (ps, me, token, flashToken, file, cleanup) => {
 			try {
 				// Find the multipart upload
 				const multipartUpload = await this.multipartUploadsRepository.findOneBy({
@@ -118,6 +118,11 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 				// Check if this part was already uploaded
 				const partExists = fs.existsSync(partPath);
+
+				// Check if file exists
+				if (!file) {
+					throw new Error('No file provided');
+				}
 
 				// Move the uploaded file to the part path
 				fs.renameSync((file as any).path, partPath);
