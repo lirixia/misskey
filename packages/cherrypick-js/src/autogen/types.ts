@@ -5698,13 +5698,12 @@ export type components = {
       scheduleNoteMax: number;
       canReadFollowHistory: boolean;
       canSetFederationAvatarShape: boolean;
-      canChat: boolean;
+      /** @enum {string} */
+      chatAvailability: 'available' | 'readonly' | 'unavailable';
       canAutoFollowBack: boolean;
       canUseUnFollowNotification: boolean;
       canUseBlockedNotification: boolean;
       canUseUnBlockedNotification: boolean;
-      /** @enum {string} */
-      chatAvailability: 'available' | 'readonly' | 'unavailable';
     };
     ReversiGameLite: {
       /** Format: id */
