@@ -8786,6 +8786,10 @@ export interface Locale extends ILocale {
             /**
              * チャットを許可
              */
+            "canChat": string;
+            /**
+             * チャットを許可
+             */
             "chatAvailability": string;
             /**
              * サーバーサイドのノートの下書きの作成可能数
