@@ -71,6 +71,7 @@ export type RolePolicies = {
 	canImportUserLists: boolean;
 	canReadFollowHistory: boolean;
 	canChat: boolean;
+	chatAvailability: 'available' | 'readonly' | 'unavailable';
 	noteDraftLimit: number;
 	canSetFederationAvatarShape: boolean;
 	canAutoFollowBack: boolean;
@@ -119,6 +120,7 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	canImportUserLists: true,
 	canReadFollowHistory: false,
 	canChat: true,
+	chatAvailability: 'available',
 	noteDraftLimit: 10,
 	canSetFederationAvatarShape: true,
 	canAutoFollowBack: false,
@@ -398,6 +400,12 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			return aggregate(policies.map(policy => policy.useDefault ? basePolicies[name] : policy.value));
 		}
 
+		function aggregateChatAvailability(vs: RolePolicies['chatAvailability'][]) {
+			if (vs.some(v => v === 'available')) return 'available';
+			if (vs.some(v => v === 'readonly')) return 'readonly';
+			return 'unavailable';
+		}
+
 		return {
 			gtlAvailable: calc('gtlAvailable', vs => vs.some(v => v === true)),
 			ltlAvailable: calc('ltlAvailable', vs => vs.some(v => v === true)),
@@ -438,6 +446,7 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			canImportUserLists: calc('canImportUserLists', vs => vs.some(v => v === true)),
 			canReadFollowHistory: calc('canReadFollowHistory', vs => vs.some(v => v === true)),
 			canChat: calc('canChat', vs => vs.some(v => v === true)),
+			chatAvailability: calc('chatAvailability', aggregateChatAvailability),
 			noteDraftLimit: calc('noteDraftLimit', vs => Math.max(...vs)),
 			canSetFederationAvatarShape: calc('canSetFederationAvatarShape', vs => vs.some(v => v === true)),
 			canAutoFollowBack: calc('canAutoFollowBack', vs => vs.some(v => v === true)),
