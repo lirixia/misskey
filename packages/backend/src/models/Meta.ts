@@ -421,14 +421,14 @@ export class MiMeta {
 
 	@Column('varchar', {
 		length: 1024,
-		default: 'https://github.com/catsmiry/misskey',
+		default: 'https://github.com/lirisianet/misskey',
 		nullable: true,
 	})
 	public repositoryUrl: string | null;
 
 	@Column('varchar', {
 		length: 1024,
-		default: 'https://github.com/catsmiry/misskey/issues/new',
+		default: 'https://github.com/lirisianet/misskey/issues/new',
 		nullable: true,
 	})
 	public feedbackUrl: string | null;

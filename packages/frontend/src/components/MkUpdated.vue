@@ -57,7 +57,7 @@ const modal = useTemplateRef('modal');
 
 const whatIsNewCherryPick = () => {
 	// modal.value?.close();
-	window.open(`https://github.com/catsmiry/misskey/blob/develop/CHANGELOG_CHERRYPICK.md#${version.replace(/\./g, '')}`, '_blank');
+	window.open(`https://github.com/lirisianet/misskey/blob/develop/CHANGELOG_CHERRYPICK.md#${version.replace(/\./g, '')}`, '_blank');
 };
 
 const close = async () => {

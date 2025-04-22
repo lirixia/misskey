@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<div :class="$style.shape2"></div>
 	<div :class="$style.logoWrapper">
 		<div :class="$style.poweredBy">Powered by</div>
-		<img :src="misskeymiryremixsvg" :class="$style.cherrypick"/>
+		<img :src="misskeylirisiaremixsvg" :class="$style.cherrypick"/>
 	</div>
 	<div v-if="meta.entranceShowEmojis" class="emojis">
 		<MkEmoji
@@ -45,7 +45,7 @@ import MarqueeText from '@/components/MkMarquee.vue';
 import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
 import cherrypicksvg from '/client-assets/cherrypick.svg';
 import misskeysvg from '/client-assets/misskey.svg';
-import misskeymiryremixsvg from '/client-assets/misskeymiryremix.svg';
+import misskeylirisiaremixsvg from '/client-assets/misskeylirisiaremix.svg';
 import { misskeyApiGet } from '@/utility/misskey-api.js';
 import MkVisitorDashboard from '@/components/MkVisitorDashboard.vue';
 import { getProxiedImageUrl } from '@/utility/media-proxy.js';

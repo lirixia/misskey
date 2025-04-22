@@ -5791,9 +5791,9 @@ export type components = {
       description: string | null;
       langs: string[];
       tosUrl: string | null;
-      /** @default https://github.com/catsmiry/misskey */
+      /** @default https://github.com/lirisianet/misskey */
       repositoryUrl: string | null;
-      /** @default https://github.com/catsmiry/misskey/issues/new */
+      /** @default https://github.com/lirisianet/misskey/issues/new */
       feedbackUrl: string | null;
       defaultDarkTheme: string | null;
       defaultLightTheme: string | null;

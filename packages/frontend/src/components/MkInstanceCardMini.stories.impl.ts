@@ -46,7 +46,7 @@ export const Default = {
 					}
 					const url = new URL(urlStr);
 
-					if (url.href.startsWith('https://github.com/catsmiry/misskey/blob/master/packages/frontend/assets/')) {
+					if (url.href.startsWith('https://github.com/lirisianet/misskey/blob/master/packages/frontend/assets/')) {
 						const image = await (await window.fetch(`client-assets/${url.pathname.split('/').pop()}`)).blob();
 						return new HttpResponse(image, {
 							headers: {
