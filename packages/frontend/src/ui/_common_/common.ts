@@ -60,14 +60,18 @@ export function openInstanceMenu(ev: MouseEvent) {
 		text: i18n.ts.instanceInfo,
 		icon: 'ti ti-info-circle',
 		to: '/about',
-	}, {
-		type: 'link',
-		text: i18n.ts.customEmojis,
-		icon: 'ti ti-icons',
-		to: '/about#emojis',
 	});
+	
+	if ($i) {
+		menuItems.push({
+			type: 'link',
+			text: i18n.ts.customEmojis,
+			icon: 'ti ti-icons',
+			to: '/about#emojis',
+		});
+	}
 
-	if (instance.federation !== 'none') {
+	if (instance.federation !== 'none' && $i && ($i.isAdmin || $i.isModerator)) {
 		menuItems.push({
 			type: 'link',
 			text: i18n.ts.federation,

@@ -9,10 +9,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<MkSpacer v-if="tab === 'overview'" :contentMax="600" :marginMin="20">
 			<XOverview/>
 		</MkSpacer>
-		<MkSpacer v-else-if="tab === 'emojis'" :contentMax="1000" :marginMin="20">
+		<MkSpacer v-else-if="tab === 'emojis' && $i" :contentMax="1000" :marginMin="20">
 			<XEmojis/>
 		</MkSpacer>
-		<MkSpacer v-else-if="instance.federation !== 'none' && tab === 'federation'" :contentMax="1000" :marginMin="20">
+		<MkSpacer v-else-if="instance.federation !== 'none' && tab === 'federation' && $i && ($i.isAdmin || $i.isModerator)" :contentMax="1000" :marginMin="20">
 			<XFederation/>
 		</MkSpacer>
 		<MkSpacer v-else-if="tab === 'charts'" :contentMax="1000" :marginMin="20">
@@ -29,6 +29,7 @@ import { i18n } from '@/i18n.js';
 import { claimAchievement } from '@/utility/achievements.js';
 import { definePage } from '@/page.js';
 import MkHorizontalSwipe from '@/components/MkHorizontalSwipe.vue';
+import { $i } from '@/i.js';
 
 const XOverview = defineAsyncComponent(() => import('@/pages/about.overview.vue'));
 const XEmojis = defineAsyncComponent(() => import('@/pages/about.emojis.vue'));
@@ -57,13 +58,17 @@ const headerTabs = computed(() => {
 	items.push({
 		key: 'overview',
 		title: i18n.ts.overview,
-	}, {
-		key: 'emojis',
-		title: i18n.ts.customEmojis,
-		icon: 'ti ti-icons',
 	});
 
-	if (instance.federation !== 'none') {
+	if ($i) {
+		items.push({
+			key: 'emojis',
+			title: i18n.ts.customEmojis,
+			icon: 'ti ti-icons',
+		});
+	}
+
+	if (instance.federation !== 'none' && $i && ($i.isAdmin || $i.isModerator)) {
 		items.push({
 			key: 'federation',
 			title: i18n.ts.federation,
