@@ -124,7 +124,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 								<SearchMarker :keywords="['custom', 'font', 'typeface']">
 									<MkSelect v-model="customFont" style="margin-top: .75em;">
-										<template #label>{{ i18n.ts.customFont }}</template>
+										<template #label><SearchLabel>{{ i18n.ts.customFont }}</SearchLabel><span class="_beta">{{ i18n.ts._cherrypick.function }}</span></template>
 										<option :value="null">{{ i18n.ts.default }}</option>
 										<option v-for="[name, font] of Object.entries(fontList)" :key="name" :value="name">{{ font.name }}</option>
 									</MkSelect>
