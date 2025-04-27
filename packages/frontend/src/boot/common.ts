@@ -162,11 +162,12 @@ export async function common(createVue: () => Promise<App<Element>>) {
 	//#endregion
 
 	//# Custom font
-	if (store.s.customFont) {
-		applyFont(store.s.customFont);
+	const customFont = prefer.model('customFont');
+	if (customFont.value) {
+		applyFont(customFont.value);
 	}
 
-	watch(store.r.customFont, (font) => {
+	watch(customFont, (font) => {
 		applyFont(font);
 	});
 
