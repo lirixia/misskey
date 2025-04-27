@@ -515,6 +515,9 @@ export const PREF_DEF = {
 	showProfilePreview: {
 		default: true,
 	},
+	customFont: {
+		default: null as null | string,
+	},
 
 	// - Settings/Appearance
 	fontSize: {

@@ -122,6 +122,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 								</div>
 								<MkInfo v-if="String(fontSize) != String(fontSizeBefore)" style="margin-top: 10px;">{{ i18n.ts.reloadToApplySetting2 }} <a class="_link" @click="reload">{{ i18n.ts.reload }}</a></MkInfo>
 
+								<SearchMarker :keywords="['custom', 'font', 'typeface']">
+									<MkSelect v-model="customFont" style="margin-top: .75em;">
+										<template #label>{{ i18n.ts.customFont }}</template>
+										<option :value="null">{{ i18n.ts.default }}</option>
+										<option v-for="[name, font] of Object.entries(fontList)" :key="name" :value="name">{{ font.name }}</option>
+									</MkSelect>
+								</SearchMarker>
+
 								<SearchMarker :keywords="['bold']">
 									<MkSwitch v-model="useBoldFont" style="margin-top: .75em;">
 										<template #label><SearchLabel>{{ i18n.ts.useBoldFont }}</SearchLabel></template>
@@ -1269,6 +1277,8 @@ import { instance } from '@/instance.js';
 import { ensureSignin } from '@/i.js';
 import { unisonReload } from '@/utility/unison-reload.js';
 import { deviceKind } from '@/utility/device-kind.js';
+import { fontList } from '@/utility/font.js'; 
+import { applyFont } from '@/utility/font.js';
 
 const $i = ensureSignin();
 
@@ -1291,6 +1301,7 @@ const fontSizeBefore = ref(miLocalStorage.getItem('fontSize'));
 const useSystemFont = ref(miLocalStorage.getItem('useSystemFont') != null);
 const useBoldFont = ref(miLocalStorage.getItem('useBoldFont'));
 
+const customFont = prefer.model('customFont'); 
 const overridedDeviceKind = prefer.model('overridedDeviceKind');
 const keepCw = prefer.model('keepCw');
 const serverDisconnectedBehavior = prefer.model('serverDisconnectedBehavior');
@@ -1407,6 +1418,7 @@ watch(fontSize, () => {
 	} else {
 		miLocalStorage.setItem('fontSize', String(fontSize.value));
 	}
+	applyFont(customFont.value);
 });
 
 watch(useBoldFont, () => {

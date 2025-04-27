@@ -369,6 +369,61 @@ export const fontList = {
 		fontFamily: 'Zen Kaku Gothic Old',
 		importUrl: 'https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Old&display=swap',
 	},
+	'yomogi': {
+		name: 'Yomogi',
+		fontFamily: 'Yomogi',
+		importUrl: 'https://fonts.googleapis.com/css2?family=Yomogi&display=swap',
+	},
+	'hachi-maru-pop': {
+		name: 'Hachi Maru Pop',
+		fontFamily: 'Hachi Maru Pop',
+		importUrl: 'https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap',
+	},
+	'mochiy-pop-one': {
+		name: 'Mochiy Pop One',
+		fontFamily: 'Mochiy Pop One',
+		importUrl: 'https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap',
+	},
+	'mochiy-pop-p-one': {
+		name: 'Mochiy Pop P One',
+		fontFamily: 'Mochiy Pop P One',
+		importUrl: 'https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap',
+	},
+	'potta-one': {
+		name: 'Potta One',
+		fontFamily: 'Potta One',
+		importUrl: 'https://fonts.googleapis.com/css2?family=Potta+One&display=swap',
+	},
+	'rampart-one': {
+		name: 'Rampart One',
+		fontFamily: 'Rampart One',
+		importUrl: 'https://fonts.googleapis.com/css2?family=Rampart+One&display=swap',
+	},
+	'seto-font': {
+		name: '瀬戸フォント',
+		fontFamily: '瀬戸フォント',
+		importUrl: 'https://cdn.leafscape.be/setofont/setofont_web.woff2',
+		custom: true,
+	},
+	'mitimasu': {
+		name: 'みちますフォント',
+		fontFamily: 'mitimasu',
+		importUrl: 'https://font.kemomi.me/mitimasu.css',
+		custom: true,
+		isCSS: true,
+	},
+	'tegaki-zatsu': {
+		name: '手書き雑フォント',
+		fontFamily: '手書き雑フォント',
+		importUrl: 'https://cdn.leafscape.be/tegaki_zatsu/851tegaki_zatsu_web.woff2',
+		custom: true,
+	},
+	'kiro-font': {
+		name: 'きろ字',
+		fontFamily: 'きろ字 等幅',
+		importUrl: 'https://cdn.leafscape.be/kiloji/kiloji_web.woff2',
+		custom: true,
+	},
 };
 
 export function applyFont(fontname: null | string) {
@@ -388,11 +443,36 @@ export function applyFont(fontname: null | string) {
 	const font = fontList[fontname];
 	if (!font) return;
 
-	style.innerHTML = `
-		@import url('${font.importUrl}');
-		body {
-			font-family: '${font.fontFamily}', 'Hiragino Maru Gothic Pro', 'BIZ UDGothic', Roboto, HelveticaNeue, Arial, sans-serif !important;
-			font-style: normal;
+	if (font.custom) {
+		if (font.isCSS) {
+			// CSSファイルをインポートする場合
+			style.innerHTML = `
+				@import url('${font.importUrl}');
+				body {
+					font-family: '${font.fontFamily}', 'Hiragino Maru Gothic Pro', 'BIZ UDGothic', Roboto, HelveticaNeue, Arial, sans-serif !important;
+					font-style: normal;
+				}
+			`;
+		} else {
+			// フォントファイルを直接使用する場合
+			style.innerHTML = `
+				@font-face {
+					font-family: '${font.fontFamily}';
+					src: url('${font.importUrl}');
+				}
+				body {
+					font-family: '${font.fontFamily}', 'Hiragino Maru Gothic Pro', 'BIZ UDGothic', Roboto, HelveticaNeue, Arial, sans-serif !important;
+					font-style: normal;
+				}
+			`;
 		}
-	`;
+	} else {
+		style.innerHTML = `
+			@import url('${font.importUrl}');
+			body {
+				font-family: '${font.fontFamily}', 'Hiragino Maru Gothic Pro', 'BIZ UDGothic', Roboto, HelveticaNeue, Arial, sans-serif !important;
+				font-style: normal;
+			}
+		`;
+	}
 }
