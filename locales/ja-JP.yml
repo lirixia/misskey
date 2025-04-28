@@ -1545,7 +1545,7 @@ unfollowThisUserProhibited: "このユーザーのフォロー解除は禁止さ
 autoFollowBack: "自動フォローバック"
 autoFollowBackDescription: "フォローされた際に自動でフォローバックします。"
 blockDeliver: "ブロックしたユーザーにアクティビティを配送する。"
-blockDeliverDescription: "ブロックしたユーザーにアクティビティを配送します。これにより、ブロックしたユーザーはあなたがブロックしたことを知ることができます。"
+blockDeliverDescription: "ブロックしたユーザーにアクティビティを配送します。これにより、ブロックしたユーザーはあなたがブロックしたことを知ることができます。(※本設定はリモート向けに作成された機能です。)"
 
 _nsfwOpenBehavior:
   click: "タップして開く"

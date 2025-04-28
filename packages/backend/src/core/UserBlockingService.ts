@@ -109,11 +109,12 @@ export class UserBlockingService implements OnModuleInit {
 			blockeeId: blockee.id,
 		});
 
+		// ブロックするユーザーの設定に基づいて処理を分岐
+		const blockerProfile = await this.userProfilesRepository.findOneBy({ userId: blocker.id });
+		const shouldDeliver = blockerProfile?.blockDeliver === true;
+		
 		if (this.userEntityService.isLocalUser(blocker) && this.userEntityService.isRemoteUser(blockee)) {
-			// ブロックするユーザーの設定に基づいて、ブロックアクティビティを送信するかどうかを判断
-			const blockerProfile = await this.userProfilesRepository.findOneBy({ userId: blocker.id });
-			
-			if (blockerProfile?.blockDeliver === true) {
+			if (shouldDeliver) {
 				const content = this.apRendererService.addContext(this.apRendererService.renderBlock(blocking));
 				this.queueService.deliver(blocker, content, blockee.inbox, false);
 			}
@@ -121,8 +122,8 @@ export class UserBlockingService implements OnModuleInit {
 
 		const policies = await this.roleService.getUserPolicies(blockee.id);
 
-		// 通知を作成（ブロックされた側に通知）
-		if (this.userEntityService.isLocalUser(blockee) && policies.canUseBlockedNotification) {
+		// 通知を作成（blockDeliverがtrueの場合のみブロックされた側に通知）
+		if (shouldDeliver && this.userEntityService.isLocalUser(blockee) && policies.canUseBlockedNotification) {
 			this.notificationService.createNotification(blockee.id, 'blocked', {
 			}, blocker.id);
 		}
@@ -130,7 +131,7 @@ export class UserBlockingService implements OnModuleInit {
 		const blockerPolicies = await this.roleService.getUserPolicies(blocker.id);
 		const blockeePolicies = await this.roleService.getUserPolicies(blockee.id);
 
-		// フォロー履歴に「blocked」を保存
+		// フォロー履歴に「blocked」を保存（ブロックした側の履歴）
 		if (this.userEntityService.isLocalUser(blocker) && blockerPolicies.canReadFollowHistory) {
 			this.followHistoryRepository.insert({
 				id: this.idService.gen(),
@@ -141,8 +142,8 @@ export class UserBlockingService implements OnModuleInit {
 			});
 		}
 
-		// フォロー履歴に「wasBlocked」を保存
-		if (this.userEntityService.isLocalUser(blockee) && blockeePolicies.canReadFollowHistory) {
+		// フォロー履歴に「wasBlocked」を保存（blockDeliverがtrueの場合のみブロックされた側の履歴に保存）
+		if (shouldDeliver && this.userEntityService.isLocalUser(blockee) && blockeePolicies.canReadFollowHistory) {
 			this.followHistoryRepository.insert({
 				id: this.idService.gen(),
 				type: 'wasBlocked',

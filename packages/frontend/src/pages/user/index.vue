@@ -21,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<XPages v-else-if="tab === 'pages'" :user="user"/>
 			<XFlashs v-else-if="tab === 'flashs'" :user="user"/>
 			<XGallery v-else-if="tab === 'gallery'" :user="user"/>
-			<XRaw v-else-if="tab === 'raw'" :user="user"/>
+			<XRaw v-else-if="tab === 'raw' && isAdminOrModerator" :user="user"/>
 		</MkHorizontalSwipe>
 	</div>
 	<MkError v-else-if="error" @retry="fetchUser()"/>
@@ -75,6 +75,7 @@ const props = withDefaults(defineProps<{
 });
 
 const tab = ref(props.page);
+const isAdminOrModerator = computed(() => $i && ($i.isAdmin || $i.isModerator));
 
 const user = ref<null | Misskey.entities.UserDetailed>(CTX_USER);
 const error = ref<any>(null);
@@ -154,11 +155,11 @@ const headerTabs = computed(() => user.value ? [{
 	key: 'gallery',
 	title: i18n.ts.gallery,
 	icon: 'ti ti-icons',
-}] : []), {
+}] : []), ...(isAdminOrModerator.value ? [{
 	key: 'raw',
 	title: 'Raw',
 	icon: 'ti ti-code',
-}] : []);
+}] : [])] : []);
 
 function menu(ev) {
 	const { menu, cleanup } = getUserMenu(user.value, mainRouter);

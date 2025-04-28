@@ -6211,7 +6211,7 @@ export interface Locale extends ILocale {
      */
     "blockDeliver": string;
     /**
-     * ブロックしたユーザーにアクティビティを配送します。これにより、ブロックしたユーザーはあなたがブロックしたことを知ることができます。
+     * ブロックしたユーザーにアクティビティを配送します。これにより、ブロックしたユーザーはあなたがブロックしたことを知ることができます。(※本設定はリモート向けに作成された機能です。)
      */
     "blockDeliverDescription": string;
     "_nsfwOpenBehavior": {
