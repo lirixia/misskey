@@ -4,7 +4,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs">
+<PageWithHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs" :swipable="true">
 	<MkHorizontalSwipe v-model:tab="tab" :tabs="headerTabs">
 		<MkSpacer v-if="tab === 'overview'" :contentMax="600" :marginMin="20">
 			<XOverview/>

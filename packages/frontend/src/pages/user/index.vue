@@ -4,7 +4,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs" :user="user">
+<PageWithHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs" :user="user" :swipable="true">
 	<div v-if="user">
 		<MkHorizontalSwipe v-model:tab="tab" :tabs="headerTabs">
 			<XHome v-if="tab === 'home'" :user="user" @unfoldFiles="() => { tab = 'files'; }"/>
@@ -41,7 +41,6 @@ import { $i } from '@/i.js';
 import { getUserMenu } from '@/utility/get-user-menu.js';
 import { mainRouter } from '@/router.js';
 import { deviceKind } from '@/utility/device-kind.js';
-import MkHorizontalSwipe from '@/components/MkHorizontalSwipe.vue';
 import { serverContext, assertServerContext } from '@/server-context.js';
 
 const MOBILE_THRESHOLD = 500;
