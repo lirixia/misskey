@@ -64,7 +64,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<FormSection>
 					<template #label>Misskey Lirisia Remix</template>
 					<div class="_gaps_s">
-						<FormLink to="https://github.com/lirisianet/misskey" external>
+						<FormLink to="https://github.com/lirixia/misskey" external>
 							<template #icon><i class="ti ti-code"></i></template>
 							{{ i18n.ts._aboutMisskey.source }} ({{ i18n.ts._aboutMisskey.original }})
 							<template #suffix>GitHub</template>
@@ -120,7 +120,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</FormLink>
 					</div>
 				</FormSection>
-				<FormSection v-if="instance.repositoryUrl !== 'https://github.com/lirisianet/misskey'">
+				<FormSection v-if="instance.repositoryUrl !== 'https://github.com/lirixia/misskey'">
 					<div class="_gaps_s">
 						<MkInfo>
 							{{ i18n.tsx._aboutMisskey.thisIsModifiedVersion({ name: instance.name ?? '' }) }}
@@ -557,7 +557,7 @@ const easterEggEngine = ref<{ stop: () => void } | null>(null);
 const containerEl = useTemplateRef('containerEl');
 
 const whatIsNewCherryPick = () => {
-	window.open(`https://github.com/lirisianet/misskey/blob/develop/CHANGELOG_CHERRYPICK.md#${version.replace(/\./g, '')}`, '_blank');
+	window.open(`https://github.com/lirixia/misskey/blob/develop/CHANGELOG_CHERRYPICK.md#${version.replace(/\./g, '')}`, '_blank');
 };
 
 const whatIsNewMisskey = () => {

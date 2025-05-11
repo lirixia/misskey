@@ -24,7 +24,7 @@
 - リポジトリが catsmiry/misskey → lirisianet/misskey になりました。
 - リポジトリ変更をお願いいたします。
 ```
-git remote set-url origin https://github.com/lirisianet/misskey.git
+git remote set-url origin https://github.com/lirixia/misskey.git
 git pull -ff
 ```
 ### General

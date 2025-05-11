@@ -6,7 +6,7 @@
 	"codename": "nasubi",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/lirisianet/misskey.git"
+		"url": "https://github.com/lirixia/misskey.git"
 	},
 	"packageManager": "pnpm@10.6.1",
 	"workspaces": [
