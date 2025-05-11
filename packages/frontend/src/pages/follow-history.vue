@@ -12,7 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkPagination ref="paginationComponent" :pagination="pagination">
 					<template #empty>
 						<div class="_fullinfo">
-							<img :src="infoImageUrl" class="_ghost"/>
+							<img :src="instance.infoImageUrl ?? undefined" class="_ghost"/>
 							<div>{{ i18n.ts._followHistory.empty }}</div>
 						</div>
 					</template>
@@ -92,7 +92,7 @@ import { userPage } from '@/filters/user.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
 import { definePage } from '@/page.js';
-import { infoImageUrl } from '@/instance.js';
+import { instance } from '@/instance.js';
 import { $i } from '@/i.js';
 import MkSwiper from '@/components/MkSwiper.vue';
 import { dateString } from '@/filters/date.js';
