@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "2025.5.0-lirisia.dev",
+	"version": "2025.5.0-lirisia-rc.1",
 	"basedMisskeyVersion": "2025.5.0",
 	"basedCherryPickVersion": "4.16.0-rc.2",
 	"codename": "nasubi",
