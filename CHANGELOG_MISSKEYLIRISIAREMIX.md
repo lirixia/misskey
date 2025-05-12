@@ -21,14 +21,14 @@
 
 ### NOTE
 - ライブラリ起因の脆弱性を修正しました。 本アップデートは必ず実行してください。
-- リポジトリが catsmiry/misskey → lirisianet/misskey になりました。
+- リポジトリが catsmiry/misskey → lirixia/misskey になりました。
 - リポジトリ変更をお願いいたします。
 ```
 git remote set-url origin https://github.com/lirixia/misskey.git
-git pull -ff
+git pull --ff
 ```
 ### General
-- Misskey 2025.4.0(CherryPick 4.16.0-rc.1)に追従
+- Misskey 2025.5.0(CherryPick 4.16.0-rc.2)に追従
 - Misskey Miry Remix → Misskey Lirisia Remixになりました。(主なメンテナーが みりー氏→ りりあ になりました。)
 - Rootスイッチ廃止
 - マルチパートアップロードができるようになりました。 (CP-By: Misskey Tempra) (Thanks: @lqvp)
