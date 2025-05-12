@@ -5,20 +5,18 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <template>
 <PageWithHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs" :swipable="true">
-	<MkSwiper v-model:tab="tab" :tabs="headerTabs">
-		<MkSpacer v-if="tab === 'overview'" :contentMax="600" :marginMin="20">
-			<XOverview/>
-		</MkSpacer>
-		<MkSpacer v-else-if="tab === 'emojis' && $i" :contentMax="1000" :marginMin="20">
-			<XEmojis/>
-		</MkSpacer>
-		<MkSpacer v-else-if="instance.federation !== 'none' && tab === 'federation' && $i && ($i.isAdmin || $i.isModerator)" :contentMax="1000" :marginMin="20">
-			<XFederation/>
-		</MkSpacer>
-		<MkSpacer v-else-if="tab === 'charts'" :contentMax="1000" :marginMin="20">
-			<MkInstanceStats/>
-		</MkSpacer>
-	</MkSwiper>
+	<div v-if="tab === 'overview'" class="_spacer" style="--MI_SPACER-w: 600px; --MI_SPACER-min: 20px;">
+		<XOverview/>
+	</div>
+	<div v-else-if="tab === 'emojis' && $i" class="_spacer" style="--MI_SPACER-w: 1000px; --MI_SPACER-min: 20px;">
+		<XEmojis/>
+	</div>
+	<div v-else-if="instance.federation !== 'none' && tab === 'federation' && $i && ($i.isAdmin || $i.isModerator)" class="_spacer" style="--MI_SPACER-w: 1000px; --MI_SPACER-min: 20px;">
+		<XFederation/>
+	</div>
+	<div v-else-if="tab === 'charts'" class="_spacer" style="--MI_SPACER-w: 1000px; --MI_SPACER-min: 20px;">
+		<MkInstanceStats/>
+	</div>
 </PageWithHeader>
 </template>
 
@@ -28,7 +26,6 @@ import { instance } from '@/instance.js';
 import { i18n } from '@/i18n.js';
 import { claimAchievement } from '@/utility/achievements.js';
 import { definePage } from '@/page.js';
-import MkSwiper from '@/components/MkSwiper.vue';
 import { $i } from '@/i.js';
 
 const XOverview = defineAsyncComponent(() => import('@/pages/about.overview.vue'));
@@ -58,17 +55,13 @@ const headerTabs = computed(() => {
 	items.push({
 		key: 'overview',
 		title: i18n.ts.overview,
+	}, {
+		key: 'emojis',
+		title: i18n.ts.customEmojis,
+		icon: 'ti ti-icons',
 	});
 
-	if ($i) {
-		items.push({
-			key: 'emojis',
-			title: i18n.ts.customEmojis,
-			icon: 'ti ti-icons',
-		});
-	}
-
-	if (instance.federation !== 'none' && $i && ($i.isAdmin || $i.isModerator)) {
+	if (instance.federation !== 'none') {
 		items.push({
 			key: 'federation',
 			title: i18n.ts.federation,
