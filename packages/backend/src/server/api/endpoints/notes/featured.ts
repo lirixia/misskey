@@ -12,6 +12,7 @@ import { MiMeta } from '@/models/_.js';
 import { FeaturedService } from '@/core/FeaturedService.js';
 import { isUserRelated } from '@/misc/is-user-related.js';
 import { CacheService } from '@/core/CacheService.js';
+import { QueryService } from '@/core/QueryService.js';
 
 export const meta = {
 	tags: ['notes'],
@@ -56,6 +57,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 		private cacheService: CacheService,
 		private noteEntityService: NoteEntityService,
 		private featuredService: FeaturedService,
+		private queryService: QueryService,
 	) {
 		super(meta, paramDef, async (ps, me) => {
 			if (!this.serverSettings.entranceShowFeatured && !me) {
@@ -101,6 +103,9 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				.leftJoinAndSelect('reply.user', 'replyUser')
 				.leftJoinAndSelect('renote.user', 'renoteUser')
 				.leftJoinAndSelect('note.channel', 'channel');
+
+			this.queryService.generateBlockedHostQueryForNote(query);
+			this.queryService.generateSuspendedUserQueryForNote(query);
 
 			const notes = (await query.getMany()).filter(note => {
 				if (me && isUserRelated(note, userIdsWhoBlockingMe)) return false;
