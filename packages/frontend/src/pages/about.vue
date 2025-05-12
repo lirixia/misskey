@@ -55,13 +55,17 @@ const headerTabs = computed(() => {
 	items.push({
 		key: 'overview',
 		title: i18n.ts.overview,
-	}, {
-		key: 'emojis',
-		title: i18n.ts.customEmojis,
-		icon: 'ti ti-icons',
 	});
 
-	if (instance.federation !== 'none') {
+	if ($i) {
+		items.push({
+			key: 'emojis',
+			title: i18n.ts.customEmojis,
+			icon: 'ti ti-icons',
+		});
+	}
+
+	if (instance.federation !== 'none' && $i && ($i.isAdmin || $i.isModerator)) {
 		items.push({
 			key: 'federation',
 			title: i18n.ts.federation,
