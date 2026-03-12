@@ -80,6 +80,7 @@ class HomeTimelineChannel extends Channel {
 			}
 		}
 
+		if (!this.isNoteVisibleForMe(note)) return;
 		if (this.isNoteMutedOrBlocked(note)) return;
 
 		if (this.user && isRenotePacked(note) && !isQuotePacked(note)) {

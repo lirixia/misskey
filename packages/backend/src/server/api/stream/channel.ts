@@ -3,109 +3,166 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { bindThis } from '@/decorators.js';
-import { isInstanceMuted } from '@/misc/is-instance-muted.js';
-import { isUserRelated } from '@/misc/is-user-related.js';
-import { isRenotePacked, isQuotePacked } from '@/misc/is-renote.js';
-import type { Packed } from '@/misc/json-schema.js';
-import type { JsonObject, JsonValue } from '@/misc/json-value.js';
-import type Connection from './Connection.js';
+import { bindThis } from "@/decorators.js";
+import { isInstanceMuted } from "@/misc/is-instance-muted.js";
+import { isUserRelated } from "@/misc/is-user-related.js";
+import { isRenotePacked, isQuotePacked } from "@/misc/is-renote.js";
+import type { Packed } from "@/misc/json-schema.js";
+import type { JsonObject, JsonValue } from "@/misc/json-value.js";
+import type Connection from "./Connection.js";
 
 /**
  * Stream channel
  */
 // eslint-disable-next-line import/no-default-export
 export default abstract class Channel {
-	protected connection: Connection;
-	public id: string;
-	public abstract readonly chName: string;
-	public static readonly shouldShare: boolean;
-	public static readonly requireCredential: boolean;
-	public static readonly kind?: string | null;
+  protected connection: Connection;
+  public id: string;
+  public abstract readonly chName: string;
+  public static readonly shouldShare: boolean;
+  public static readonly requireCredential: boolean;
+  public static readonly kind?: string | null;
 
-	protected get user() {
-		return this.connection.user;
-	}
+  protected get user() {
+    return this.connection.user;
+  }
 
-	protected get userProfile() {
-		return this.connection.userProfile;
-	}
+  protected get userProfile() {
+    return this.connection.userProfile;
+  }
 
-	protected get following() {
-		return this.connection.following;
-	}
+  protected get following() {
+    return this.connection.following;
+  }
 
-	protected get userIdsWhoMeMuting() {
-		return this.connection.userIdsWhoMeMuting;
-	}
+  protected get userIdsWhoMeMuting() {
+    return this.connection.userIdsWhoMeMuting;
+  }
 
-	protected get userIdsWhoMeMutingRenotes() {
-		return this.connection.userIdsWhoMeMutingRenotes;
-	}
+  protected get userIdsWhoMeMutingRenotes() {
+    return this.connection.userIdsWhoMeMutingRenotes;
+  }
 
-	protected get userIdsWhoBlockingMe() {
-		return this.connection.userIdsWhoBlockingMe;
-	}
+  protected get userIdsWhoBlockingMe() {
+    return this.connection.userIdsWhoBlockingMe;
+  }
 
-	protected get userMutedInstances() {
-		return this.connection.userMutedInstances;
-	}
+  protected get userMutedInstances() {
+    return this.connection.userMutedInstances;
+  }
 
-	protected get followingChannels() {
-		return this.connection.followingChannels;
-	}
+  protected get followingChannels() {
+    return this.connection.followingChannels;
+  }
 
-	protected get subscriber() {
-		return this.connection.subscriber;
-	}
+  protected get subscriber() {
+    return this.connection.subscriber;
+  }
 
-	/*
-	 * ミュートとブロックされてるを処理する
-	 */
-	protected isNoteMutedOrBlocked(note: Packed<'Note'>): boolean {
-		// 流れてきたNoteがインスタンスミュートしたインスタンスが関わる
-		if (isInstanceMuted(note, new Set<string>(this.userProfile?.mutedInstances ?? []))) return true;
+  protected isNoteVisibleForMe(note: Packed<"Note">): boolean {
+    // This code must always be synchronized with the checks in QueryService.generateVisibilityQuery.
+    const meId = this.connection.user?.id ?? null;
 
-		// 流れてきたNoteがミュートしているユーザーが関わる
-		if (isUserRelated(note, this.userIdsWhoMeMuting)) return true;
-		// 流れてきたNoteがブロックされているユーザーが関わる
-		if (isUserRelated(note, this.userIdsWhoBlockingMe)) return true;
+    // visibility が specified かつ自分が指定されていなかったら非表示
+    if (note.visibility === "specified") {
+      if (meId == null) {
+        return false;
+      } else if (meId === note.userId) {
+        return true;
+      } else {
+        // 指定されているかどうか
+        return note.visibleUserIds?.some((id) => meId === id) ?? false;
+      }
+    }
 
-		// 流れてきたNoteがリノートをミュートしてるユーザが行ったもの
-		if (isRenotePacked(note) && !isQuotePacked(note) && this.userIdsWhoMeMutingRenotes.has(note.user.id)) return true;
+    // visibility が followers かつ自分が投稿者のフォロワーでなかったら非表示
+    if (note.visibility === "followers") {
+      if (meId == null) {
+        return false;
+      } else if (meId === note.userId) {
+        return true;
+      } else if (note.reply && meId === note.reply.userId) {
+        // 自分の投稿に対するリプライ
+        return true;
+      } else if (note.mentions && note.mentions.some((id) => meId === id)) {
+        // 自分へのメンション
+        return true;
+      } else {
+        // フォロワーかどうか
+        return Object.hasOwn(this.following, note.userId);
+      }
+    }
 
-		return false;
-	}
+    return true;
+  }
 
-	constructor(id: string, connection: Connection) {
-		this.id = id;
-		this.connection = connection;
-	}
+  /*
+   * ミュートとブロックされてるを処理する
+   */
+  protected isNoteMutedOrBlocked(note: Packed<"Note">): boolean {
+    // 流れてきたNoteがインスタンスミュートしたインスタンスが関わる
+    if (
+      isInstanceMuted(
+        note,
+        new Set<string>(this.userProfile?.mutedInstances ?? []),
+      )
+    )
+      return true;
 
-	public send(payload: { type: string, body: JsonValue }): void;
-	public send(type: string, payload: JsonValue): void;
-	@bindThis
-	public send(typeOrPayload: { type: string, body: JsonValue } | string, payload?: JsonValue) {
-		const type = payload === undefined ? (typeOrPayload as { type: string, body: JsonValue }).type : (typeOrPayload as string);
-		const body = payload === undefined ? (typeOrPayload as { type: string, body: JsonValue }).body : payload;
+    // 流れてきたNoteがミュートしているユーザーが関わる
+    if (isUserRelated(note, this.userIdsWhoMeMuting)) return true;
+    // 流れてきたNoteがブロックされているユーザーが関わる
+    if (isUserRelated(note, this.userIdsWhoBlockingMe)) return true;
 
-		this.connection.sendMessageToWs('channel', {
-			id: this.id,
-			type: type,
-			body: body,
-		});
-	}
+    // 流れてきたNoteがリノートをミュートしてるユーザが行ったもの
+    if (
+      isRenotePacked(note) &&
+      !isQuotePacked(note) &&
+      this.userIdsWhoMeMutingRenotes.has(note.user.id)
+    )
+      return true;
 
-	public abstract init(params: JsonObject): void;
+    return false;
+  }
 
-	public dispose?(): void;
+  constructor(id: string, connection: Connection) {
+    this.id = id;
+    this.connection = connection;
+  }
 
-	public onMessage?(type: string, body: JsonValue): void;
+  public send(payload: { type: string; body: JsonValue }): void;
+  public send(type: string, payload: JsonValue): void;
+  @bindThis
+  public send(
+    typeOrPayload: { type: string; body: JsonValue } | string,
+    payload?: JsonValue,
+  ) {
+    const type =
+      payload === undefined
+        ? (typeOrPayload as { type: string; body: JsonValue }).type
+        : (typeOrPayload as string);
+    const body =
+      payload === undefined
+        ? (typeOrPayload as { type: string; body: JsonValue }).body
+        : payload;
+
+    this.connection.sendMessageToWs("channel", {
+      id: this.id,
+      type: type,
+      body: body,
+    });
+  }
+
+  public abstract init(params: JsonObject): void;
+
+  public dispose?(): void;
+
+  public onMessage?(type: string, body: JsonValue): void;
 }
 
 export type MiChannelService<T extends boolean> = {
-	shouldShare: boolean;
-	requireCredential: T;
-	kind: T extends true ? string : string | null | undefined;
-	create: (id: string, connection: Connection) => Channel;
+  shouldShare: boolean;
+  requireCredential: T;
+  kind: T extends true ? string : string | null | undefined;
+  create: (id: string, connection: Connection) => Channel;
 };
